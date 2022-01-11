@@ -14,6 +14,8 @@ Current realisation can't launch any ModLoader mod, only mods without base edits
 ### Mods that will work (tested):
 - Twilight Forest 1p4 (in dev only - access problem)
 
-### Plans For Enhancements:
-- Remove Jar Jar and replace it with internal Tiny Remapper.
-- Handle access for some mods that uses protected Minecraft classes.
+### Plans For Enhancements (TODO):
+- Remove Jar Jar and replace it with internal Tiny Remapper;
+- Handle access for some mods that uses protected Minecraft classes;
+- More documentation;
+- More replacements of ModLoader code to STAPI code (block registering, event hadling and so on).
