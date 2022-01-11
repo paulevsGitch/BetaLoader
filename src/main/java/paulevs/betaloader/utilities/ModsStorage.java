@@ -2,7 +2,6 @@ package paulevs.betaloader.utilities;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.launch.common.FabricLauncherBase;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.io.NBTIO;
 import paulevs.betaloader.remapping.ModEntry;
@@ -27,12 +26,10 @@ import java.util.stream.Collectors;
 
 public class ModsStorage {
 	private static final String MINECRAFT_URL = "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar";
-	private static final String JAVASSIST_URL = "https://repo1.maven.org/maven2/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar";
 	
 	private static final File MODS_FOLDER = new File(FabricLoader.getInstance().getGameDir().toString(), "mods");
 	private static final File CONVERTED_FOLDER = CacheStorage.getCacheFile("converted_mods");
 	private static final File MINECRAFT = CacheStorage.getCacheFile("minecraft.jar");
-	private static final File JAVASSIST = CacheStorage.getCacheFile("javassist.jar");
 	private static final File MODS_DATA = CacheStorage.getCacheFile("mods.nbt");
 	
 	private static final List<ModEntry> PATCHED_MODS = new ArrayList<>();
@@ -69,39 +66,6 @@ public class ModsStorage {
 			saveTag(modsData, MODS_DATA);
 			RemapUtil.remap(addMods, CONVERTED_FOLDER);
 		}
-	}
-	
-	// TODO remove javassist
-	public static boolean loadJavassist() {
-		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-			return true;
-		}
-		
-		if (!FileUtil.downloadFile(JAVASSIST, JAVASSIST_URL, "Javassist")) {
-			return false;
-		}
-		
-		try {
-			ClassLoader loader = Minecraft.class.getClassLoader();
-			Method method = loader.getClass().getDeclaredMethod("addURL", URL.class);
-			method.setAccessible(true);
-			method.invoke(loader, JAVASSIST.toURI().toURL());
-			return true;
-		}
-		catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		
-		return false;
 	}
 	
 	/**

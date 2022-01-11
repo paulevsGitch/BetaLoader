@@ -7,9 +7,7 @@
 		"common.EntityRegistryAccessor",
 		"common.TileEntityBaseAccessor",
 		"common.URLClassLoaderAccessor",
-		"common.DimensionFileAccessor",
-		"common.DispenserMixin",
-		"common.LevelMixin"
+		"common.DispenserMixin"
 	],
 	"client": [
 		"client.GameStartupErrorPanelMixin",

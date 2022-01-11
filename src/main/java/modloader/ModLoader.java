@@ -1,8 +1,5 @@
 package modloader;
 
-import javassist.ClassClassPath;
-import javassist.ClassPool;
-import javassist.CtClass;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.achievement.Achievement;
 import net.minecraft.block.BlockBase;
@@ -49,6 +46,7 @@ import paulevs.betaloader.mixin.common.EntityRegistryAccessor;
 import paulevs.betaloader.mixin.common.TileEntityBaseAccessor;
 import paulevs.betaloader.remapping.ModEntry;
 import paulevs.betaloader.rendering.BlockRendererData;
+import paulevs.betaloader.utilities.JavassistUtil;
 import paulevs.betaloader.utilities.ModsStorage;
 
 import javax.imageio.ImageIO;
@@ -60,11 +58,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -269,28 +265,10 @@ public class ModLoader {
 	private static void addMod(ClassLoader loader, ModEntry modEntry) {
 		String modID = modEntry.getModID();
 		File modFile = modEntry.getModConvertedFile();
-		ClassLoader sideLoader = ModsStorage.getSideLoader(modFile);
 		String modClassName = modEntry.getClasspath() + "." + modEntry.getMainClass();
-		
+		Class<? extends BaseMod> modClass = JavassistUtil.getModClassJavassist(loader, modFile, modClassName);
 		try {
-			// TODO replace javassist with something else. Probably create proper mappings for tiny.
-			Class<? extends BaseMod> modClass = (Class<? extends BaseMod>) sideLoader.loadClass(modClassName);
-			Constructor<?> constructor = modClass.getDeclaredConstructor();
-			
-			if (!Modifier.isPublic(constructor.getModifiers()))  {
-				ClassPool pool = ClassPool.getDefault();
-				pool.insertClassPath(new ClassClassPath(modClass));
-				CtClass cc = pool.get(modClassName);
-				cc.getConstructor("()V").setModifiers(Modifier.PUBLIC);
-				modClass = (Class<? extends BaseMod>) cc.toClass();
-			}
-			else {
-				modClass = (Class<? extends BaseMod>) loader.loadClass(modClassName);
-			}
-			
-			setupProperties(modClass);
 			BaseMod mod = modClass.newInstance();
-			
 			if (mod != null) {
 				modList.add(mod);
 				String message = "Mod Loaded: \"" + mod + "\" from " + modID;
