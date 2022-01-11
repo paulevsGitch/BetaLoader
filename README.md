@@ -2,8 +2,6 @@
   <img src="https://github.com/paulevsGitch/BetaLoader/blob/main/logo.png" />
 </p>
 
-# BetaLoader
-
 BetaLoader is a port of Risugami's ModLoader for Station API (STAPI), for Minecraft beta 1.7.3.
 Current realisation can't launch any ModLoader mod, only mods without base edits (which are installed by placing them into mods folder).
 
