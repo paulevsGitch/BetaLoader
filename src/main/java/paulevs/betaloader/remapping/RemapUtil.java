@@ -188,12 +188,20 @@ public class RemapUtil {
 		if (!LOADER_MAPPINGS.exists()) {
 			List<String> mappings = new ArrayList<>();
 			mappings.add(toString("v1", "intermediary", "client", "server", "named"));
+			
 			mappings.add(makeLoaderLine("EntityRendererProxy", "modloader/EntityRendererProxy"));
 			mappings.add(makeLoaderLine("ModTextureAnimation", "modloader/ModTextureAnimation"));
 			mappings.add(makeLoaderLine("ModTextureStatic", "modloader/ModTextureStatic"));
 			mappings.add(makeLoaderLine("ModLoader", "modloader/ModLoader"));
 			mappings.add(makeLoaderLine("BaseMod", "modloader/BaseMod"));
 			mappings.add(makeLoaderLine("MLProp", "modloader/MLProp"));
+			
+			mappings.add(makeLoaderLine("NetClientHandlerEntity", "modloadermp/NetClientHandlerEntity"));
+			mappings.add(makeLoaderLine("Packet230ModLoader", "modloadermp/Packet230ModLoader"));
+			mappings.add(makeLoaderLine("ModLoaderMp", "modloadermp/ModLoaderMp"));
+			mappings.add(makeLoaderLine("ISpawnable", "modloadermp/ISpawnable"));
+			mappings.add(makeLoaderLine("BaseModMp", "modloadermp/BaseModMp"));
+			
 			FileUtil.writeTextFile(mappings, LOADER_MAPPINGS);
 		}
 	}
