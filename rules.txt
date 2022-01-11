@@ -1,0 +1,7 @@
+rule EntityRendererProxy modloader.EntityRendererProxy
+rule ModTextureAnimation modloader.ModTextureAnimation
+rule ModTextureStatic modloader.ModTextureStatic
+rule Modloader paulevs.betaloader.modloader.Modloader
+rule BaseMod modloader.BaseMod
+rule MLProp modloader.MLProp
+rule * mod.@1

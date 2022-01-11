@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "betaloader",
+	"version": "${version}",
+
+	"name": "BetaLoader",
+	"description": "Load ModLoader mods on Station API (at least it will try). Can load only mods §4without§r class overrides",
+	"authors": [
+		"paulevs"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": "",
+		"issues": "",
+		"discord": ""
+	},
+
+	"license": "CC0-1.0",
+	"icon": "assets/betaloader/icon.png",
+
+	"environment": "*",
+	"mixins": [
+		"betaloader.mixins.json"
+	],
+
+	"depends": {
+		"minecraft": "1.0.0-beta.7.3",
+		"stationapi": ">=2.0-PRE2"
+	}
+}

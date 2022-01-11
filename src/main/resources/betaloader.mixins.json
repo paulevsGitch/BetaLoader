@@ -1,0 +1,21 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "paulevs.betaloader.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"common.EntityRegistryAccessor",
+		"common.TileEntityBaseAccessor",
+		"common.URLClassLoaderAccessor",
+		"common.DimensionFileAccessor",
+		"common.DispenserMixin"
+	],
+	"client": [
+		"client.GameStartupErrorPanelMixin",
+		"client.BlockRendererMixin",
+		"client.MinecraftMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
