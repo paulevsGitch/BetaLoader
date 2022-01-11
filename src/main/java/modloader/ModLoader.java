@@ -266,7 +266,7 @@ public class ModLoader {
 		String modID = modEntry.getModID();
 		File modFile = modEntry.getModConvertedFile();
 		String modClassName = modEntry.getClasspath() + "." + modEntry.getMainClass();
-		Class<? extends BaseMod> modClass = JavassistUtil.getModClassJavassist(loader, modFile, modClassName);
+		Class<? extends BaseMod> modClass = JavassistUtil.getModClass(loader, modFile, modClassName);
 		try {
 			BaseMod mod = modClass.newInstance();
 			if (mod != null) {

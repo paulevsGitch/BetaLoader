@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import paulevs.betaloader.utilities.JavassistUtil;
+import paulevs.betaloader.utilities.FileDownloader;
 import paulevs.betaloader.utilities.ModsStorage;
 
 @Mixin(Minecraft.class)
@@ -17,7 +17,7 @@ public class MinecraftMixin {
 		args = "ldc=Post startup")
 	)
 	private void betaloader_onInit(CallbackInfo info) {
-		if (JavassistUtil.loadJavassist()) {
+		if (FileDownloader.load()) {
 			ModsStorage.process();
 			ModLoader.onMinecraftInit();
 		}

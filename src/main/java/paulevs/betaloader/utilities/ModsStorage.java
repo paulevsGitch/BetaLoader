@@ -25,11 +25,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ModsStorage {
-	private static final String MINECRAFT_URL = "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar";
-	
 	private static final File MODS_FOLDER = new File(FabricLoader.getInstance().getGameDir().toString(), "mods");
 	private static final File CONVERTED_FOLDER = CacheStorage.getCacheFile("converted_mods");
-	private static final File MINECRAFT = CacheStorage.getCacheFile("minecraft.jar");
 	private static final File MODS_DATA = CacheStorage.getCacheFile("mods.nbt");
 	
 	private static final List<ModEntry> PATCHED_MODS = new ArrayList<>();
@@ -40,11 +37,6 @@ public class ModsStorage {
 	public static void process() {
 		CONVERTED_FOLDER.mkdirs();
 		MODS_FOLDER.mkdirs();
-		
-		if (!FileUtil.downloadFile(MINECRAFT, MINECRAFT_URL, "Minecraft Unmapped Client")) {
-			System.out.println("Abort mod loading process!");
-			return;
-		}
 		
 		CompoundTag modsData = getModsDataTag(MODS_DATA);
 		
