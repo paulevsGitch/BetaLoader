@@ -7,12 +7,13 @@
 		"common.EntityRegistryAccessor",
 		"common.TileEntityBaseAccessor",
 		"common.URLClassLoaderAccessor",
-		"common.DispenserMixin"
+		"common.DispenserMixin",
+		"common.ItemMixin"
 	],
 	"client": [
+		"client.EntityRenderDispatcherMixin",
 		"client.GameStartupErrorPanelMixin",
-		"client.BlockRendererMixin",
-		"client.MinecraftMixin"
+		"client.BlockRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

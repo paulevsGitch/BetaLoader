@@ -53,7 +53,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -642,7 +641,9 @@ public class ModLoader {
 		return 0;
 	}
 	
-	private static void init() {
+	public static void init() {
+		ModsStorage.process();
+		
 		hasInit = true;
 		
 		String availableItems = "1111111111111111111111111111111111111101111111011111111111111001111111111111111111111111111011111111100110000011111110000000001111111001100000110000000100000011000000010000001100000000000000110000000000000000000000000000000000000000000000001100000000000000";
@@ -725,9 +726,7 @@ public class ModLoader {
 			logger.fine("ModLoader Beta 1.7.3 Initializing...");
 			
 			System.out.println("ModLoader Beta 1.7.3 Initializing...");
-			File modFile = new File(ModLoader.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 			readFromModFolder();
-			readFromClassPath(modFile);
 			System.out.println("Done.");
 			
 			props.setProperty("loggingLevel", cfgLoggingLevel.getName());
@@ -985,45 +984,6 @@ public class ModLoader {
 				mod.GenerateNether(level, random, chunkX << 4, chunkZ << 4);
 			}
 		}
-	}
-	
-	private static void readFromClassPath(File file) throws FileNotFoundException, IOException {
-		// Temporary Disabled Code
-		/*logger.finer("Adding mods from " + file.getCanonicalPath());
-		ClassLoader loader = ModLoader.class.getClassLoader();
-		if ((file.isFile()) && ((file.getName().endsWith(".jar")) || (file.getName().endsWith(".zip")))) {
-			logger.finer("Zip found.");
-			InputStream fileInputStream = new FileInputStream(file);
-			ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
-			while (true) {
-				ZipEntry entry = zipInputStream.getNextEntry();
-				if (entry == null) {
-					break;
-				}
-				String name = entry.getName();
-				if ((!entry.isDirectory()) && (name.startsWith("mod_")) && (name.endsWith(".class"))) {
-					addMod(loader, name);
-				}
-			}
-			fileInputStream.close();
-		}
-		else if (file.isDirectory()) {
-			Package modPackage = ModLoader.class.getPackage();
-			if (modPackage != null) {
-				String name = modPackage.getName().replace('.', File.separatorChar);
-				file = new File(file, name);
-			}
-			logger.finer("Directory found.");
-			File[] files = file.listFiles();
-			if (files != null) {
-				for (int i = 0; i < files.length; i++) {
-					String name = files[i].getName();
-					if ((files[i].isFile()) && (name.startsWith("mod_")) && (name.endsWith(".class"))) {
-						addMod(loader, name);
-					}
-				}
-			}
-		}*/
 	}
 	
 	/**
@@ -1568,22 +1528,5 @@ public class ModLoader {
 	
 	private static void ThrowException(Throwable a1) {
 		ThrowException("Exception occured in ModLoader", a1);
-	}
-	
-	/**
-	 * Custom method.
-	 * Executed after Minecraft client is initiated
-	 */
-	public static void onMinecraftInit() {
-		// TODO changes this with some access handler
-		//if (!FabricLoader.getInstance().isDevelopmentEnvironment()) {
-			//AccessHandler.changeClassAccess("net/minecraft/class_81.class");
-			//AccessHandler.changeClassAccess(DimensionFile.class);
-		//}
-		//AccessHandler.changeAccess(null, null);
-		if (!hasInit) {
-			init();
-			logger.fine("Initialized");
-		}
 	}
 }
