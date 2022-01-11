@@ -15,7 +15,7 @@ public class MinecraftMixin {
 		target = "Lnet/minecraft/client/Minecraft;printOpenGLError(Ljava/lang/String;)V",
 		args = "ldc=Post startup")
 	)
-	private void modloader_onInit(CallbackInfo info) {
+	private void betaloader_onInit(CallbackInfo info) {
 		if (ModsStorage.loadJavassist()) {
 			ModsStorage.process();
 			ModLoader.onMinecraftInit();

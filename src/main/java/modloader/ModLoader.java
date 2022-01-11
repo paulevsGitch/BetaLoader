@@ -270,7 +270,7 @@ public class ModLoader {
 		String modID = modEntry.getModID();
 		File modFile = modEntry.getModConvertedFile();
 		ClassLoader sideLoader = ModsStorage.getSideLoader(modFile);
-		String modClassName = modEntry.getMainClass();
+		String modClassName = modEntry.getClasspath() + "." + modEntry.getMainClass();
 		
 		try {
 			// TODO replace javassist with something else. Probably create proper mappings for tiny.

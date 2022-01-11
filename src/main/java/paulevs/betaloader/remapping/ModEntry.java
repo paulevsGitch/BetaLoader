@@ -1,6 +1,7 @@
 package paulevs.betaloader.remapping;
 
 import com.google.common.base.CaseFormat;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.io.CompoundTag;
 import paulevs.betaloader.utilities.FileUtil;
 
@@ -14,13 +15,15 @@ public class ModEntry {
 	private final File modConvertedFile;
 	private final File modOriginalFile;
 	private final String mainClass;
+	private final String classpath;
 	private final String modID;
 	
-	public ModEntry(File original, File converted, String modID, String mainClass, List<String> modClasses) {
+	public ModEntry(File original, File converted, String classpath, String modID, String mainClass, List<String> modClasses) {
 		this.modClasses = Collections.unmodifiableList(modClasses);
 		this.modConvertedFile = converted;
 		this.modOriginalFile = original;
 		this.mainClass = mainClass;
+		this.classpath = classpath;
 		this.modID = modID;
 	}
 	
@@ -65,6 +68,14 @@ public class ModEntry {
 	}
 	
 	/**
+	 * Get mod classpath (package).
+	 * @return
+	 */
+	public String getClasspath() {
+		return classpath;
+	}
+	
+	/**
 	 * Will check if mod requires update and modify mods data {@link CompoundTag}.
 	 * @param modsData mods data {@link CompoundTag}.
 	 * @return
@@ -105,7 +116,8 @@ public class ModEntry {
 		String modID = classToID(mainClass);
 		String modName = modFile.getName();
 		File converted = new File(remappedDir, modName.substring(0, modName.length() - 4) + ".jar");
-		return new ModEntry(modFile, converted, modID, modID + "." + mainClass, modClasses);
+		String classpath = FabricLoader.getInstance().isDevelopmentEnvironment() ? modID : "net.minecraft";
+		return new ModEntry(modFile, converted, classpath, modID, mainClass, modClasses);
 	}
 	
 	private static String classToID(String modClass) {

@@ -18,8 +18,8 @@ import paulevs.betaloader.rendering.IBlockRenderer;
 
 @Mixin(BlockRenderer.class)
 public class BlockRendererMixin implements IBlockRenderer {
-	private float modloader_brightness;
-	private int modloader_meta;
+	private float betaloader_brightness;
+	private int betaloader_meta;
 	
 	@Shadow
 	private BlockView blockView;
@@ -29,7 +29,7 @@ public class BlockRendererMixin implements IBlockRenderer {
 		target = "Lnet/minecraft/block/BlockBase;updateBoundingBox(Lnet/minecraft/level/BlockView;III)V",
 		shift = Shift.BEFORE
 	), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
-	private void modloader_renderBlock(BlockBase block, int blockX, int blockY, int blockZ, CallbackInfoReturnable<Boolean> info, int renderType) {
+	private void betaloader_renderBlock(BlockBase block, int blockX, int blockY, int blockZ, CallbackInfoReturnable<Boolean> info, int renderType) {
 		if (renderType > 17) {
 			BlockRenderer renderer = BlockRenderer.class.cast(this);
 			info.setReturnValue(ModLoader.RenderWorldBlock(renderer, blockView, blockX, blockY, blockZ, block, renderType));
@@ -37,19 +37,19 @@ public class BlockRendererMixin implements IBlockRenderer {
 	}
 	
 	@Inject(method = "renderRedstoneDust", at = @At(value = "HEAD"))
-	private void modloader_renderRedstoneDust(BlockBase block, int x, int y, int z, CallbackInfoReturnable<Boolean> info) {
-		modloader_brightness = block.getBrightness(blockView, x, y, z);
-		modloader_meta = blockView.getTileMeta(x, y, z);
+	private void betaloader_renderRedstoneDust(BlockBase block, int x, int y, int z, CallbackInfoReturnable<Boolean> info) {
+		betaloader_brightness = block.getBrightness(blockView, x, y, z);
+		betaloader_meta = blockView.getTileMeta(x, y, z);
 	}
 	
 	@ModifyArgs(method = "renderRedstoneDust", at = @At(
 		value = "INVOKE",
 		target = "Lnet/minecraft/client/render/Tessellator;colour(FFF)V"
 	))
-	private void modloader_colorRedstoneDust(Args args) {
-		float[] rgb = BlockRendererData.redstoneColors[modloader_meta];
-		args.set(0, rgb[0] * modloader_brightness);
-		args.set(1, rgb[1] * modloader_brightness);
-		args.set(2, rgb[2] * modloader_brightness);
+	private void betaloader_colorRedstoneDust(Args args) {
+		float[] rgb = BlockRendererData.redstoneColors[betaloader_meta];
+		args.set(0, rgb[0] * betaloader_brightness);
+		args.set(1, rgb[1] * betaloader_brightness);
+		args.set(2, rgb[2] * betaloader_brightness);
 	}
 }

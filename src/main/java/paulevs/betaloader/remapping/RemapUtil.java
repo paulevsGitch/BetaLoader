@@ -54,8 +54,11 @@ public class RemapUtil {
 	 * @param remappedDir output directory {@link File}.
 	 */
 	public static void remap(List<ModEntry> modsToRemap, File remappedDir) {
-		// Handling mod access with custom accessors for protected methods
-		addMapping(MapEntryType.METHOD, "net/minecraft/class_81", "method_332", "callGetParentFolder");
+		// DISABLED //
+		// Handling mod access with custom accessors for protected methods.
+		// This is not ideal solution, but looks like it works.
+		// addMapping(MapEntryType.METHOD, "net/minecraft/class_81", "method_332", "callGetParentFolder");
+		// addMapping(MapEntryType.FIELD, "net/minecraft/class_18", "field_220", "modloader_LevelProperties");
 		
 		makeBaseMappings();
 		makeLoaderMappings();
@@ -64,7 +67,7 @@ public class RemapUtil {
 		
 		modsToRemap.forEach(entry -> {
 			System.out.println("Remapping: " + entry.getModOriginalFile().getName());
-			makeModMappings(entry.getModID(), entry.getModClasses());
+			makeModMappings(entry.getClasspath().replace('.', '/'), entry.getModClasses());
 			TinyRemapper remapper = makeRemapper(mainTree, loaderTree, makeTree(MOD_MAPPINGS));
 			remapFile(remapper, entry.getModOriginalFile().toPath(), entry.getModConvertedFile().toPath());
 		});
@@ -195,10 +198,10 @@ public class RemapUtil {
 		}
 	}
 	
-	private static void makeModMappings(String modID, List<String> modClasses) {
+	private static void makeModMappings(String classPath, List<String> modClasses) {
 		List<String> mappings = new ArrayList<>();
 		mappings.add(toString("v1", "intermediary", "client", "server", "named"));
-		modClasses.forEach(cl -> mappings.add(makeLoaderLine(cl, modID + "/" + cl)));
+		modClasses.forEach(cl -> mappings.add(makeLoaderLine(cl, classPath + "/" + cl)));
 		FileUtil.writeTextFile(mappings, MOD_MAPPINGS);
 	}
 	

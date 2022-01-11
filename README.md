@@ -12,7 +12,7 @@ Current realisation can't launch any ModLoader mod, only mods without base edits
 - Mods will be loaded into game.
 
 ### Mods that will work (tested):
-- Twilight Forest 1p4 (in dev only - access problem)
+- Twilight Forest 1p4
 
 ### Plans For Enhancements (TODO):
 - Handle access for some mods that uses protected Minecraft classes;
