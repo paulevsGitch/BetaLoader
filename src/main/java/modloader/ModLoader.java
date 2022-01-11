@@ -35,7 +35,6 @@ import net.minecraft.level.Level;
 import net.minecraft.level.biome.Biome;
 import net.minecraft.level.biome.Hell;
 import net.minecraft.level.biome.Sky;
-import net.minecraft.level.dimension.DimensionFile;
 import net.minecraft.level.source.LevelSource;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeRegistry;
@@ -48,7 +47,7 @@ import net.modificationstation.stationapi.mixin.recipe.RecipeRegistryAccessor;
 import org.lwjgl.input.Keyboard;
 import paulevs.betaloader.mixin.common.EntityRegistryAccessor;
 import paulevs.betaloader.mixin.common.TileEntityBaseAccessor;
-import paulevs.betaloader.utilities.AccessHandler;
+import paulevs.betaloader.remapping.ModEntry;
 import paulevs.betaloader.utilities.BlockRendererData;
 import paulevs.betaloader.utilities.ModsStorage;
 
@@ -70,7 +69,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -265,16 +263,16 @@ public class ModLoader {
 	
 	/**
 	 * Add mod into loader. Changed from original. Original args were loader and mod class name.
-	 * @param loader
-	 * @param modFile
+	 * @param loader current {@link ClassLoader} to load mods.
+	 * @param modEntry {@link ModEntry} for the mod.
 	 */
-	private static void addMod(ClassLoader loader, File modFile) {
+	private static void addMod(ClassLoader loader, ModEntry modEntry) {
+		String modID = modEntry.getModID();
+		File modFile = modEntry.getModConvertedFile();
 		ClassLoader sideLoader = ModsStorage.getSideLoader(modFile);
-		String modID = ModsStorage.getModID(modFile);
+		String modClassName = modEntry.getMainClass();
 		
 		try {
-			String modClassName = ModsStorage.getModClass(modFile);
-			
 			// TODO replace javassist with something else. Probably create proper mappings for tiny.
 			Class<? extends BaseMod> modClass = (Class<? extends BaseMod>) sideLoader.loadClass(modClassName);
 			Constructor<?> constructor = modClass.getDeclaredConstructor();
@@ -1064,9 +1062,9 @@ public class ModLoader {
 		Method method = loader.getClass().getDeclaredMethod("addURL", URL.class);
 		method.setAccessible(true);
 		
-		ModsStorage.getMods().stream().map(file -> {
+		ModsStorage.getMods().stream().map(entry -> {
 			try {
-				return file.toURI().toURL();
+				return entry.getModConvertedFile().toURI().toURL();
 			}
 			catch (MalformedURLException e) {
 				e.printStackTrace();
@@ -1084,54 +1082,12 @@ public class ModLoader {
 			}
 		});
 		
-		Collection<File> files = ModsStorage.getMods();
-		for (File modFile: files) {
-			logger.finer("Adding mods from " + modFile.getCanonicalPath());
+		List<ModEntry> files = ModsStorage.getMods();
+		for (ModEntry entry: files) {
+			logger.finer("Adding mods from " + entry.getModOriginalFile().getCanonicalPath());
 			logger.finer("Jar found.");
-			addMod(loader, modFile);
+			addMod(loader, entry);
 		}
-		
-		// Old code
-		/*for (int i = 0; i < files.length; i++) {
-			File modFile = files[i];
-			if ((modFile.isDirectory()) || ((modFile.isFile()) && ((modFile.getName().endsWith(".jar")) || (modFile.getName().endsWith(".zip"))))) {
-				logger.finer("Adding mods from " + modFile.getCanonicalPath());
-				if (modFile.isFile()) {
-					logger.finer("Zip found.");
-					InputStream fileInputStream = new FileInputStream(modFile);
-					ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
-					while (true) {
-						ZipEntry entry = zipInputStream.getNextEntry();
-						if (entry == null) {
-							break;
-						}
-						String name = entry.getName();
-						if ((!entry.isDirectory()) && (name.startsWith("mod_")) && (name.endsWith(".class"))) {
-							addMod(loader, name);
-						}
-					}
-					zipInputStream.close();
-					fileInputStream.close();
-				}
-				else if (modFile.isDirectory()) {
-					Package modPackage = ModLoader.class.getPackage();
-					if (modPackage != null) {
-						String name = modPackage.getName().replace('.', File.separatorChar);
-						modFile = new File(modFile, name);
-					}
-					logger.finer("Directory found.");
-					File[] modFiles = modFile.listFiles();
-					if (modFiles != null) {
-						for (int j = 0; j < modFiles.length; j++) {
-							String name = modFiles[j].getName();
-							if ((modFiles[j].isFile()) && (name.startsWith("mod_")) && (name.endsWith(".class"))) {
-								addMod(loader, name);
-							}
-						}
-					}
-				}
-			}
-		}*/
 	}
 	
 	/**

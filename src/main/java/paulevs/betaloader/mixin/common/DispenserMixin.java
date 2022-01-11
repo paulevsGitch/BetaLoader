@@ -1,5 +1,6 @@
 package paulevs.betaloader.mixin.common;
 
+import modloader.ModLoader;
 import net.minecraft.block.Dispenser;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.level.Level;
@@ -11,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import modloader.ModLoader;
 
 import java.util.Random;
 

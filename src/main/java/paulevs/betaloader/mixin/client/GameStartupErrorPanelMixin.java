@@ -1,11 +1,11 @@
 package paulevs.betaloader.mixin.client;
 
+import modloader.BaseMod;
+import modloader.ModLoader;
 import net.minecraft.applet.GameStartupErrorPanel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import modloader.BaseMod;
-import modloader.ModLoader;
 
 @Mixin(GameStartupErrorPanel.class)
 public class GameStartupErrorPanelMixin {

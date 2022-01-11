@@ -1,5 +1,6 @@
 package paulevs.betaloader.mixin.client;
 
+import modloader.ModLoader;
 import net.minecraft.block.BlockBase;
 import net.minecraft.client.render.block.BlockRenderer;
 import net.minecraft.level.BlockView;
@@ -14,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import paulevs.betaloader.utilities.BlockRendererData;
 import paulevs.betaloader.utilities.IBlockRenderer;
-import modloader.ModLoader;
 
 @Mixin(BlockRenderer.class)
 public class BlockRendererMixin implements IBlockRenderer {
