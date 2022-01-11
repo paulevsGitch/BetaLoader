@@ -1,0 +1,844 @@
+CLASS none/cb net/minecraft/applet/GameStartupErrorPanel
+	METHOD <init> (Lnone/mh;)V
+		ARG 0 gameStartupError
+CLASS none/cv net/minecraft/client/render/block/BlockRenderer
+	FIELD A field_41 F
+	FIELD B field_42 F
+	FIELD C field_43 F
+	FIELD D field_44 F
+	FIELD E field_45 F
+	FIELD F field_46 F
+	FIELD G field_47 F
+	FIELD H field_48 F
+	FIELD I field_49 F
+	FIELD J field_50 F
+	FIELD K field_51 F
+	FIELD L field_52 F
+	FIELD M field_53 F
+	FIELD N field_54 F
+	FIELD O field_55 I
+	FIELD P field_56 F
+	FIELD Q field_57 F
+	FIELD R field_58 F
+	FIELD S field_59 F
+	FIELD T field_60 F
+	FIELD U field_61 F
+	FIELD V field_62 F
+	FIELD W field_63 F
+	FIELD X field_64 F
+	FIELD Y field_65 F
+	FIELD Z field_66 F
+	FIELD a field_67 Z
+	FIELD aa field_68 F
+	FIELD ab field_69 Z
+	FIELD ac field_70 Z
+	FIELD ad field_71 Z
+	FIELD ae field_72 Z
+	FIELD af field_73 Z
+	FIELD ag field_74 Z
+	FIELD ah field_75 Z
+	FIELD ai field_76 Z
+	FIELD aj field_77 Z
+	FIELD ak field_78 Z
+	FIELD al field_79 Z
+	FIELD am field_80 Z
+	FIELD b field_81 Z
+	FIELD c blockView Lnone/xp;
+	FIELD cfgGrassFix cfgGrassFix Z
+	FIELD d textureOverride I
+	FIELD e mirrorTexture Z
+	FIELD f renderAllSides Z
+	FIELD g eastFaceRotation I
+	FIELD h westFaceRotation I
+	FIELD i southFaceRotation I
+	FIELD j northFaceRotation I
+	FIELD k topFaceRotation I
+	FIELD l bottomFaceRotation I
+	FIELD m field_92 Z
+	FIELD n field_93 F
+	FIELD o field_94 F
+	FIELD p field_95 F
+	FIELD q field_96 F
+	FIELD r field_97 F
+	FIELD redstoneColors redstoneColors [[F
+	FIELD s field_98 F
+	FIELD t field_99 F
+	FIELD u field_100 F
+	FIELD v field_101 F
+	FIELD w field_102 F
+	FIELD x field_103 F
+	FIELD y field_104 F
+	FIELD z field_105 F
+	METHOD <init> (Lnone/xp;)V
+		ARG 0 blockView
+	METHOD a method_41 (DDDDDDFD)V
+	METHOD a method_42 (I)Z
+		ARG 0 i
+	METHOD a method_43 (IIILnone/ln;)F
+		ARG 0 x
+		ARG 1 y
+		ARG 2 z
+		ARG 3 material
+	METHOD a renderRails (Lnone/pc;III)Z
+		ARG 0 rail
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD a renderTorchTilted (Lnone/uu;DDDDD)V
+		ARG 0 block
+	METHOD a renderBottomFace (Lnone/uu;DDDI)V
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 light
+	METHOD a method_47 (Lnone/uu;IDDD)V
+		ARG 0 block
+		ARG 1 meta
+		ARG 2 x
+		ARG 3 y
+		ARG 4 z
+	METHOD a method_48 (Lnone/uu;IF)V
+		ARG 0 block
+		ARG 1 meta
+		ARG 2 light
+	METHOD a renderAllSides (Lnone/uu;III)V
+		ARG 0 blockBase
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD a method_50 (Lnone/uu;IIIFFF)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 r
+		ARG 5 g
+		ARG 6 b
+	METHOD a renderWithTexture (Lnone/uu;IIII)V
+		ARG 0 blockBase
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 texture
+	METHOD a method_52 (Lnone/uu;IIIZ)V
+	METHOD a method_53 (Lnone/uu;Lnone/fd;III)V
+		ARG 0 block
+		ARG 1 level
+		ARG 2 x
+		ARG 3 y
+		ARG 4 z
+	METHOD b method_54 (DDDDDDFD)V
+	METHOD b renderTopFace (Lnone/uu;DDDI)V
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 light
+	METHOD b method_56 (Lnone/uu;IDDD)V
+		ARG 0 block
+		ARG 1 meta
+		ARG 2 x
+		ARG 3 y
+		ARG 4 z
+	METHOD b render (Lnone/uu;III)Z
+		ARG 0 blockBase
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD b method_58 (Lnone/uu;IIIFFF)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 rz
+		ARG 4 r
+		ARG 5 g
+		ARG 6 b
+	METHOD b renderPiston (Lnone/uu;IIIZ)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 forceExtended
+	METHOD c method_60 (DDDDDDFD)V
+	METHOD c renderEastFace (Lnone/uu;DDDI)V
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 light
+	METHOD c renderTorch (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD c method_63 (Lnone/uu;IIIFFF)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 r
+		ARG 5 g
+		ARG 6 b
+	METHOD c renderPistonHead (Lnone/uu;IIIZ)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD d renderWestFace (Lnone/uu;DDDI)V
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 light
+	METHOD d renderPistonExtended (Lnone/uu;III)V
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD e rrenderNorthFace (Lnone/uu;DDDI)V
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 light
+	METHOD e rrenderLever (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD f renderSouthFace (Lnone/uu;DDDI)V
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 light
+	METHOD f renderFire (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD g renderRedstoneDust (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD h renderLadder (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD i renderCrossed (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD j renderCrops (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD k renderFluid (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD l renderStandardBlock (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD m renderCactus (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD n renderFence (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD o renderStairs (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD p renderDoor (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD q renderBed (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD r renderRedstoneRepeater (Lnone/uu;III)Z
+		ARG 0 block
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD setRedstoneColors setRedstoneColors ([[F)V
+		ARG 0 colors
+CLASS none/hl net/minecraft/entity/Item
+	FIELD a item Lnone/iz;
+	FIELD b age I
+	FIELD c pickupDelay I
+	FIELD d field_567 F
+	FIELD e field_568 I
+	FIELD f health I
+	METHOD <init> (Lnone/fd;)V
+		ARG 0 level
+	METHOD <init> (Lnone/fd;DDDLnone/iz;)V
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 itemInstance
+	METHOD a damageByFire (I)V
+		ARG 0 amount
+	METHOD a readCustomDataFromTag (Lnone/nu;)V
+		ARG 0 tag
+	METHOD a damage (Lnone/sn;I)Z
+		ARG 0 target
+		ARG 1 amount
+	METHOD b initDataTracker ()V
+	METHOD b onPlayerCollision (Lnone/gs;)V
+		ARG 0 player
+	METHOD b writeCustomDataToTag (Lnone/nu;)V
+		ARG 0 tag
+	METHOD k_ method_1393 ()Z
+	METHOD n canClimb ()Z
+	METHOD w_ tick ()V
+CLASS none/ok net/minecraft/level/chunk/ServerChunkCache
+	FIELD a dropSet Ljava/util/Set;
+	FIELD b field_1226 Lnone/lm;
+	FIELD c levelSource Lnone/cl;
+	FIELD d chunkIO Lnone/bf;
+	FIELD e serverChunkCache Ljava/util/Map;
+	FIELD f field_1230 Ljava/util/List;
+	FIELD g level Lnone/fd;
+	METHOD <init> (Lnone/fd;Lnone/bf;Lnone/cl;)V
+		ARG 0 level
+		ARG 1 chunkIO
+		ARG 2 levelSource
+	METHOD a method_1801 ()Z
+	METHOD a isChunkLoaded (II)Z
+		ARG 0 chunkX
+		ARG 1 chunkZ
+	METHOD a decorate (Lnone/cl;II)V
+		ARG 0 levelSource
+		ARG 1 chunkX
+		ARG 2 chunkZ
+	METHOD a method_1049 (Lnone/lm;)V
+		ARG 0 chunk
+	METHOD a deleteCacheCauseClientCantHandleThis (ZLnone/yb;)Z
+		ARG 0 iDontKnowWhy
+		ARG 1 listener
+	METHOD b method_1805 ()Z
+	METHOD b getChunk (II)Lnone/lm;
+		ARG 0 chunkX
+		ARG 1 chunkZ
+	METHOD b method_1050 (Lnone/lm;)V
+		ARG 0 chunk
+	METHOD c toString ()Ljava/lang/String;
+	METHOD c loadChunk (II)Lnone/lm;
+		ARG 0 chunkX
+		ARG 1 chunkZ
+	METHOD d method_1051 (II)Lnone/lm;
+		ARG 0 x
+		ARG 1 z
+CLASS none/sk net/minecraft/tileentity/TileEntityFurnace
+	FIELD a burnTime I
+	FIELD b fuelTime I
+	FIELD c cookTime I
+	FIELD i inventory [Lnone/iz;
+	METHOD a getInventorySize ()I
+	METHOD a takeInventoryItem (II)Lnone/iz;
+		ARG 0 index
+		ARG 1 count
+	METHOD a setInventoryItem (ILnone/iz;)V
+		ARG 0 slot
+		ARG 1 stack
+	METHOD a getFuelTime (Lnone/iz;)I
+		ARG 0 stack
+	METHOD a readIdentifyingData (Lnone/nu;)V
+		ARG 0 tag
+	METHOD a_ canPlayerUse (Lnone/gs;)Z
+		ARG 0 player
+	METHOD b isBurning ()Z
+	METHOD b getCookTimeDelta (I)I
+		ARG 0 multiplier
+	METHOD b writeIdentifyingData (Lnone/nu;)V
+		ARG 0 tag
+	METHOD c getContainerName ()Ljava/lang/String;
+	METHOD c getFuelTimeDelta (I)I
+		ARG 0 multiplier
+	METHOD d getMaxItemCount ()I
+	METHOD f_ getInventoryItem (I)Lnone/iz;
+		ARG 0 index
+	METHOD k craftRecipe ()V
+	METHOD l canAcceptRecipeOutput ()Z
+	METHOD n_ tick ()V
+CLASS none/th net/minecraft/client/render/entity/EntityRenderDispatcher
+	FIELD a INSTANCE Lnone/th;
+	FIELD b renderOffsetX D
+	FIELD c renderOffsetY D
+	FIELD d renderOffsetZ D
+	FIELD e textureManager Lnone/ji;
+	FIELD g level Lnone/fd;
+	FIELD h cameraEntity Lnone/ls;
+	FIELD i field_1559 F
+	FIELD j field_1560 F
+	FIELD k gameOptions Lnone/kv;
+	FIELD l field_1561 D
+	FIELD m field_1562 D
+	FIELD n field_1563 D
+	FIELD o customRenderers Ljava/util/Map;
+	FIELD p textRenderer Lnone/sj;
+	METHOD a getTextRenderer ()Lnone/sj;
+	METHOD a (DDD)D
+		ARG 0 x
+		ARG 1 y
+		ARG 2 z
+	METHOD a getCustomRendererOrAddDefault (Ljava/lang/Class;)Lnone/bw;
+		ARG 0 tileEntityClass
+	METHOD a method_1273 (Lnone/fd;)V
+		ARG 0 level
+	METHOD a (Lnone/fd;Lnone/ji;Lnone/sj;Lnone/ls;Lnone/kv;F)V
+		ARG 0 level
+		ARG 1 textureManager
+		ARG 2 textRenderer
+		ARG 3 cameraEntity
+		ARG 4 gameOptions
+		ARG 5 f
+	METHOD a getCustomRenderer (Lnone/sn;)Lnone/bw;
+		ARG 0 tileEntity
+	METHOD a (Lnone/sn;DDDFF)V
+		ARG 0 tileEntity
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 f
+		ARG 5 f2
+	METHOD a method_1278 (Lnone/sn;F)V
+		ARG 0 tileEntity
+		ARG 1 f
+CLASS none/vq net/minecraft/container/slot/FurnaceOutput
+	FIELD d player Lnone/gs;
+	METHOD <init> (Lnone/gs;Lnone/lw;III)V
+		ARG 0 player
+		ARG 1 inventory
+		ARG 2 x
+		ARG 3 y
+		ARG 4 z
+	METHOD a onCrafted (Lnone/iz;)V
+		ARG 0 stack
+	METHOD b canInsert (Lnone/iz;)Z
+		ARG 0 stack
+CLASS none/xq net/minecraft/block/Dispenser
+	FIELD a rand Ljava/util/Random;
+	METHOD <init> (I)V
+		ARG 0 id
+	METHOD a getTextureForSide (I)I
+		ARG 0 side
+	METHOD a getDropId (ILjava/util/Random;)I
+		ARG 0 meta
+		ARG 1 rand
+	METHOD a onScheduledTick (Lnone/fd;IIILjava/util/Random;)V
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 rand
+	METHOD a canUse (Lnone/fd;IIILnone/gs;)Z
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 player
+	METHOD a afterPlaced (Lnone/fd;IIILnone/ls;)V
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 living
+	METHOD a getTextureForSide (Lnone/xp;IIII)I
+		ARG 0 tileView
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 meta
+	METHOD a_ createTileEntity ()Lnone/ow;
+	METHOD b onBlockRemoved (Lnone/fd;III)V
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD b onAdjacentBlockUpdate (Lnone/fd;IIII)V
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 id
+	METHOD c onBlockPlaced (Lnone/fd;III)V
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+	METHOD c dispense (Lnone/fd;IIILjava/util/Random;)V
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+		ARG 4 rand
+	METHOD e getTickrate ()I
+	METHOD h method_1775 (Lnone/fd;III)V
+		ARG 0 level
+		ARG 1 x
+		ARG 2 y
+		ARG 3 z
+CLASS none/yv net/minecraft/container/slot/CraftingResult
+	FIELD d resultInventory Lnone/lw;
+	FIELD e player Lnone/gs;
+	METHOD <init> (Lnone/gs;Lnone/lw;Lnone/lw;III)V
+		ARG 0 player
+		ARG 1 resultInventory
+		ARG 2 playerInventory
+		ARG 3 x
+		ARG 4 y
+		ARG 5 z
+	METHOD a onCrafted (Lnone/iz;)V
+		ARG 0 stack
+	METHOD b canInsert (Lnone/iz;)Z
+		ARG 0 stack
+CLASS none/MLProp modloader/MLProp
+	METHOD info info ()Ljava/lang/String;
+	METHOD max max ()D
+	METHOD min min ()D
+	METHOD name name ()Ljava/lang/String;
+CLASS none/BaseMod modloader/BaseMod
+	METHOD AddFuel AddFuel (I)I
+		ARG 0 a1
+	METHOD AddRenderer AddRenderer (Ljava/util/Map;)V
+		ARG 0 a1
+	METHOD DispenseEntity DispenseEntity (Lnone/fd;DDDIILnone/iz;)Z
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+		ARG 4 a5
+		ARG 5 a6
+		ARG 6 a7
+	METHOD GenerateNether GenerateNether (Lnone/fd;Ljava/util/Random;II)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+	METHOD GenerateSurface GenerateSurface (Lnone/fd;Ljava/util/Random;II)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+	METHOD KeyboardEvent KeyboardEvent (Lnone/qb;)V
+		ARG 0 a1
+	METHOD ModsLoaded ModsLoaded ()V
+	METHOD OnItemPickup OnItemPickup (Lnone/gs;Lnone/iz;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD OnTickInGUI OnTickInGUI (Lnet/minecraft/client/Minecraft;Lnone/da;)Z
+		ARG 0 a1
+		ARG 1 a2
+	METHOD OnTickInGame OnTickInGame (Lnet/minecraft/client/Minecraft;)Z
+		ARG 0 a1
+	METHOD RegisterAnimation RegisterAnimation (Lnet/minecraft/client/Minecraft;)V
+		ARG 0 a1
+	METHOD RenderInvBlock RenderInvBlock (Lnone/cv;Lnone/uu;II)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+	METHOD RenderWorldBlock RenderWorldBlock (Lnone/cv;Lnone/xp;IIILnone/uu;I)Z
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+		ARG 4 a5
+		ARG 5 a6
+		ARG 6 a7
+	METHOD TakenFromCrafting TakenFromCrafting (Lnone/gs;Lnone/iz;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD TakenFromFurnace TakenFromFurnace (Lnone/gs;Lnone/iz;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD Version Version ()Ljava/lang/String;
+CLASS none/ModLoader modloader/ModLoader
+	FIELD DEBUG DEBUG Z
+	FIELD VERSION VERSION Ljava/lang/String;
+	FIELD animList animList Ljava/util/List;
+	FIELD blockModels blockModels Ljava/util/Map;
+	FIELD blockSpecialInv blockSpecialInv Ljava/util/Map;
+	FIELD cfgLoggingLevel cfgLoggingLevel Ljava/util/logging/Level;
+	FIELD cfgdir cfgdir Ljava/io/File;
+	FIELD cfgfile cfgfile Ljava/io/File;
+	FIELD classMap classMap Ljava/util/Map;
+	FIELD clock clock J
+	FIELD field_TileEntityRenderers field_TileEntityRenderers Ljava/lang/reflect/Field;
+	FIELD field_animList field_animList Ljava/lang/reflect/Field;
+	FIELD field_armorList field_armorList Ljava/lang/reflect/Field;
+	FIELD field_blockList field_blockList Ljava/lang/reflect/Field;
+	FIELD field_modifiers field_modifiers Ljava/lang/reflect/Field;
+	FIELD hasInit hasInit Z
+	FIELD highestEntityId highestEntityId I
+	FIELD inGUIHooks inGUIHooks Ljava/util/Map;
+	FIELD inGameHooks inGameHooks Ljava/util/Map;
+	FIELD instance instance Lnet/minecraft/client/Minecraft;
+	FIELD itemSpriteIndex itemSpriteIndex I
+	FIELD itemSpritesLeft itemSpritesLeft I
+	FIELD keyList keyList Ljava/util/Map;
+	FIELD logHandler logHandler Ljava/util/logging/FileHandler;
+	FIELD logfile logfile Ljava/io/File;
+	FIELD logger logger Ljava/util/logging/Logger;
+	FIELD method_RegisterEntityID method_RegisterEntityID Ljava/lang/reflect/Method;
+	FIELD method_RegisterTileEntity method_RegisterTileEntity Ljava/lang/reflect/Method;
+	FIELD modDir modDir Ljava/io/File;
+	FIELD modList modList Ljava/util/LinkedList;
+	FIELD nextBlockModelID nextBlockModelID I
+	FIELD overrides overrides Ljava/util/Map;
+	FIELD props props Ljava/util/Properties;
+	FIELD standardBiomes standardBiomes [Lnone/kd;
+	FIELD terrainSpriteIndex terrainSpriteIndex I
+	FIELD terrainSpritesLeft terrainSpritesLeft I
+	FIELD texPack texPack Ljava/lang/String;
+	FIELD texturesAdded texturesAdded Z
+	FIELD usedItemSprites usedItemSprites [Z
+	FIELD usedTerrainSprites usedTerrainSprites [Z
+	METHOD AddAchievementDesc AddAchievementDesc (Lnone/ny;Ljava/lang/String;Ljava/lang/String;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD AddAllFuel AddAllFuel (I)I
+		ARG 0 a1
+	METHOD AddAllRenderers AddAllRenderers (Ljava/util/Map;)V
+		ARG 0 a1
+	METHOD AddArmor AddArmor (Ljava/lang/String;)I
+		ARG 0 a1
+	METHOD AddLocalization AddLocalization (Ljava/lang/String;Ljava/lang/String;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD AddName AddName (Ljava/lang/Object;Ljava/lang/String;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD AddRecipe AddRecipe (Lnone/iz;[Ljava/lang/Object;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD AddShapelessRecipe AddShapelessRecipe (Lnone/iz;[Ljava/lang/Object;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD AddSmelting AddSmelting (ILnone/iz;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD AddSpawn AddSpawn (Ljava/lang/Class;ILnone/lk;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD AddSpawn AddSpawn (Ljava/lang/Class;ILnone/lk;[Lnone/kd;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+	METHOD AddSpawn AddSpawn (Ljava/lang/String;ILnone/lk;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD AddSpawn AddSpawn (Ljava/lang/String;ILnone/lk;[Lnone/kd;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+	METHOD DispenseEntity DispenseEntity (Lnone/fd;DDDIILnone/iz;)Z
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+		ARG 4 a5
+		ARG 5 a6
+		ARG 6 a7
+	METHOD OnItemPickup OnItemPickup (Lnone/gs;Lnone/iz;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD OnTick OnTick (Lnet/minecraft/client/Minecraft;)V
+		ARG 0 a1
+	METHOD OpenGUI OpenGUI (Lnone/gs;Lnone/da;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD PopulateChunk PopulateChunk (Lnone/cl;IILnone/fd;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+	METHOD RegisterAllKeys RegisterAllKeys ([Lnone/qb;)[Lnone/qb;
+		ARG 0 a1
+	METHOD RegisterAllTextureOverrides RegisterAllTextureOverrides (Lnone/ji;)V
+		ARG 0 a1
+	METHOD RegisterBlock RegisterBlock (Lnone/uu;)V
+		ARG 0 a1
+	METHOD RegisterBlock RegisterBlock (Lnone/uu;Ljava/lang/Class;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD RegisterEntityID RegisterEntityID (Ljava/lang/Class;Ljava/lang/String;I)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD RegisterKey RegisterKey (Lnone/BaseMod;Lnone/qb;Z)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD RegisterTileEntity RegisterTileEntity (Ljava/lang/Class;Ljava/lang/String;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD RegisterTileEntity RegisterTileEntity (Ljava/lang/Class;Ljava/lang/String;Lnone/je;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD RemoveSpawn RemoveSpawn (Ljava/lang/Class;Lnone/lk;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD RemoveSpawn RemoveSpawn (Ljava/lang/Class;Lnone/lk;[Lnone/kd;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD RemoveSpawn RemoveSpawn (Ljava/lang/String;Lnone/lk;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD RemoveSpawn RemoveSpawn (Ljava/lang/String;Lnone/lk;[Lnone/kd;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD RenderBlockIsItemFull3D RenderBlockIsItemFull3D (I)Z
+		ARG 0 a1
+	METHOD RenderInvBlock RenderInvBlock (Lnone/cv;Lnone/uu;II)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+	METHOD RenderWorldBlock RenderWorldBlock (Lnone/cv;Lnone/xp;IIILnone/uu;I)Z
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+		ARG 4 a5
+		ARG 5 a6
+		ARG 6 a7
+	METHOD SetInGUIHook SetInGUIHook (Lnone/BaseMod;ZZ)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD SetInGameHook SetInGameHook (Lnone/BaseMod;ZZ)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD TakenFromCrafting TakenFromCrafting (Lnone/gs;Lnone/iz;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD TakenFromFurnace TakenFromFurnace (Lnone/gs;Lnone/iz;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD ThrowException ThrowException (Ljava/lang/String;Ljava/lang/Throwable;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD ThrowException ThrowException (Ljava/lang/Throwable;)V
+		ARG 0 a1
+	METHOD addAnimation addAnimation (Lnone/aw;)V
+		ARG 0 a1
+	METHOD addMod addMod (Ljava/lang/ClassLoader;Ljava/lang/String;)V
+		ARG 0 a1
+		ARG 1 a2
+	METHOD addOverride addOverride (Ljava/lang/String;Ljava/lang/String;)I
+		ARG 0 a1
+		ARG 1 a2
+	METHOD addOverride addOverride (Ljava/lang/String;Ljava/lang/String;I)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD getLoadedMods getLoadedMods ()Ljava/util/List;
+	METHOD getLogger getLogger ()Ljava/util/logging/Logger;
+	METHOD getMinecraftInstance getMinecraftInstance ()Lnet/minecraft/client/Minecraft;
+	METHOD getPrivateValue getPrivateValue (Ljava/lang/Class;Ljava/lang/Object;I)Ljava/lang/Object;
+		ARG 0 a1
+		ARG 1 a2
+	METHOD getPrivateValue getPrivateValue (Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+		ARG 0 a1
+		ARG 1 a2
+	METHOD getUniqueBlockModelID getUniqueBlockModelID (Lnone/BaseMod;Z)I
+		ARG 0 a1
+		ARG 1 a2
+	METHOD getUniqueEntityId getUniqueEntityId ()I
+	METHOD getUniqueItemSpriteIndex getUniqueItemSpriteIndex ()I
+	METHOD getUniqueSpriteIndex getUniqueSpriteIndex (Ljava/lang/String;)I
+		ARG 0 a1
+	METHOD getUniqueTerrainSpriteIndex getUniqueTerrainSpriteIndex ()I
+	METHOD init init ()V
+	METHOD initStats initStats ()V
+	METHOD isGUIOpen isGUIOpen (Ljava/lang/Class;)Z
+		ARG 0 a1
+	METHOD isModLoaded isModLoaded (Ljava/lang/String;)Z
+		ARG 0 a1
+	METHOD loadConfig loadConfig ()V
+	METHOD loadImage loadImage (Lnone/ji;Ljava/lang/String;)Ljava/awt/image/BufferedImage;
+		ARG 0 a1
+		ARG 1 a2
+	METHOD readFromClassPath readFromClassPath (Ljava/io/File;)V
+		ARG 0 a1
+	METHOD readFromModFolder readFromModFolder (Ljava/io/File;)V
+		ARG 0 a1
+	METHOD saveConfig saveConfig ()V
+	METHOD setPrivateValue setPrivateValue (Ljava/lang/Class;Ljava/lang/Object;ILjava/lang/Object;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 3 a4
+	METHOD setPrivateValue setPrivateValue (Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 3 a4
+	METHOD setupProperties setupProperties (Ljava/lang/Class;)V
+		ARG 0 a1
+CLASS none/ModTextureStatic modloader/ModTextureStatic
+	FIELD oldanaglyph oldanaglyph Z
+	FIELD pixels pixels [I
+	METHOD <init> (IIILjava/awt/image/BufferedImage;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+	METHOD <init> (IILjava/awt/image/BufferedImage;)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+	METHOD a a ()V
+	METHOD scale2x scale2x (Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
+		ARG 0 a1
+	METHOD update update ()V
+CLASS none/EntityRendererProxy modloader/EntityRendererProxy
+	FIELD game game Lnet/minecraft/client/Minecraft;
+	METHOD <init> (Lnet/minecraft/client/Minecraft;)V
+		ARG 0 a1
+	METHOD b b (F)V
+		ARG 0 a1
+CLASS none/ModTextureAnimation modloader/ModTextureAnimation
+	FIELD images images [[B
+	FIELD index index I
+	FIELD tickRate tickRate I
+	FIELD ticks ticks I
+	METHOD <init> (IIILjava/awt/image/BufferedImage;I)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4
+		ARG 4 a5
+	METHOD <init> (IILjava/awt/image/BufferedImage;I)V
+		ARG 0 a1
+		ARG 1 a2
+		ARG 2 a3
+		ARG 3 a4

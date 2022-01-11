@@ -1,0 +1,223 @@
+CLASS ISpawnable modloadermp/ISpawnable
+	METHOD spawn (LPacket230ModLoader;)V
+		ARG 1 packet230ModLoader
+CLASS ex net/minecraft/client/gui/screen/Disconnecting
+	FIELD a line1 Ljava/lang/String;
+	FIELD i line2 Ljava/lang/String;
+	METHOD <init> (Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V
+		ARG 1 line1Key
+		ARG 2 line2Key
+		ARG 3 format
+	METHOD a tick ()V
+	METHOD a keyPressed (CI)V
+		ARG 1 character
+		ARG 2 key
+	METHOD a render (IIF)V
+		ARG 1 mouseX
+		ARG 2 mouseY
+		ARG 3 delta
+	METHOD a buttonClicked (Lke;)V
+		ARG 1 button
+	METHOD b init ()V
+CLASS nb net/minecraft/network/ClientPlayNetworkHandler
+	FIELD a field_1967 Ljava/lang/String;
+	FIELD b field_1968 Lhc;
+	FIELD c rand Ljava/util/Random;
+	FIELD d disconnected Z
+	FIELD e netHandler Lpf;
+	FIELD f minecraft Lnet/minecraft/client/Minecraft;
+	FIELD g level Lmm;
+	FIELD h isDone Z
+	METHOD <init> (Lnet/minecraft/client/Minecraft;Ljava/lang/String;I)V
+		ARG 1 minecraft
+		ARG 2 name
+		ARG 3 i
+	METHOD a processPackets ()V
+	METHOD a method_1645 (I)Lsn;
+		ARG 1 id
+	METHOD a onMapData (Lai;)V
+		ARG 1 packet
+	METHOD a onInvalidateState (Lca;)V
+		ARG 1 packet
+	METHOD a onCollectItem (Ldi;)V
+		ARG 1 packet
+	METHOD a onMapChunk (Lef;)V
+		ARG 1 packet
+	METHOD a onPlayerHealthUpdate (Leu;)V
+		ARG 1 packet
+	METHOD a onLightningStrike (Lfa;)V
+		ARG 1 packet
+	METHOD a onPlaySound (Lfn;)V
+		ARG 1 packet
+	METHOD a onEntityVelocity (Lgj;)V
+		ARG 1 packet
+	METHOD a onTimeUpdate (Lhg;)V
+		ARG 1 packet
+	METHOD a onSlotUpdate (Lhq;)V
+		ARG 1 packet
+	METHOD a onBaseOnGround (Lig;)V
+		ARG 1 packet
+	METHOD a onOpenContainer (Liw;)V
+		ARG 1 packet
+	METHOD a onClose (Ljava/lang/String;[Ljava/lang/Object;)V
+		ARG 1 reason
+		ARG 2 objects
+	METHOD a onEntityStatus (Ljf;)V
+		ARG 1 packet
+	METHOD a onMobSpawn (Ljm;)V
+		ARG 1 packet
+	METHOD a onUseBed (Ljz;)V
+		ARG 1 packet
+	METHOD a onInventoryUpdate (Lkb;)V
+		ARG 1 packet
+	METHOD a method_1646 (Lki;)V
+		ARG 1 arg
+	METHOD a onPlayerSpawn (Lmf;)V
+		ARG 1 packet
+	METHOD a onContainerClose (Lmn;)V
+		ARG 1 packet
+	METHOD a onHandshake (Lmp;)V
+		ARG 1 packet
+	METHOD a onUpdateFurnaceProgress (Lmv;)V
+		ARG 1 packet
+	METHOD a onItemEntitySpawn (Lnd;)V
+		ARG 1 packet
+	METHOD a onAnimation (Lnm;)V
+		ARG 1 packet
+	METHOD a onRideEntity (Lns;)V
+		ARG 1 packet
+	METHOD a onLoginRequest (Lnz;)V
+		ARG 1 packet
+	METHOD a onIncreaseStat (Lof;)V
+		ARG 1 packet
+	METHOD a onTransaction (Loj;)V
+		ARG 1 packet
+	METHOD a onRespawn (Lox;)V
+		ARG 1 packet
+	METHOD a onChatMessage (Lpe;)V
+		ARG 1 packet
+	METHOD a onSpawnPosition (Lrc;)V
+		ARG 1 packet
+	METHOD a onEntityTeleport (Lrg;)V
+		ARG 1 packet
+	METHOD a onCreateExplosion (Lrm;)V
+		ARG 1 packet
+	METHOD a onEntityDeath (Lrv;)V
+		ARG 1 packet
+	METHOD a onEntityEquipment (Ls;)V
+		ARG 1 packet
+	METHOD a onPreChunk (Lse;)V
+		ARG 1 packet
+	METHOD a onEntitySpawn (Lso;)V
+		ARG 1 packet
+	METHOD a onBlockChange (Ltv;)V
+		ARG 1 packet
+	METHOD a onBaseEntity (Luh;)V
+		ARG 1 packet
+	METHOD a onUpdateSign (Lui;)V
+		ARG 1 packet
+	METHOD a onEntityMetadata (Lux;)V
+		ARG 1 packet
+	METHOD a onPainting (Lvt;)V
+		ARG 1 packet
+	METHOD a onNote (Lvw;)V
+		ARG 1 packet
+	METHOD a onMultiBlockChange (Lwu;)V
+		ARG 1 packet
+	METHOD a onDisconnect (Lyr;)V
+		ARG 1 packet
+	METHOD b method_1647 ()V
+	METHOD b sendPacket (Lki;)V
+		ARG 1 arg
+	METHOD c isServerSide ()Z
+CLASS Packet230ModLoader modloadermp/Packet230ModLoader
+	FIELD MAX_DATA_LENGTH I
+	FIELD dataFloat [F
+	FIELD dataInt [I
+	FIELD dataString [Ljava/lang/String;
+	FIELD modId I
+	FIELD packetType I
+	METHOD a length ()I
+	METHOD a read (Ljava/io/DataInputStream;)V
+		ARG 1 datainputstream
+	METHOD a write (Ljava/io/DataOutputStream;)V
+		ARG 1 dataoutputstream
+	METHOD a apply (Lti;)V
+		ARG 1 nethandler
+CLASS MLProp modloader/MLProp
+	METHOD info ()Ljava/lang/String;
+	METHOD max ()D
+	METHOD min ()D
+	METHOD name ()Ljava/lang/String;
+CLASS yr net/minecraft/packet/misc/Disconnect0xFFPacket
+	FIELD a reason Ljava/lang/String;
+	METHOD <init> (Ljava/lang/String;)V
+		ARG 1 reason
+	METHOD a length ()I
+	METHOD a read (Ljava/io/DataInputStream;)V
+		ARG 1 datainputstream
+	METHOD a write (Ljava/io/DataOutputStream;)V
+		ARG 1 dataoutputstream
+	METHOD a apply (Lti;)V
+		ARG 1 handler
+CLASS NetClientHandlerEntity modloadermp/NetClientHandlerEntity
+	FIELD entityClass Ljava/lang/Class;
+	FIELD entityHasOwner Z
+	METHOD <init> (Ljava/lang/Class;Z)V
+		ARG 1 entityClass
+		ARG 2 entityHasOwner
+CLASS ModLoaderMp modloadermp/ModLoaderMp
+	FIELD NAME Ljava/lang/String;
+	FIELD VERSION Ljava/lang/String;
+	FIELD guiModMap Ljava/util/Map;
+	FIELD hasInit Z
+	FIELD netClientHandlerEntityMap Ljava/util/Map;
+	FIELD packet230Received Z
+	METHOD GetModInstance (Ljava/lang/Class;)LBaseModMp;
+		ARG 0 v1
+	METHOD HandleAllPackets (LPacket230ModLoader;)V
+		ARG 0 r
+	METHOD HandleGUI (Liw;)V
+		ARG 0 aiw1
+	METHOD HandleNetClientHandlerEntities (I)LNetClientHandlerEntity;
+		ARG 0 aInteger1
+	METHOD Init ()V
+	METHOD Log (Ljava/lang/String;)V
+		ARG 0 aString1
+	METHOD RegisterGUI (LBaseModMp;I)V
+		ARG 0 aBaseModMp1
+		ARG 1 aInteger2
+	METHOD RegisterNetClientHandlerEntity (Ljava/lang/Class;I)V
+		ARG 0 aClass1
+		ARG 1 aInteger2
+	METHOD RegisterNetClientHandlerEntity (Ljava/lang/Class;ZI)V
+		ARG 0 aClass1
+		ARG 1 aBoolean2
+		ARG 2 aInteger3
+	METHOD SendKey (LBaseModMp;I)V
+		ARG 0 v1
+		ARG 1 v2
+	METHOD SendPacket (LBaseModMp;LPacket230ModLoader;)V
+		ARG 0 aPacket230ModLoader2
+		ARG 1 v1
+	METHOD handleModCheck (LPacket230ModLoader;)V
+	METHOD handleTileEntityPacket (LPacket230ModLoader;)V
+		ARG 0 v1
+	METHOD init ()V
+	METHOD sendPacket (LPacket230ModLoader;)V
+		ARG 0 aPacket230ModLoader1
+CLASS BaseModMp modloadermp/BaseModMp
+	METHOD HandleGUI (I)Lda;
+		ARG 1 i
+	METHOD HandlePacket (LPacket230ModLoader;)V
+		ARG 1 packet230modloader
+	METHOD HandleTileEntityPacket (IIII[I[F[Ljava/lang/String;)V
+		ARG 1 i
+		ARG 2 j
+		ARG 3 k
+		ARG 4 l
+		ARG 5 ai
+		ARG 6 af
+		ARG 7 as
+	METHOD ModsLoaded ()V
+	METHOD getId ()I
