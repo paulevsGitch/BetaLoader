@@ -48,7 +48,7 @@ import org.lwjgl.input.Keyboard;
 import paulevs.betaloader.mixin.common.EntityRegistryAccessor;
 import paulevs.betaloader.mixin.common.TileEntityBaseAccessor;
 import paulevs.betaloader.remapping.ModEntry;
-import paulevs.betaloader.utilities.BlockRendererData;
+import paulevs.betaloader.rendering.BlockRendererData;
 import paulevs.betaloader.utilities.ModsStorage;
 
 import javax.imageio.ImageIO;

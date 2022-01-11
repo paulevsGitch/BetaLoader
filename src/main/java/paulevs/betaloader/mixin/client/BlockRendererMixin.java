@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-import paulevs.betaloader.utilities.BlockRendererData;
-import paulevs.betaloader.utilities.IBlockRenderer;
+import paulevs.betaloader.rendering.BlockRendererData;
+import paulevs.betaloader.rendering.IBlockRenderer;
 
 @Mixin(BlockRenderer.class)
 public class BlockRendererMixin implements IBlockRenderer {

@@ -1,4 +1,4 @@
-package paulevs.betaloader.utilities;
+package paulevs.betaloader.rendering;
 
 public class BlockRendererData {
 	public static boolean cfgGrassFix; // Equal to field_67 in BlockRenderer
