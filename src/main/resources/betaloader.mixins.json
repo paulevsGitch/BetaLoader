@@ -9,6 +9,7 @@
 		"common.URLClassLoaderAccessor",
 		"common.TileEntityFurnaceMixin",
 		"common.ServerChunkCacheMixin",
+		"common.CraftingResultMixin",
 		"common.DispenserMixin",
 		"common.ItemMixin"
 	],
