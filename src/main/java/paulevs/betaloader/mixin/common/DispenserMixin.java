@@ -33,7 +33,7 @@ public class DispenserMixin {
 			shift = Shift.BEFORE
 		),
 		locals = LocalCapture.CAPTURE_FAILSOFT)
-	private void modloader_dispense(Level level, int x, int y, int z, Random arg4, CallbackInfo info, int var6, int var9, int var10, TileEntityDispenser var11) {
+	private void betaloader_storeValues(Level level, int x, int y, int z, Random arg4, CallbackInfo info, int var6, int var9, int var10, TileEntityDispenser var11) {
 		modloader_level = level;
 		modloader_posX = x + var9 * 0.6 + 0.5;
 		modloader_posY = y + 0.5;
@@ -43,7 +43,7 @@ public class DispenserMixin {
 	}
 	
 	@ModifyVariable(method = "dispense", at = @At("STORE"), name = "var12")
-	private ItemInstance injected(ItemInstance item) {
+	private ItemInstance betaloader_dispenseEntity(ItemInstance item) {
 		modloader_dispensed = ModLoader.DispenseEntity(
 			modloader_level,
 			modloader_posX,
@@ -64,7 +64,7 @@ public class DispenserMixin {
 			shift = Shift.BEFORE
 		),
 		cancellable = true)
-	private void modloader_cancelDispense(Level level, int x, int y, int z, Random arg4, CallbackInfo info) {
+	private void betaloader_cancelDispense(Level level, int x, int y, int z, Random arg4, CallbackInfo info) {
 		if (modloader_dispensed) {
 			level.playLevelEvent(2000, x, y, z, modloader_velX + 1 + (modloader_velZ + 1) * 3);
 			info.cancel();

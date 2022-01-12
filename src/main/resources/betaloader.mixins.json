@@ -4,6 +4,7 @@
 	"package": "paulevs.betaloader.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
+		"common.Disconnect0xFFPacketMixin",
 		"common.EntityRegistryAccessor",
 		"common.TileEntityBaseAccessor",
 		"common.URLClassLoaderAccessor",
@@ -14,9 +15,11 @@
 		"common.ItemMixin"
 	],
 	"client": [
+		"client.ClientPlayNetworkHandlerMixin",
 		"client.EntityRenderDispatcherMixin",
 		"client.GameStartupErrorPanelMixin",
-		"client.BlockRendererMixin"
+		"client.BlockRendererMixin",
+		"client.DisconnectingMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
