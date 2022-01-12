@@ -47,6 +47,7 @@ import paulevs.betaloader.mixin.common.TileEntityBaseAccessor;
 import paulevs.betaloader.remapping.ModEntry;
 import paulevs.betaloader.remapping.RemapUtil;
 import paulevs.betaloader.rendering.BlockRendererData;
+import paulevs.betaloader.utilities.FileDownloader;
 import paulevs.betaloader.utilities.JavassistUtil;
 import paulevs.betaloader.utilities.ModsStorage;
 
@@ -648,6 +649,10 @@ public class ModLoader {
 			return;
 		}
 		
+		if (!FileDownloader.load()) {
+			System.out.println("Abort loading process");
+			return;
+		}
 		ModsStorage.process();
 		
 		hasInit = true;
