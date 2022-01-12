@@ -181,10 +181,7 @@ public class ModLoader {
 	 * @param rendererMap
 	 */
 	public static void AddAllRenderers(Map<Class<? extends EntityBase>, EntityRenderer> rendererMap) {
-		if (!hasInit) {
-			init();
-			logger.fine("Initialized");
-		}
+		init();
 		for (BaseMod mod : modList) {
 			mod.AddRenderer(rendererMap);
 		}
@@ -647,6 +644,10 @@ public class ModLoader {
 	}
 	
 	public static void init() {
+		if (hasInit) {
+			return;
+		}
+		
 		ModsStorage.process();
 		
 		hasInit = true;
@@ -757,6 +758,8 @@ public class ModLoader {
 			}
 			throw new RuntimeException(throwable);
 		}
+		
+		logger.fine("Initialized");
 	}
 	
 	private static void initStats() {
@@ -887,10 +890,7 @@ public class ModLoader {
 	 * @param minecraft
 	 */
 	public static void OnTick(Minecraft minecraft) {
-		if (!ModLoader.hasInit) {
-			init();
-			ModLoader.logger.fine("Initialized");
-		}
+		init();
 		if (ModLoader.texPack == null || minecraft.options.skin != ModLoader.texPack) {
 			ModLoader.texturesAdded = false;
 			ModLoader.texPack = minecraft.options.skin;
@@ -952,10 +952,7 @@ public class ModLoader {
 	 * @param screenBase
 	 */
 	public static void OpenGUI(PlayerBase playerBase, ScreenBase screenBase) {
-		if (!hasInit) {
-			init();
-			logger.fine("Initialized");
-		}
+		init();
 		Minecraft minecraft = getMinecraftInstance();
 		if (minecraft.player != playerBase) {
 			return;
@@ -973,10 +970,7 @@ public class ModLoader {
 	 * @param level
 	 */
 	public static void PopulateChunk(LevelSource levelSource, int chunkX, int chunkZ, Level level) {
-		if (!hasInit) {
-			init();
-			logger.fine("Initialized");
-		}
+		init();
 		Random random = new Random(level.getSeed());
 		long offsetX = random.nextLong() / 2L * 2L + 1L;
 		long offsetZ = random.nextLong() / 2L * 2L + 1L;
