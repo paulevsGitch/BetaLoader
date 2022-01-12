@@ -38,11 +38,13 @@ import java.util.Optional;
 
 public class RemapUtil {
 	private static final Map<MapEntryType, Map<String, Map<String, String>>> METHOD_REMAP = new EnumMap<>(MapEntryType.class);
+	private static final Map<String, Map<String, String>> FIELDS_CACHE = new HashMap<>();
 	
 	private static final File LOADER_MAPPINGS = CacheStorage.getCacheFile("loader_mappings.tiny");
 	private static final File MAIN_MAPPINGS = CacheStorage.getCacheFile("main_mappings.tiny");
 	private static final File MOD_MAPPINGS = CacheStorage.getCacheFile("mod_mappings.tiny");
 	private static final File MINECRAFT = CacheStorage.getCacheFile("minecraft.jar");
+	private static TinyTree mainTree;
 	
 	public static void addMapping(MapEntryType type, String targetClass, String intermediary, String name) {
 		METHOD_REMAP.computeIfAbsent(type, i -> new HashMap<>()).computeIfAbsent(targetClass, i -> new HashMap<>()).put(intermediary, name);
@@ -60,10 +62,11 @@ public class RemapUtil {
 		// addMapping(MapEntryType.METHOD, "net/minecraft/class_81", "method_332", "callGetParentFolder");
 		// addMapping(MapEntryType.FIELD, "net/minecraft/class_18", "field_220", "modloader_LevelProperties");
 		
-		makeBaseMappings();
+		initMainTree();
 		makeLoaderMappings();
+		
 		final TinyTree loaderTree = makeTree(LOADER_MAPPINGS);
-		final TinyTree mainTree = makeTree(MAIN_MAPPINGS);
+		final TinyTree mainTree = RemapUtil.mainTree;
 		
 		modsToRemap.forEach(entry -> {
 			System.out.println("Remapping: " + entry.getModOriginalFile().getName());
@@ -71,6 +74,64 @@ public class RemapUtil {
 			TinyRemapper remapper = makeRemapper(mainTree, loaderTree, makeTree(MOD_MAPPINGS));
 			remapFile(remapper, entry.getModOriginalFile().toPath(), entry.getModConvertedFile().toPath());
 		});
+	}
+	
+	/**
+	 * Get {@link ClassDef} from specified class name.
+	 * @param name {@link String} class name.
+	 * @return
+	 */
+	private static ClassDef getClass(String name) {
+		initMainTree();
+		FabricLauncher launcher = FabricLauncherBase.getLauncher();
+		String namespace = launcher.getTargetNamespace();
+		String searchName = name.replace('.', '/');
+		Optional<ClassDef> optional = mainTree
+			.getClasses()
+			.stream()
+			.parallel()
+			.filter(classDef -> classDef.getName(namespace).equals(searchName))
+			.findAny();
+		return optional.isPresent() ? optional.get() : null;
+	}
+	
+	/**
+	 * Get field name from specified class. Will return null if there will be no available name.
+	 * @param cl {@link ClassDef} to get field from.
+	 * @param fieldName {@link String} field name.
+	 * @return
+	 */
+	private static String getFieldName(ClassDef cl, String fieldName) {
+		FabricLauncher launcher = FabricLauncherBase.getLauncher();
+		String namespace = launcher.getTargetNamespace();
+		Optional<FieldDef> optional = cl
+			.getFields()
+			.stream()
+			.parallel()
+			.filter(fieldDef -> fieldDef.getName("client").equals(fieldName))
+			.findAny();
+		return optional.isPresent() ? optional.get().getName(namespace) : null;
+	}
+	
+	/**
+	 * Get field name from specified class. Will return null if there will be no available name.
+	 * @param cl {@link Class} to get field from.
+	 * @param fieldName {@link String} field name.
+	 * @return
+	 */
+	public static String getFieldName(Class cl, String fieldName) {
+		final String className = cl.getName();
+		return FIELDS_CACHE.computeIfAbsent(className, i -> new HashMap<>()).computeIfAbsent(fieldName, i -> {
+			ClassDef def = getClass(className);
+			return def != null ? getFieldName(def, fieldName) : "";
+		});
+	}
+	
+	private static void initMainTree() {
+		if (mainTree == null) {
+			makeBaseMappings();
+			mainTree = makeTree(MAIN_MAPPINGS);
+		}
 	}
 	
 	/**

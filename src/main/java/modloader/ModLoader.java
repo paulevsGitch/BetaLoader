@@ -45,6 +45,7 @@ import org.lwjgl.input.Keyboard;
 import paulevs.betaloader.mixin.common.EntityRegistryAccessor;
 import paulevs.betaloader.mixin.common.TileEntityBaseAccessor;
 import paulevs.betaloader.remapping.ModEntry;
+import paulevs.betaloader.remapping.RemapUtil;
 import paulevs.betaloader.rendering.BlockRendererData;
 import paulevs.betaloader.utilities.JavassistUtil;
 import paulevs.betaloader.utilities.ModsStorage;
@@ -558,6 +559,10 @@ public class ModLoader {
 	 * @throws NoSuchFieldException
 	 */
 	public static <T, E> T getPrivateValue(Class<? super E> instanceClass, E instance, String fieldName) throws IllegalArgumentException, SecurityException, NoSuchFieldException {
+		fieldName = RemapUtil.getFieldName(instanceClass, fieldName);
+		if (fieldName.isEmpty()) {
+			return null;
+		}
 		try {
 			Field field = instanceClass.getDeclaredField(fieldName);
 			field.setAccessible(true);
