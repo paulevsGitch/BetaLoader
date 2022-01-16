@@ -2,7 +2,7 @@
   <img src="https://github.com/paulevsGitch/BetaLoader/blob/main/logo.png" />
 </p>
 
-BetaLoader is a port of Risugami's ModLoader and Modloader MP for Station API (STAPI), for Minecraft beta 1.7.3.
+BetaLoader is a port of Risugami's ModLoader and ModLoaderMP for Station API (STAPI), for Minecraft beta 1.7.3.
 Current realisation can't launch any ModLoader mod, only mods without base edits (which are installed by placing them into mods folder).
 
 ### How It Works:
@@ -17,15 +17,15 @@ Current realisation can't launch any ModLoader mod, only mods without base edits
 ### Plans For Enhancements (TODO):
 - Handle access for some mods that uses protected Minecraft classes;
 - More documentation;
-- More replacements of ModLoader code to STAPI code (block registering, event hadling and so on).
+- More replacements of ModLoader code to STAPI code (block registering, event handling and so on).
 
 ### Links That BetaLoader Uses:
 - Minecraft Client: https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
-- Javassist: https://repo1.maven.org/maven2/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar]
+- Javassist: https://repo1.maven.org/maven2/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar
 
-### Where I Get Modloader:
-- [Modloader](http://www.mediafire.com/?jc2n88a51xdfd) (official link + javadocs)
-- [Modloader MP](https://mcarchive.net/mods/modloadermp?gvsn=b1.7.3)
+### Where I Get ModLoader:
+- [ModLoader](http://www.mediafire.com/?jc2n88a51xdfd) (official link + javadocs)
+- [ModLoaderMP](https://mcarchive.net/mods/modloadermp?gvsn=b1.7.3)
 
-### My Modloader Mappings:
+### My ModLoader Mappings:
 I made my own mappings for ModLoader and ModLoader MP in Enigma format, they are located in "mappings" folder in this project.
