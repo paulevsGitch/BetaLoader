@@ -79,6 +79,7 @@ public class FileUtil {
 	
 	public static boolean downloadFile(String url, File file) {
 		try {
+			file.getParentFile().mkdirs();
 			InputStream stream = new URL(url).openStream();
 			Files.copy(stream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			stream.close();
