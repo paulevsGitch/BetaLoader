@@ -171,41 +171,44 @@ public class ModLoaderMp {
 	private static void init() {
 		ModLoaderMp.hasInit = true;
 		try {
-			Method method;
-			try {
-				method = AbstractPacket.class.getDeclaredMethod(
-					"a",
-					new Class[] {Integer.TYPE, Boolean.TYPE, Boolean.TYPE, Class.class}
-				);
+			Method method = null;
+			String[] possibleMethodNames = {"a", "addIdClassMapping", "register", "method_800", "method_1177"};
+			for (String methodName : possibleMethodNames) {
+				try {
+					method = AbstractPacket.class.getDeclaredMethod(
+							methodName,
+							Integer.TYPE, Boolean.TYPE, Boolean.TYPE, Class.class
+					);
+					break;
+				}
+				catch (NoSuchMethodException ignored) {
+				}
 			}
-			catch (NoSuchMethodException nosuchmethodexception2) {
-				method = AbstractPacket.class.getDeclaredMethod(
-					"addIdClassMapping",
-					new Class[] {Integer.TYPE, Boolean.TYPE, Boolean.TYPE, Class.class}
-				);
+			if (method == null) {
+				throw new NoSuchMethodException("AbstractPacket#register method cannot be found.");
 			}
 			method.setAccessible(true);
-			method.invoke(null, new Object[] {230, true, true, Packet230ModLoader.class});
+			method.invoke(null, 230, true, true, Packet230ModLoader.class);
 		}
 		catch (IllegalAccessException illegalaccessexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", (Throwable) illegalaccessexception);
-			ModLoader.ThrowException("An impossible error has occurred!", (Throwable) illegalaccessexception);
+			ModLoader.getLogger().throwing("ModLoaderMp", "init", illegalaccessexception);
+			ModLoader.ThrowException("An impossible error has occurred!", illegalaccessexception);
 		}
 		catch (IllegalArgumentException illegalargumentexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", (Throwable) illegalargumentexception);
-			ModLoader.ThrowException("An impossible error has occurred!", (Throwable) illegalargumentexception);
+			ModLoader.getLogger().throwing("ModLoaderMp", "init", illegalargumentexception);
+			ModLoader.ThrowException("An impossible error has occurred!", illegalargumentexception);
 		}
 		catch (InvocationTargetException invocationtargetexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", (Throwable) invocationtargetexception);
-			ModLoader.ThrowException("An impossible error has occurred!", (Throwable) invocationtargetexception);
+			ModLoader.getLogger().throwing("ModLoaderMp", "init", invocationtargetexception);
+			ModLoader.ThrowException("An impossible error has occurred!", invocationtargetexception);
 		}
 		catch (NoSuchMethodException nosuchmethodexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", (Throwable) nosuchmethodexception);
-			ModLoader.ThrowException("An impossible error has occurred!", (Throwable) nosuchmethodexception);
+			ModLoader.getLogger().throwing("ModLoaderMp", "init", nosuchmethodexception);
+			ModLoader.ThrowException("An impossible error has occurred!", nosuchmethodexception);
 		}
 		catch (SecurityException securityexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", (Throwable) securityexception);
-			ModLoader.ThrowException("An impossible error has occurred!", (Throwable) securityexception);
+			ModLoader.getLogger().throwing("ModLoaderMp", "init", securityexception);
+			ModLoader.ThrowException("An impossible error has occurred!", securityexception);
 		}
 		Log("ModLoaderMP Beta 1.7.3 unofficial Initialized");
 	}

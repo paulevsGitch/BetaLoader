@@ -1164,7 +1164,7 @@ public class ModLoader {
 		if (vkeyBindingMap == null) {
 			vkeyBindingMap = new HashMap();
 		}
-		vkeyBindingMap.put(keyBinding, new boolean[] {allowRepeat});
+		vkeyBindingMap.put(keyBinding, new boolean[] {allowRepeat, false});
 		keyList.put(mod, vkeyBindingMap);
 	}
 	
