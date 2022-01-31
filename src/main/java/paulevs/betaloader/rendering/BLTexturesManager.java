@@ -62,6 +62,7 @@ public class BLTexturesManager {
 	
 	public static void onTextureRegister() {
 		addTexturesToAtlas(Atlases.getTerrain(), REGISTERED_BLOCKS);
+		addTexturesToAtlas(Atlases.getGuiItems(), REGISTERED_ITEMS);
 	}
 	
 	private static void addTexturesToAtlas(Atlas atlas, Map<Character, String> textures) {
