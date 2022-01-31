@@ -1,10 +1,16 @@
 package paulevs.betaloader.utilities;
 
+import com.google.common.collect.Maps;
 import net.fabricmc.loader.launch.common.FabricLauncherBase;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,8 +23,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 public class FileUtil {
 	public static void writeTextFile(Collection<String> lines, File file) {
@@ -119,5 +127,94 @@ public class FileUtil {
 			exception.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * Will save image file into specified location. Format will be extracted from file extension.
+	 * @param file {@link File} to save image into.
+	 * @param img {@link BufferedImage} to save.
+	 */
+	public static void saveImage(File file, BufferedImage img) {
+		String format = file.getName();
+		format = format.substring(format.lastIndexOf('.') + 1);
+		try {
+			file.getParentFile().mkdirs();
+			ImageIO.write(img, format, file);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Will make a zip file from spedified directory. All files will get names from relative path, directory will be root.
+	 * @param dirIn {@link File} directory to zip.
+	 * @param zipOut {@link File} in which directory will be saves as zip archive.
+	 */
+	public static void zipDirectory(File dirIn, File zipOut) {
+		int startPath = dirIn.getAbsolutePath().length() + 1;
+		Map<File, String> map = getFiles(dirIn, startPath);
+		byte[] bytes = new byte[1024];
+		
+		try {
+			FileOutputStream fileOut = new FileOutputStream(zipOut);
+			ZipOutputStream outputStream = new ZipOutputStream(fileOut);
+			map.forEach((file, name) -> {
+				try {
+					FileInputStream fileIn = new FileInputStream(file);
+					ZipEntry zipEntry = new ZipEntry(name);
+					outputStream.putNextEntry(zipEntry);
+					int length = fileIn.read(bytes);
+					while (length >= 0) {
+						outputStream.write(bytes, 0, length);
+						length = fileIn.read(bytes);
+					}
+					fileIn.close();
+				}
+				catch (IOException exception) {
+					exception.printStackTrace();
+				}
+			});
+			outputStream.close();
+			fileOut.close();
+		}
+		catch (IOException exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Get map for zipping directory.
+	 * @param file {@link File} to process.
+	 * @param startPath absolute path of root length.
+	 * @return {@link Map} of {@link File} as a key and {@link String} path as a value.
+	 */
+	private static Map<File, String> getFiles(File file, int startPath) {
+		Map<File, String> names = Maps.newHashMap();
+		if (file.isDirectory()) {
+			File[] files = file.listFiles();
+			for (File f: files) {
+				names.putAll(getFiles(f, startPath));
+			}
+		}
+		else if (file.isFile()) {
+			String name = file.getAbsolutePath();
+			names.put(file, name.substring(startPath).replace('\\', '/'));
+		}
+		return names;
+	}
+	
+	/**
+	 * Will recursively delete folder and all its content.
+	 * @param folder {@link File} to remove
+	 */
+	public static void deleteFolder(File folder) {
+		if (folder.isDirectory()) {
+			File[] files = folder.listFiles();
+			for (File f: files) {
+				deleteFolder(f);
+			}
+		}
+		folder.delete();
 	}
 }

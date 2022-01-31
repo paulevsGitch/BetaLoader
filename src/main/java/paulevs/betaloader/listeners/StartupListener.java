@@ -6,24 +6,38 @@ import net.minecraft.block.BlockBase;
 import net.minecraft.item.ItemBase;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
 import net.modificationstation.stationapi.api.event.mod.InitEvent;
+import net.modificationstation.stationapi.api.event.mod.PreInitEvent;
 import net.modificationstation.stationapi.api.registry.BlockRegistry;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import paulevs.betaloader.rendering.BLTexturesManager;
+import paulevs.betaloader.utilities.FakeModManager;
 import paulevs.betaloader.utilities.FileDownloader;
 import paulevs.betaloader.utilities.ModsStorage;
 
 public class StartupListener {
+	private boolean skipInit = false;
+	
+	@EventListener
+	public void init(PreInitEvent event) {
+		System.out.println("Pre Init!");
+	}
+	
 	@EventListener
 	public void init(InitEvent event) {
 		if (!FileDownloader.load()) {
 			System.out.println("Abort mod loading process");
+			skipInit = true;
 			return;
 		}
 		ModsStorage.process();
+		FakeModManager.initFakeMods();
 	}
 	
 	@EventListener
 	public void registerTextures(TextureRegisterEvent event) {
+		if (skipInit) {
+			return;
+		}
 		ModLoader.init();
 		BLTexturesManager.onTextureRegister();
 		fixRegistryEntries();

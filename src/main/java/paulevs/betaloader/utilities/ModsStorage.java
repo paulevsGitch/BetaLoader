@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ModsStorage {
-	private static final File MODS_FOLDER = new File(FabricLoader.getInstance().getGameDir().toString(), "mods");
+	public static final File MODS_FOLDER = new File(FabricLoader.getInstance().getGameDir().toString(), "mods");
 	private static final File CONVERTED_FOLDER = CacheStorage.getCacheFile("converted_mods");
 	private static final File MODS_DATA = CacheStorage.getCacheFile("mods.nbt");
 	
@@ -91,7 +91,7 @@ public class ModsStorage {
 			} return sideLoader;
 		}
 		
-		List<Path> paths = new ArrayList<Path>();
+		List<Path> paths = new ArrayList<>();
 		List<URL> urls = new ArrayList<>(FabricLauncherBase.getLauncher().getLoadTimeDependencies());
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			paths.add(FabricLoader.getInstance().getModContainer("betaloader").get().getRootPath());
