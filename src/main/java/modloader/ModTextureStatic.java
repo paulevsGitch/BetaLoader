@@ -10,8 +10,8 @@ public class ModTextureStatic extends TextureBinder {
 	private boolean oldanaglyph;
 	private int[] pixels;
 	
-	public ModTextureStatic(final int index, final int textureSize, final BufferedImage image) {
-		this(index, 1, textureSize, image);
+	public ModTextureStatic(final int index, final int renderMode, final BufferedImage image) {
+		this(index, 1, renderMode, image);
 	}
 	
 	public ModTextureStatic(final int index, final int textureSize, final int renderMode, final BufferedImage image) {

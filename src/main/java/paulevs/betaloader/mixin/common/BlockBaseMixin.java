@@ -17,6 +17,7 @@ public class BlockBaseMixin {
 	private static int betaloader_resolveIDs(int id) {
 		if (BY_ID[id] != null) {
 			System.out.print("Block id conflict resolving, from [" + id);
+			id = 1;
 			while (id < 255 && BY_ID[id] != null) {
 				id++;
 			}

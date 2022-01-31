@@ -29,6 +29,12 @@ public class BLTexturesManager {
 	private static final List<TextureBinder> ANIMATIONS = Lists.newArrayList();
 	private static final BufferedImage EMPTY = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 	
+	/**
+	 * Get empty texture slot for block texture from vanilla "terrain.png".
+	 * If there aren't any empty slots will throw {@link RuntimeException}.
+	 * @param name {@link String} texture to add.
+	 * @return integer texture index on atlas.
+	 */
 	public static int getBlockTexture(String name) {
 		Character c = VANILLA_BLOCKS.poll();
 		if (c != null) {
@@ -38,6 +44,12 @@ public class BLTexturesManager {
 		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
 	}
 	
+	/**
+	 * Get empty texture slot for item texture from vanilla "gui/items.png".
+	 * If there aren't any empty slots will throw {@link RuntimeException}.
+	 * @param name {@link String} texture to add.
+	 * @return integer texture index on atlas.
+	 */
 	public static int getItemTexture(String name) {
 		Character c = VANILLA_ITEMS.poll();
 		if (c != null) {
@@ -47,23 +59,47 @@ public class BLTexturesManager {
 		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
 	}
 	
+	/**
+	 * Will set block texture inside specified slot on atlas.
+	 * @param index integer texture index, starting from upper right corner horizontally.
+	 * @param name {@link String} texture to add.
+	 */
 	public static void setBlockTexture(int index, String name) {
 		REGISTERED_BLOCKS.put((char) index, name);
 	}
 	
+	/**
+	 * Will set item texture inside specified slot on atlas.
+	 * @param index integer texture index, starting from upper right corner horizontally.
+	 * @param name {@link String} texture to add.
+	 */
 	public static void setItemTexture(int index, String name) {
 		REGISTERED_ITEMS.put((char) index, name);
 	}
 	
+	/**
+	 * Add animation texture. Is not implemented yet.
+	 * @param animation
+	 */
+	// TODO implement animations
 	public static void addAnimation(TextureBinder animation) {
 		ANIMATIONS.add(animation);
 	}
 	
+	/**
+	 * This function is called when STAPI loads textures. For internal usage only.
+	 */
 	public static void onTextureRegister() {
 		addTexturesToAtlas(Atlases.getTerrain(), REGISTERED_BLOCKS);
 		addTexturesToAtlas(Atlases.getGuiItems(), REGISTERED_ITEMS);
 	}
 	
+	/**
+	 * Will add all textures from map into atlas.
+	 * @param atlas {@link Atlas} to add textures in.
+	 * @param textures {link Map} of textures with char texture ID and {@link String} texture path.
+	 */
+	// TODO use texture scale as is whe STAPI will update texture rendering
 	private static void addTexturesToAtlas(Atlas atlas, Map<Character, String> textures) {
 		atlas.bindAtlas();
 		int[] rgb = new int[256];
@@ -75,7 +111,13 @@ public class BLTexturesManager {
 				System.out.println("Texture " + path + " have wrong dimensions: " + texture.getWidth() + " " + texture.getHeight());
 				BufferedImage rescaled = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 				Graphics g = rescaled.getGraphics();
-				g.drawImage(texture, 0, 0, null);
+				if (texture.getWidth() > 16 || texture.getHeight() > 16) {
+					System.out.println("Texture is too big, rescale to 16x16");
+					g.drawImage(texture, 0, 0, 16, 16, null);
+				}
+				else {
+					g.drawImage(texture, 0, 0, null);
+				}
 				texture = rescaled;
 			}
 			texture.getRGB(0, 0, 16, 16, rgb, 0, 16);
@@ -89,6 +131,11 @@ public class BLTexturesManager {
 		});
 	}
 	
+	/**
+	 * Load texture from path.
+	 * @param path {@link String} texture path.
+	 * @return {@link BufferedImage} texture.
+	 */
 	private static BufferedImage loadTexture(String path) {
 		InputStream stream = BLTexturesManager.class.getResourceAsStream(path);
 		if (stream != null) {
