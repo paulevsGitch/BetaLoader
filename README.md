@@ -20,6 +20,12 @@ Some mods were taken from [Station API Discord](https://discord.gg/8Qky5XY)
 - [Tinted Glass](https://www.mediafire.com/file/ihkw55b1gvx77sz/Tinted_Glass.zip/file)
 - [Quit Button](https://www.mediafire.com/file/dbstumoktdgjk1v/mod_QuitButton.zip/file)
 - [WizardCraft](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/WizardCraft_b173.zip)
+- [MoreFurnaces](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/moreFurnaces_1.0_Client-forgeCubeX2_b173.zip)
+- [AirShip](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/airshipV2.51_b173.zip)
+- [Clay Soliders](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/ClaySoldierModV3_b173.zip)
+- [MineEssence](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/MineEssence_V1r3_b173.zip)
+- [ArmorStand](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/ArmorStand_b173.zip)
+
 
 Mods that I used for tests from no-public sources:
 - Custom Twilight Forest (provided by GameHerobrine)
