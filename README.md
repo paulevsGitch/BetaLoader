@@ -13,7 +13,8 @@ Current realisation can't launch any ModLoader mod, only mods without base edits
 ### Mods that will work (tested):
 some mods were taken from [Station API Discord](https://discord.gg/8Qky5XY)
 - [Twilight Forest 1p4](https://www.minezone.pro/download/mods/1142-173the-twilight-forest-v01p4.html)
-- Twilight Forest by GameHerobrine
+- Custom Twilight Forest (provided by GameHerobrine)
+- TaleOfKingdom (provided by GameHerobrine)
 - [Wood Chipper](https://www.planetminecraft.com/mod/beta-1-7-3-modloader-modloadermp-wood-chipper/)
 - [Blackstone v1.1](https://github.com/LO6AN/MC-Addons/raw/main/Beta%201.7.3/%5BBeta%201.7.3%5D%20Blackstone%20v1.1.zip)
 - [LaunchPad](https://www.mediafire.com/file/7z1n85b7yikqcvn/mod_LaunchPad.zip/file)
