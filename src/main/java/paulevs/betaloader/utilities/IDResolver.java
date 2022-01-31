@@ -2,6 +2,7 @@ package paulevs.betaloader.utilities;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -14,10 +15,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class IDResolver {
 	private static final Map<String, Map<Character, Character>> ID_MAP = Maps.newHashMap();
+	private static final Set<Character> USED_IDS = Sets.newHashSet();
 	private static final AtomicBoolean SAVE_CONFIG = new AtomicBoolean(false);
 	
 	/**
@@ -39,9 +42,10 @@ public class IDResolver {
 			return getFreeBlockID();
 		});
 		
-		if (BlockBase.BY_ID[id] != null) {
+		if (BlockBase.BY_ID[newID] != null) {
 			newID = getFreeBlockID();
 			modMap.put((char) id, (char) newID);
+			USED_IDS.add((char) newID);
 			SAVE_CONFIG.set(true);
 		}
 		
@@ -84,6 +88,7 @@ public class IDResolver {
 				int fromID = Integer.parseInt(name.substring(index1 + 1, index2).trim());
 				int toID = blockEntry.getValue().getAsInt();
 				modMap.put((char) fromID, (char) toID);
+				USED_IDS.add((char) toID);
 			});
 		});
 	}
@@ -127,7 +132,7 @@ public class IDResolver {
 	 */
 	private static char getFreeBlockID() {
 		for (char id = 1; id < 256; id++) {
-			if (BlockBase.BY_ID[id] == null) {
+			if (BlockBase.BY_ID[id] == null && !USED_IDS.contains(id)) {
 				return id;
 			}
 		}
