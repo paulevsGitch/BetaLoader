@@ -248,6 +248,7 @@ public class ModLoader {
 	 * @param modEntry {@link ModEntry} for the mod.
 	 */
 	private static void addMod(ClassLoader loader, ModEntry modEntry) {
+		ModsStorage.loadingMod = modEntry;
 		String modID = modEntry.getModID();
 		File modFile = modEntry.getModConvertedFile();
 		String modClassName = modEntry.getClasspath() + "." + modEntry.getMainClass();
@@ -610,6 +611,7 @@ public class ModLoader {
 				}
 			}
 			standardBiomes = biomeList.toArray(new Biome[0]);
+			ModsStorage.loadingMod = null;
 		}
 		catch (SecurityException exception) {
 			logger.throwing("ModLoader", "init", exception);

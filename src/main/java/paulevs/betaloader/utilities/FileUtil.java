@@ -29,6 +29,7 @@ import java.util.zip.ZipOutputStream;
 
 public class FileUtil {
 	public static void writeTextFile(Collection<String> lines, File file) {
+		file.getParentFile().mkdirs();
 		try {
 			FileWriter fileWriter = new FileWriter(file);
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);

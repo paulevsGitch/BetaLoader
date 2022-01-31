@@ -19,11 +19,11 @@ Some mods were taken from [Station API Discord](https://discord.gg/8Qky5XY)
 - [MovableSlot](https://www.mediafire.com/file/fxmskd1ywiwsdzs/mod_MovableSlot.zip/file)
 - [Tinted Glass](https://www.mediafire.com/file/ihkw55b1gvx77sz/Tinted_Glass.zip/file)
 - [Quit Button](https://www.mediafire.com/file/dbstumoktdgjk1v/mod_QuitButton.zip/file)
+- [WizardCraft](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/WizardCraft_b173.zip)
 
 Mods that I used for tests from no-public sources:
 - Custom Twilight Forest (provided by GameHerobrine)
 - TaleOfKingdom (provided by GameHerobrine)
-- WizardCraft (provided by GameHerobrine)
 
 ### Plans For Enhancements (TODO):
 - Handle access for some mods that uses protected Minecraft classes;

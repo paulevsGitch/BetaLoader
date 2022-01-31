@@ -32,6 +32,7 @@ public class ModsStorage {
 	private static final List<ModEntry> PATCHED_MODS = new ArrayList<>();
 	
 	private static ClassLoader sideLoader;
+	public static ModEntry loadingMod;
 	
 	// TODO replace JarJar with tiny remapper additional mappings
 	public static void process() {
