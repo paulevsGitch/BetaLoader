@@ -44,13 +44,15 @@ public class ModsStorage {
 		List<ModEntry> addMods = new ArrayList<>();
 		
 		for (File mod: modsInFolder) {
-			ModEntry entry = ModEntry.makeEntry(mod, CONVERTED_FOLDER);
-			if (entry == null) {
-				continue;
-			}
-			PATCHED_MODS.add(entry);
-			if (entry.requireUpdate(modsData)) {
-				addMods.add(entry);
+			if (mod.isFile() && (mod.getName().endsWith(".zip") || mod.getName().endsWith(".jar"))) {
+				ModEntry entry = ModEntry.makeEntry(mod, CONVERTED_FOLDER);
+				if (entry == null) {
+					continue;
+				}
+				PATCHED_MODS.add(entry);
+				if (entry.requireUpdate(modsData)) {
+					addMods.add(entry);
+				}
 			}
 		}
 		

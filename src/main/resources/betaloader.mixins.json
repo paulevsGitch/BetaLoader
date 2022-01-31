@@ -19,7 +19,9 @@
 		"client.EntityRenderDispatcherMixin",
 		"client.GameStartupErrorPanelMixin",
 		"client.BlockRendererMixin",
-		"client.DisconnectingMixin"
+		"client.DisconnectingMixin",
+		"client.GameRendererMixin",
+		"client.BlockBaseMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

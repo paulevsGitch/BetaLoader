@@ -46,8 +46,8 @@ import paulevs.betaloader.mixin.common.EntityRegistryAccessor;
 import paulevs.betaloader.mixin.common.TileEntityBaseAccessor;
 import paulevs.betaloader.remapping.ModEntry;
 import paulevs.betaloader.remapping.RemapUtil;
+import paulevs.betaloader.rendering.BLTexturesManager;
 import paulevs.betaloader.rendering.BlockRendererData;
-import paulevs.betaloader.utilities.FileDownloader;
 import paulevs.betaloader.utilities.JavassistUtil;
 import paulevs.betaloader.utilities.ModsStorage;
 
@@ -81,7 +81,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class ModLoader {
-	private static final List<TextureBinder> animList = new LinkedList();
 	private static final Map<Integer, BaseMod> blockModels = new HashMap();
 	private static final Map<Integer, Boolean> blockSpecialInv = new HashMap();
 	private static final File cfgdir = new File(Minecraft.getGameDirectory(), "/config/");
@@ -111,12 +110,7 @@ public class ModLoader {
 	private static final Map<Integer, Map<String, Integer>> overrides = new HashMap();
 	public static final Properties props = new Properties();
 	private static Biome[] standardBiomes;
-	private static int terrainSpriteIndex = 0;
-	private static int terrainSpritesLeft = 0;
 	private static String texPack = null;
-	private static boolean texturesAdded = false;
-	private static final boolean[] usedItemSprites = new boolean[256];
-	private static final boolean[] usedTerrainSprites = new boolean[256];
 	public static final String VERSION = "ModLoader Beta 1.7.3";
 	
 	/**
@@ -182,7 +176,6 @@ public class ModLoader {
 	 * @param rendererMap
 	 */
 	public static void AddAllRenderers(Map<Class<? extends EntityBase>, EntityRenderer> rendererMap) {
-		init();
 		for (BaseMod mod : modList) {
 			mod.AddRenderer(rendererMap);
 		}
@@ -194,13 +187,7 @@ public class ModLoader {
 	 */
 	public static void addAnimation(TextureBinder animation) {
 		logger.finest("Adding animation " + animation.toString());
-		for (TextureBinder textureBinder : animList) {
-			if ((textureBinder.renderMode == animation.renderMode) && (textureBinder.index == animation.index)) {
-				animList.remove(animation);
-				break;
-			}
-		}
-		animList.add(animation);
+		BLTexturesManager.addAnimation(animation);
 	}
 	
 	/**
@@ -332,7 +319,13 @@ public class ModLoader {
 	 */
 	public static int addOverride(String fileToOverride, String fileToAdd) {
 		try {
-			int spriteIndex = getUniqueSpriteIndex(fileToOverride);
+			int spriteIndex = -1;
+			if (fileToOverride.equals("/terrain.png")) {
+				spriteIndex = BLTexturesManager.getBlockTexture(fileToAdd);
+			}
+			else if (fileToOverride.equals("/gui/items.png")) {
+				spriteIndex = BLTexturesManager.getItemTexture(fileToAdd);
+			}
 			addOverride(fileToOverride, fileToAdd, spriteIndex);
 			return spriteIndex;
 		}
@@ -350,27 +343,18 @@ public class ModLoader {
 	 * @param index
 	 */
 	public static void addOverride(String path, String overlayPath, int index) {
-		int textureType;
-		int atlasID;
 		if (path.equals("/terrain.png")) {
-			textureType = 0;
-			atlasID = terrainSpritesLeft;
+			BLTexturesManager.setBlockTexture(index, overlayPath);
 		}
 		else if (path.equals("/gui/items.png")) {
-			textureType = 1;
-			atlasID = itemSpritesLeft;
+			BLTexturesManager.setItemTexture(index, overlayPath);
 		}
 		else {
 			return;
 		}
-		System.out.println("Overriding " + path + " with " + overlayPath + " @ " + index + ". " + atlasID + " left.");
-		logger.finer("addOverride(" + path + "," + overlayPath + "," + index + "). " + atlasID + " left.");
-		Map<String, Integer> overrideMap = overrides.get(Integer.valueOf(textureType));
-		if (overrideMap == null) {
-			overrideMap = new HashMap();
-			overrides.put(Integer.valueOf(textureType), overrideMap);
-		}
-		overrideMap.put(overlayPath, Integer.valueOf(index));
+		
+		System.out.println("Overriding " + path + " with " + overlayPath + " @ " + index + ". terrain.png left.");
+		logger.finer("addOverride(" + path + "," + overlayPath + "," + index + "). gui/items.png left.");
 	}
 	
 	/**
@@ -594,85 +578,15 @@ public class ModLoader {
 		return highestEntityId++;
 	}
 	
-	/**
-	 * Gets next available index for this sprite map.
-	 * @return
-	 */
-	private static int getUniqueItemSpriteIndex() {
-		for (; itemSpriteIndex < usedItemSprites.length; itemSpriteIndex += 1) {
-			if (!usedItemSprites[itemSpriteIndex]) {
-				usedItemSprites[itemSpriteIndex] = true;
-				itemSpritesLeft -= 1;
-				return itemSpriteIndex++;
-			}
-		}
-		Exception exception = new Exception("No more empty item sprite indices left!");
-		logger.throwing("ModLoader", "getUniqueItemSpriteIndex", exception);
-		ThrowException(exception);
-		return 0;
-	}
-	
-	/**
-	 * Gets next available index for this sprite map.
-	 * @param path
-	 * @return
-	 */
-	public static int getUniqueSpriteIndex(String path) {
-		if (path.equals("/gui/items.png")) {
-			return getUniqueItemSpriteIndex();
-		}
-		if (path.equals("/terrain.png")) {
-			return getUniqueTerrainSpriteIndex();
-		}
-		Exception v1 = new Exception("No registry for this texture: " + path);
-		logger.throwing("ModLoader", "getUniqueItemSpriteIndex", v1);
-		ThrowException(v1);
-		return 0;
-	}
-	
-	private static int getUniqueTerrainSpriteIndex() {
-		for (; terrainSpriteIndex < usedTerrainSprites.length; terrainSpriteIndex += 1) {
-			if (!usedTerrainSprites[terrainSpriteIndex]) {
-				usedTerrainSprites[terrainSpriteIndex] = true;
-				terrainSpritesLeft -= 1;
-				return terrainSpriteIndex++;
-			}
-		}
-		Exception exception = new Exception("No more empty terrain sprite indices left!");
-		logger.throwing("ModLoader", "getUniqueItemSpriteIndex", exception);
-		ThrowException(exception);
-		return 0;
-	}
-	
 	public static void init() {
 		if (hasInit) {
 			return;
 		}
 		
-		if (!FileDownloader.load()) {
-			System.out.println("Abort loading process");
-			return;
-		}
-		ModsStorage.process();
-		
 		hasInit = true;
 		
-		String availableItems = "1111111111111111111111111111111111111101111111011111111111111001111111111111111111111111111011111111100110000011111110000000001111111001100000110000000100000011000000010000001100000000000000110000000000000000000000000000000000000000000000001100000000000000";
-		String availableBlock = "1111111111111111111111111111110111111111111111111111110111111111111111111111000111111011111111111111001111111110111111111111100011111111000010001111011110000000111111000000000011111100000000001111000000000111111000000000001101000000000001111111111111000011";
-		
-		for (int i = 0; i < 256; i++) {
-			usedItemSprites[i] = availableItems.charAt(i) == '1';
-			if (!usedItemSprites[i]) {
-				itemSpritesLeft += 1;
-			}
-			usedTerrainSprites[i] = availableBlock.charAt(i) == '1';
-			if (!usedTerrainSprites[i]) {
-				terrainSpritesLeft += 1;
-			}
-		}
 		try {
-			instance = getPrivateValue(Minecraft.class, null, 1);
-			instance.gameRenderer = new EntityRendererProxy(instance);
+			instance = getMinecraftInstance();
 			classMap = getPrivateValue(EntityRegistry.class, null, 0);
 			field_modifiers = Field.class.getDeclaredField("modifiers");
 			field_modifiers.setAccessible(true);
@@ -748,6 +662,7 @@ public class ModLoader {
 					props.setProperty(mod.getClass().getName(), "on");
 				}
 			}
+			System.out.println("Instance: " + instance);
 			instance.options.keyBindings = RegisterAllKeys(instance.options.keyBindings);
 			instance.options.load();
 			
@@ -895,14 +810,8 @@ public class ModLoader {
 	 * @param minecraft
 	 */
 	public static void OnTick(Minecraft minecraft) {
-		init();
 		if (ModLoader.texPack == null || minecraft.options.skin != ModLoader.texPack) {
-			ModLoader.texturesAdded = false;
 			ModLoader.texPack = minecraft.options.skin;
-		}
-		if (!ModLoader.texturesAdded && minecraft.textureManager != null) {
-			RegisterAllTextureOverrides(minecraft.textureManager);
-			ModLoader.texturesAdded = true;
 		}
 		long time = 0L;
 		if (minecraft.level != null) {
@@ -957,7 +866,6 @@ public class ModLoader {
 	 * @param screenBase
 	 */
 	public static void OpenGUI(PlayerBase playerBase, ScreenBase screenBase) {
-		init();
 		Minecraft minecraft = getMinecraftInstance();
 		if (minecraft.player != playerBase) {
 			return;
@@ -975,7 +883,6 @@ public class ModLoader {
 	 * @param level
 	 */
 	public static void PopulateChunk(LevelSource levelSource, int chunkX, int chunkZ, Level level) {
-		init();
 		Random random = new Random(level.getSeed());
 		long offsetX = random.nextLong() / 2L * 2L + 1L;
 		long offsetZ = random.nextLong() / 2L * 2L + 1L;
@@ -1050,7 +957,7 @@ public class ModLoader {
 	 * Processes all registered texture overrides.
 	 * @param manager
 	 */
-	public static void RegisterAllTextureOverrides(TextureManager manager) {
+	/*public static void RegisterAllTextureOverrides(TextureManager manager) {
 		animList.clear();
 		Minecraft minecraft = getMinecraftInstance();
 		for (final BaseMod mod : modList) {
@@ -1076,7 +983,7 @@ public class ModLoader {
 				}
 			}
 		}
-	}
+	}*/
 	
 	/**
 	 * Adds block to list of blocks the player can use.
@@ -1099,17 +1006,20 @@ public class ModLoader {
 			List<BlockBase> v1 = (List) field_blockList.get(null);
 			v1.add(block);
 			
-			Block v3;
+			Block item;
 			int blockID = block.id;
 			if (itemclass != null) {
-				v3 = itemclass.getConstructor(new Class[] {Integer.TYPE}).newInstance(new Object[] {Integer.valueOf(blockID - 256)});
+				item = itemclass.getConstructor(Integer.TYPE).newInstance(blockID - 256);
 			}
 			else {
-				v3 = new Block(blockID - 256);
+				item = new Block(blockID - 256);
 			}
 			if ((BlockBase.BY_ID[blockID] != null) && (ItemBase.byId[blockID] == null)) {
-				ItemBase.byId[blockID] = v3;
+				ItemBase.byId[blockID] = item;
 			}
+			//Identifier id = Identifier.of("betaloader:" + block.getTranslationKey());
+			//BlockRegistry.INSTANCE.register(id, block);
+			//ItemRegistry.INSTANCE.register(id, item);
 		}
 		catch (IllegalArgumentException exception) {
 			logger.throwing("ModLoader", "RegisterBlock", exception);

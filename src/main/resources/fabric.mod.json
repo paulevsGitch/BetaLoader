@@ -19,6 +19,11 @@
 	"icon": "assets/betaloader/icon.png",
 
 	"environment": "*",
+	"entrypoints": {
+		"stationapi:event_bus": [
+			"paulevs.betaloader.listeners.StartupListener"
+		]
+	},
 	"mixins": [
 		"betaloader.mixins.json"
 	],
