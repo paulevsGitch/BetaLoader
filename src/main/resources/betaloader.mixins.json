@@ -21,8 +21,7 @@
 		"client.GameStartupErrorPanelMixin",
 		"client.BlockRendererMixin",
 		"client.DisconnectingMixin",
-		"client.GameRendererMixin",
-		"client.BlockBaseMixin"
+		"client.GameRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

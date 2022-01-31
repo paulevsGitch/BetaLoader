@@ -33,7 +33,6 @@ public class BLTexturesManager {
 		Character c = VANILLA_BLOCKS.poll();
 		if (c != null) {
 			REGISTERED_BLOCKS.put(c, name);
-			System.out.println("Texture: " + (int) c);
 			return c.charValue();
 		}
 		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
@@ -72,6 +71,13 @@ public class BLTexturesManager {
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		textures.forEach((id, path) -> {
 			BufferedImage texture = loadTexture(path);
+			if (texture.getWidth() != 16 || texture.getHeight() != 16) {
+				System.out.println("Texture " + path + " have wrong dimensions: " + texture.getWidth() + " " + texture.getHeight());
+				BufferedImage rescaled = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+				Graphics g = rescaled.getGraphics();
+				g.drawImage(texture, 0, 0, null);
+				texture = rescaled;
+			}
 			texture.getRGB(0, 0, 16, 16, rgb, 0, 16);
 			for (int i = 0; i < 256; i++) {
 				buffer.putInt(rgb[i]);

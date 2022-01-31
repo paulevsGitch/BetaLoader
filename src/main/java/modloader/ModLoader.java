@@ -352,9 +352,6 @@ public class ModLoader {
 		else {
 			return;
 		}
-		
-		System.out.println("Overriding " + path + " with " + overlayPath + " @ " + index + ". terrain.png left.");
-		logger.finer("addOverride(" + path + "," + overlayPath + "," + index + "). gui/items.png left.");
 	}
 	
 	/**
