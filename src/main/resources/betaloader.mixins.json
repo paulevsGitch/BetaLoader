@@ -11,6 +11,7 @@
 		"common.TileEntityFurnaceMixin",
 		"common.ServerChunkCacheMixin",
 		"common.CraftingResultMixin",
+		"common.BlockBaseMixin",
 		"common.DispenserMixin",
 		"common.ItemMixin"
 	],

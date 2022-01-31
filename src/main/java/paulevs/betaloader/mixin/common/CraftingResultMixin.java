@@ -16,7 +16,7 @@ public class CraftingResultMixin {
 	private PlayerBase player;
 	
 	@Inject(method = "onCrafted", at = @At(value = "HEAD"))
-	private void modloader_onCrafted(ItemInstance stack, CallbackInfo info) {
+	private void betaloader_onCrafted(ItemInstance stack, CallbackInfo info) {
 		ModLoader.TakenFromCrafting(player, stack);
 	}
 }

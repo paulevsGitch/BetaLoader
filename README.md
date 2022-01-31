@@ -18,6 +18,8 @@ some mods were taken from [Station API Discord](https://discord.gg/8Qky5XY)
 - [Blackstone v1.1](https://github.com/LO6AN/MC-Addons/raw/main/Beta%201.7.3/%5BBeta%201.7.3%5D%20Blackstone%20v1.1.zip)
 - [LaunchPad](https://www.mediafire.com/file/7z1n85b7yikqcvn/mod_LaunchPad.zip/file)
 - [MovableSlot](https://www.mediafire.com/file/fxmskd1ywiwsdzs/mod_MovableSlot.zip/file)
+- [Tinted Glass](https://www.mediafire.com/file/ihkw55b1gvx77sz/Tinted_Glass.zip/file)
+- [Quit Button](https://www.mediafire.com/file/dbstumoktdgjk1v/mod_QuitButton.zip/file)
 
 ### Plans For Enhancements (TODO):
 - Handle access for some mods that uses protected Minecraft classes;
