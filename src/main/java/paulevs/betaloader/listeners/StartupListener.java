@@ -20,7 +20,6 @@ public class StartupListener {
 			return;
 		}
 		ModsStorage.process();
-		//ModLoader.init();
 	}
 	
 	@EventListener
