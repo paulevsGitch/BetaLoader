@@ -12,7 +12,8 @@ Current realisation can't launch any ModLoader mod, only mods without base edits
 
 ### Mods that will work (tested):
 - [Twilight Forest 1p4](https://www.minezone.pro/download/mods/1142-173the-twilight-forest-v01p4.html)
-- [Wood Chipper](https://www.planetminecraft.com/mod/beta-1-7-3-modloader-modloadermp-wood-chipper/), partially (WIP)
+- Twilight Forest by GameHerobrine
+- [Wood Chipper](https://www.planetminecraft.com/mod/beta-1-7-3-modloader-modloadermp-wood-chipper/)
 
 ### Plans For Enhancements (TODO):
 - Handle access for some mods that uses protected Minecraft classes;

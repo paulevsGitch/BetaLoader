@@ -72,7 +72,6 @@ public class BLTexturesManager {
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		textures.forEach((id, path) -> {
 			BufferedImage texture = loadTexture(path);
-			System.out.println(texture);
 			texture.getRGB(0, 0, 16, 16, rgb, 0, 16);
 			for (int i = 0; i < 256; i++) {
 				buffer.putInt(rgb[i]);
