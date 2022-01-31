@@ -20,6 +20,12 @@ public class IDResolver {
 	private static final Map<String, Map<Character, Character>> ID_MAP = Maps.newHashMap();
 	private static final AtomicBoolean SAVE_CONFIG = new AtomicBoolean(false);
 	
+	/**
+	 * Will get new ID for block if original ID is already in use.
+	 * @param mod {@link ModEntry} mod where block is from. Vanilla should have null.
+	 * @param id original block integer id.
+	 * @return new block integer id.
+	 */
 	public static int getBlockID(ModEntry mod, final int id) {
 		if (mod == null) {
 			return id;
@@ -30,11 +36,11 @@ public class IDResolver {
 			if (BlockBase.BY_ID[id] == null) {
 				return (char) id;
 			}
-			return getID();
+			return getFreeBlockID();
 		});
 		
 		if (BlockBase.BY_ID[id] != null) {
-			newID = getID();
+			newID = getFreeBlockID();
 			modMap.put((char) id, (char) newID);
 			SAVE_CONFIG.set(true);
 		}
@@ -42,6 +48,9 @@ public class IDResolver {
 		return newID;
 	}
 	
+	/**
+	 * Will load ID resolver config, for internal usage only.
+	 */
 	public static void loadConfig() {
 		File configFolder = FabricLoader.getInstance().getConfigDir().toFile();
 		File configFile = new File(configFolder, "betaloader/idresolver.json");
@@ -70,15 +79,18 @@ public class IDResolver {
 			JsonObject blocks = modEntry.getValue().getAsJsonObject();
 			blocks.entrySet().forEach(blockEntry -> {
 				String name = blockEntry.getKey();
-				int index1 = name.lastIndexOf('[');
+				int index1 = name.lastIndexOf(':');
 				int index2 = name.lastIndexOf(']');
-				int fromID = Integer.parseInt(name.substring(index1 + 1, index2));
+				int fromID = Integer.parseInt(name.substring(index1 + 1, index2).trim());
 				int toID = blockEntry.getValue().getAsInt();
 				modMap.put((char) fromID, (char) toID);
 			});
 		});
 	}
 	
+	/**
+	 * Will save ID resolver config, for internal usage only.
+	 */
 	public static void saveConfig() {
 		if (!SAVE_CONFIG.get()) {
 			return;
@@ -110,11 +122,10 @@ public class IDResolver {
 		FileUtil.writeTextFile(Lists.newArrayList(configLine), configFile);
 	}
 	
-	public static void test() {
-		System.out.println(ID_MAP);
-	}
-	
-	private static char getID() {
+	/**
+	 * Get first available block ID.
+	 */
+	private static char getFreeBlockID() {
 		for (char id = 1; id < 256; id++) {
 			if (BlockBase.BY_ID[id] == null) {
 				return id;

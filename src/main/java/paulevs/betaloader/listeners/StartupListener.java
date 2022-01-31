@@ -17,6 +17,10 @@ import paulevs.betaloader.utilities.ModsStorage;
 public class StartupListener {
 	private boolean skipInit = false;
 	
+	/**
+	 * Init event, will load configs, remap mods and init entries.
+	 * @param event
+	 */
 	@EventListener
 	public void onInit(InitEvent event) {
 		if (!FileDownloader.load()) {
@@ -29,6 +33,10 @@ public class StartupListener {
 		FakeModManager.initFakeMods();
 	}
 	
+	/**
+	 * Will init modloader, load classes and make textures.
+	 * @param event
+	 */
 	@EventListener
 	public void registerTextures(TextureRegisterEvent event) {
 		if (skipInit) {
