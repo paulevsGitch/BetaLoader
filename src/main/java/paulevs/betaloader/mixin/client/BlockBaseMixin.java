@@ -1,9 +1,6 @@
 package paulevs.betaloader.mixin.client;
 
 import net.minecraft.block.BlockBase;
-import net.modificationstation.stationapi.api.client.texture.atlas.Atlas;
-import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
-import net.modificationstation.stationapi.api.client.texture.atlas.CustomAtlasProvider;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(BlockBase.class)

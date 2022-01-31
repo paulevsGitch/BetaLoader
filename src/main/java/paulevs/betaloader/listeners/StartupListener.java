@@ -4,7 +4,6 @@ import modloader.ModLoader;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
 import net.modificationstation.stationapi.api.event.mod.InitEvent;
-import net.modificationstation.stationapi.api.event.mod.PostInitEvent;
 import paulevs.betaloader.rendering.BLTexturesManager;
 import paulevs.betaloader.utilities.FileDownloader;
 import paulevs.betaloader.utilities.ModsStorage;

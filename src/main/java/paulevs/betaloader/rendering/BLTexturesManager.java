@@ -2,14 +2,11 @@ package paulevs.betaloader.rendering;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.sun.deploy.util.BufferUtil;
 import net.minecraft.client.render.TextureBinder;
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlas;
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL20;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
@@ -18,8 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.util.HashMap;
+import java.nio.ByteOrder;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +67,8 @@ public class BLTexturesManager {
 	private static void addTexturesToAtlas(Atlas atlas, Map<Character, String> textures) {
 		atlas.bindAtlas();
 		int[] rgb = new int[256];
-		ByteBuffer buffer = BufferUtils.createByteBuffer(rgb.length << 2);
+		ByteBuffer buffer = ByteBuffer.allocateDirect(rgb.length << 2);
+		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		textures.forEach((id, path) -> {
 			BufferedImage texture = loadTexture(path);
 			System.out.println(texture);
