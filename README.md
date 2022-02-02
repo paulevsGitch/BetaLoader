@@ -46,6 +46,10 @@ Some mods were taken from [Station API Discord](https://discord.gg/8Qky5XY)
 - [MineColony](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/MineColony0.7rc13_b173.zip)
 - [TropiCraftMP (custom)](https://www.mediafire.com/file/us6ghhj3v77pwtt/TropicraftMP+ClientV1.3.zip)
 - [Fossil](https://b2.mcarchive.net/file/mcarchive/162cdb138c7a1824fa25e3435f0cac7c6a3f2dfd647c066c4875c61d1656bc73/mod_Fossil.zip)
+- [IndustrialCraft1v8.50](https://b2.mcarchive.net/file/mcarchive/c3fa2e5d5469638aac0b3daf0e2a9eb6b07047ca39649cd3eff359bfb07d6aa0/IndustrialCraft_v8.50.zip)
+- [EquivalentExchangev2.08b](https://b2.mcarchive.net/file/mcarchive/fdb6a12235f6cbdf2f1a2f8e5b30ea4f9f1acde7367beec07857506cb7d0ccd5/ee-v2.08b.zip)
+- [IronFence](https://b2.mcarchive.net/file/mcarchive/0a0e191464ade1759256f02e4700b5a7009ae1917330936524421acb95f8c7c6/IronFence_1-2_1-7-3.zip)
+- [MineFactoryReloaded](http://www.mediafire.com/file/sb6x1zxf627breb/MinefactoryReloaded_Client_1.1.2.zip/file)
 
 Mods that I used for tests from no-public sources:
 - Custom Twilight Forest (provided by GameHerobrine)
