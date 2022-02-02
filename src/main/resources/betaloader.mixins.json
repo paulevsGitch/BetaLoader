@@ -11,8 +11,10 @@
 		"common.TileEntityFurnaceMixin",
 		"common.ServerChunkCacheMixin",
 		"common.CraftingResultMixin",
+		"common.PlayerBaseMixin",
 		"common.BlockBaseMixin",
 		"common.DispenserMixin",
+		"common.ItemBaseMixin",
 		"common.ItemMixin"
 	],
 	"client": [

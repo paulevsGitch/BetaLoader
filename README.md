@@ -2,8 +2,25 @@
   <img src="https://github.com/paulevsGitch/BetaLoader/blob/main/logo.png" />
 </p>
 
-BetaLoader is a port of Risugami's ModLoader and ModLoaderMP for Station API (STAPI), for Minecraft beta 1.7.3.
+BetaLoader is a port of Risugami's ModLoader, ModLoaderMP and Forge for Station API (STAPI), for Minecraft beta 1.7.3.
 Current realisation can't launch any ModLoader mod, only mods without base edits (which are installed by placing them into mods folder).
+
+Some functions are incomplete, if you see any bugs please report them into issues.
+Forge version is 1.0.6.
+
+### Credits:
+- Modloader and ModloaderMP were made by Risugami: https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/minecraft-mods/1272333-risugamis-mods-updated
+- Forge was made by (from inner credits list):
+  * Eloraam
+  * FlowerChild
+  * Hawkye
+  * MALfunction84
+  * Scokeev9
+  * SpaceToad
+
+
+- Forge credits are located in [minecraftforge_credits.txt](src/main/java/forge/minecraftforge_credits.txt)
+- Forge license is located in [forge-licence.txt](forge-licence.txt)
 
 ### How It Works:
 - BetaLoader will download some necessary libraries on startup (Minecraft Client and Javassist). This is done this way due to ARR license;

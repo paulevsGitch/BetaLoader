@@ -263,6 +263,29 @@ public class RemapUtil {
 			mappings.add(makeLoaderLine("ISpawnable", "modloadermp/ISpawnable"));
 			mappings.add(makeLoaderLine("BaseModMp", "modloadermp/BaseModMp"));
 			
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IBlockSecondaryProperties", "forge/IBlockSecondaryProperties"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/BlockTextureParticles", "forge/BlockTextureParticles"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IArmorTextureProvider", "forge/IArmorTextureProvider"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/MinecraftForgeClient", "forge/MinecraftForgeClient"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IDestroyToolHandler", "forge/IDestroyToolHandler"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/ISpecialResistance", "forge/ISpecialResistance"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IHighlightHandler", "forge/IHighlightHandler"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/ForgeHooksClient", "forge/ForgeHooksClient"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IConnectRedstone", "forge/IConnectRedstone"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/ICraftingHandler", "forge/ICraftingHandler"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IMultipassRender", "forge/IMultipassRender"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IOverrideReplace", "forge/IOverrideReplace"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/ITextureProvider", "forge/ITextureProvider"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/ArmorProperties", "forge/ArmorProperties"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IBucketHandler", "forge/IBucketHandler"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/MinecraftForge", "forge/MinecraftForge"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/Configuration", "forge/Configuration"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/ISleepHandler", "forge/ISleepHandler"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/ISpecialArmor", "forge/ISpecialArmor"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/IUseItemFirst", "forge/IUseItemFirst"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/ForgeHooks", "forge/ForgeHooks"));
+			mappings.add(makeLoaderLine("net/minecraft/src/forge/Property", "forge/Property"));
+			
 			FileUtil.writeTextFile(mappings, LOADER_MAPPINGS);
 		}
 	}
