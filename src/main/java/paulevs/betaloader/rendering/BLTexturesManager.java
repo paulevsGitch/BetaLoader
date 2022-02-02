@@ -2,6 +2,8 @@ package paulevs.betaloader.rendering;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import modloader.ModLoader;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.TextureBinder;
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlas;
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlases;
@@ -116,6 +118,11 @@ public class BLTexturesManager {
 	public static void onTextureRegister() {
 		addTexturesToAtlas(Atlases.getTerrain(), REGISTERED_BLOCKS);
 		addTexturesToAtlas(Atlases.getGuiItems(), REGISTERED_ITEMS);
+		
+		Minecraft minecraft = ModLoader.getMinecraftInstance();
+		ANIMATIONS.forEach(binder -> {
+			minecraft.textureManager.addTextureBinder(binder);
+		});
 	}
 	
 	/**

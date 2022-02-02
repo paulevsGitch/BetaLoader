@@ -260,6 +260,8 @@ public class ModLoader {
 				String message = "Mod Loaded: \"" + mod + "\" from " + modID;
 				logger.fine(message);
 				System.out.println(message);
+				// TODO separate mod loading and texture loading
+				mod.RegisterAnimation(getMinecraftInstance());
 			}
 		}
 		catch (Exception exception) {
