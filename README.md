@@ -10,27 +10,6 @@ Current realisation can't launch any ModLoader mod, only mods without base edits
 - BetaLoader will load all ModLoader mods from mods folder and remap them with Tiny Remapper for STAPI mappings. Some mappings will be generated during runtime;
 - Mods will be loaded into game (not as instances of STAPI mods, only as classes).
 
-### Mods that will work (tested):
-Some mods were taken from [Station API Discord](https://discord.gg/8Qky5XY)
-- [Twilight Forest 1p4](https://www.minezone.pro/download/mods/1142-173the-twilight-forest-v01p4.html)
-- [Wood Chipper](https://www.planetminecraft.com/mod/beta-1-7-3-modloader-modloadermp-wood-chipper/)
-- [Blackstone v1.1](https://github.com/LO6AN/MC-Addons/raw/main/Beta%201.7.3/%5BBeta%201.7.3%5D%20Blackstone%20v1.1.zip)
-- [LaunchPad](https://www.mediafire.com/file/7z1n85b7yikqcvn/mod_LaunchPad.zip/file)
-- [MovableSlot](https://www.mediafire.com/file/fxmskd1ywiwsdzs/mod_MovableSlot.zip/file)
-- [Tinted Glass](https://www.mediafire.com/file/ihkw55b1gvx77sz/Tinted_Glass.zip/file)
-- [Quit Button](https://www.mediafire.com/file/dbstumoktdgjk1v/mod_QuitButton.zip/file)
-- [WizardCraft](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/WizardCraft_b173.zip)
-- [MoreFurnaces](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/moreFurnaces_1.0_Client-forgeCubeX2_b173.zip)
-- [AirShip](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/airshipV2.51_b173.zip)
-- [Clay Soliders](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/ClaySoldierModV3_b173.zip)
-- [MineEssence](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/MineEssence_V1r3_b173.zip)
-- [ArmorStand](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/ArmorStand_b173.zip)
-
-
-Mods that I used for tests from no-public sources:
-- Custom Twilight Forest (provided by GameHerobrine)
-- TaleOfKingdom (provided by GameHerobrine)
-
 ### Plans For Enhancements (TODO):
 - Handle access for some mods that uses protected Minecraft classes;
 - More documentation;
@@ -46,3 +25,28 @@ Mods that I used for tests from no-public sources:
 
 ### My ModLoader Mappings:
 I made my own mappings for ModLoader and ModLoader MP in Enigma format, they are located in "mappings" folder in this project.
+
+### Mods that will work (tested):
+Some mods were taken from [Station API Discord](https://discord.gg/8Qky5XY)
+- [Twilight Forest 1p4](https://www.minezone.pro/download/mods/1142-173the-twilight-forest-v01p4.html)
+- [Wood Chipper](https://www.planetminecraft.com/mod/beta-1-7-3-modloader-modloadermp-wood-chipper/)
+- [Blackstone v1.1](https://github.com/LO6AN/MC-Addons/raw/main/Beta%201.7.3/%5BBeta%201.7.3%5D%20Blackstone%20v1.1.zip)
+- [LaunchPad](https://www.mediafire.com/file/7z1n85b7yikqcvn/mod_LaunchPad.zip/file)
+- [MovableSlot](https://www.mediafire.com/file/fxmskd1ywiwsdzs/mod_MovableSlot.zip/file)
+- [Tinted Glass](https://www.mediafire.com/file/ihkw55b1gvx77sz/Tinted_Glass.zip/file)
+- [Quit Button](https://www.mediafire.com/file/dbstumoktdgjk1v/mod_QuitButton.zip/file)
+- [WizardCraft](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/WizardCraft_b173.zip)
+- [MoreFurnaces](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/moreFurnaces_1.0_Client-forgeCubeX2_b173.zip)
+- [AirShip](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/airshipV2.51_b173.zip)
+- [Clay Soliders](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/ClaySoldierModV3_b173.zip)
+- [MineEssence](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/MineEssence_V1r3_b173.zip)
+- [ArmorStand](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/ArmorStand_b173.zip)
+- [Marbles](https://b2.mcarchive.net/file/mcarchive/1dc69d82f8367f7cc1ae1a62ce360bd98b9262b5b22eda9862cf35e45ac9d49f/Marbles_1-9_into_mods_folder.zip)
+- [ElementalCreepers](https://b2.mcarchive.net/file/mcarchive/340befa2684a7336d8d5e7f418cc6e88c945f5596ab3edf73b4e157b527e09e7/ElementalCreepers_v1.4.zip)
+- [MineColony](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/MineColony0.7rc13_b173.zip)
+- [TropiCraftMP (custom)](https://www.mediafire.com/file/us6ghhj3v77pwtt/TropicraftMP+ClientV1.3.zip)
+- [Fossil](https://b2.mcarchive.net/file/mcarchive/162cdb138c7a1824fa25e3435f0cac7c6a3f2dfd647c066c4875c61d1656bc73/mod_Fossil.zip)
+
+Mods that I used for tests from no-public sources:
+- Custom Twilight Forest (provided by GameHerobrine)
+- TaleOfKingdom (provided by GameHerobrine)
