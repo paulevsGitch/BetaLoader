@@ -356,6 +356,24 @@ public class ModLoader {
 	}
 	
 	/**
+	 * Gets next available index for this sprite map.
+	 * @param path
+	 * @return
+	 */
+	public static int getUniqueSpriteIndex(String path) {
+		if (path.equals("/gui/items.png")) {
+			return BLTexturesManager.pollItemTextureID();
+		}
+		if (path.equals("/terrain.png")) {
+			return BLTexturesManager.pollBlockTextureID();
+		}
+		Exception v1 = new Exception("No registry for this texture: " + path);
+		logger.throwing("ModLoader", "getUniqueItemSpriteIndex", v1);
+		ThrowException(v1);
+		return 0;
+	}
+	
+	/**
 	 * Add recipe to crafting list.
 	 * @param output
 	 * @param ingredients

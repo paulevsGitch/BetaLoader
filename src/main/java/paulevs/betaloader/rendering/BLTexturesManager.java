@@ -30,6 +30,30 @@ public class BLTexturesManager {
 	private static final BufferedImage EMPTY = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 	
 	/**
+	 * Get available block texture ID. Some mods can use it
+	 * @return integer texture index on atlas.
+	 */
+	public static int pollBlockTextureID() {
+		Character c = VANILLA_BLOCKS.poll();
+		if (c != null) {
+			return c.charValue();
+		}
+		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
+	}
+	
+	/**
+	 * Get available item texture ID. Some mods can use it
+	 * @return integer texture index on atlas.
+	 */
+	public static int pollItemTextureID() {
+		Character c = VANILLA_ITEMS.poll();
+		if (c != null) {
+			return c.charValue();
+		}
+		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
+	}
+	
+	/**
 	 * Get empty texture slot for block texture from vanilla "terrain.png".
 	 * If there aren't any empty slots will throw {@link RuntimeException}.
 	 * @param name {@link String} texture to add.
