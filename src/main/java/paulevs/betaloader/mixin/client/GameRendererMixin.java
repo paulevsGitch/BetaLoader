@@ -14,7 +14,7 @@ public class GameRendererMixin {
 	@Shadow
 	private Minecraft minecraft;
 	
-	@Inject(method = "method_1844", at = @At("HEAD"))
+	@Inject(method = "method_1844", at = @At("TAIL"))
 	private void betaloader_onRenderTick(float delta, CallbackInfo ci) {
 		ModLoader.OnTick(minecraft);
 	}
