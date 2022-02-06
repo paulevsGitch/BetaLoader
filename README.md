@@ -47,6 +47,7 @@ I made my own mappings for ModLoader and ModLoader MP in Enigma format, they are
 Some mods were taken from [Station API Discord](https://discord.gg/8Qky5XY)
 - [AirShip](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/airshipV2.51_b173.zip)
 - [ArmorStand](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/ArmorStand_b173.zip)
+- [Block Helper](https://modrinth.com/mod/block-helper)
 - [Blackstone v1.1](https://github.com/LO6AN/MC-Addons/raw/main/Beta%201.7.3/%5BBeta%201.7.3%5D%20Blackstone%20v1.1.zip)
 - [Clay Soliders](https://archive.org/download/minecraftbeta1.7.3modarchive/Minecraft%20Beta%201.7.3%20Mod%20Archive.zip/ClaySoldierModV3_b173.zip)
 - [ElementalCreepers](https://b2.mcarchive.net/file/mcarchive/340befa2684a7336d8d5e7f418cc6e88c945f5596ab3edf73b4e157b527e09e7/ElementalCreepers_v1.4.zip)
