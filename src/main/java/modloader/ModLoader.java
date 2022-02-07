@@ -249,7 +249,7 @@ public class ModLoader {
 	 */
 	private static void addMod(ClassLoader loader, ModEntry modEntry) {
 		ModsStorage.loadingMod = modEntry;
-		String modID = modEntry.getModID();
+		String modID = modEntry.getModID().toString();
 		File modFile = modEntry.getModConvertedFile();
 		String modClassName = modEntry.getClasspath() + "." + modEntry.getMainClass();
 		Class<? extends BaseMod> modClass = JavassistUtil.getModClass(loader, modFile, modClassName);

@@ -1,7 +1,5 @@
 package paulevs.betaloader.remapping;
 
-import paulevs.betaloader.utilities.ModsStorage;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;

@@ -15,7 +15,7 @@ public class BlockBaseMixin implements BLBlockBase {
 	protected float hardness;
 	
 	@ModifyVariable(method = "Lnet/minecraft/block/BlockBase;<init>(ILnet/minecraft/block/material/Material;)V", at = @At("HEAD"), ordinal = 0)
-	private static int betaloader_resolveIDs(int id) {
+	private static int betaloader_resolveBlockID(int id) {
 		return IDResolver.getBlockID(ModsStorage.loadingMod, id);
 	}
 	

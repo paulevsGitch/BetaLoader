@@ -9,10 +9,10 @@ import net.modificationstation.stationapi.api.event.mod.InitEvent;
 import net.modificationstation.stationapi.api.registry.BlockRegistry;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import paulevs.betaloader.rendering.BLTexturesManager;
-import paulevs.betaloader.utilities.FakeModManager;
 import paulevs.betaloader.utilities.FileDownloader;
 import paulevs.betaloader.utilities.IDResolver;
 import paulevs.betaloader.utilities.ModsStorage;
+import paulevs.betaloader.utilities.RegistryUtil;
 
 public class StartupListener {
 	private boolean skipInit = false;
@@ -28,9 +28,9 @@ public class StartupListener {
 			skipInit = true;
 			return;
 		}
+		IDResolver.init();
 		IDResolver.loadConfig();
 		ModsStorage.process();
-		FakeModManager.initFakeMods();
 	}
 	
 	/**
@@ -46,6 +46,7 @@ public class StartupListener {
 		BLTexturesManager.onTextureRegister();
 		fixRegistryEntries();
 		IDResolver.saveConfig();
+		RegistryUtil.register();
 	}
 	
 	private void fixRegistryEntries() {

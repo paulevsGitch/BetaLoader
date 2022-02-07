@@ -3,6 +3,8 @@ package paulevs.betaloader.remapping;
 import com.google.common.base.CaseFormat;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.io.CompoundTag;
+import net.modificationstation.stationapi.api.registry.ModID;
+import paulevs.betaloader.utilities.FakeModManager;
 import paulevs.betaloader.utilities.FileUtil;
 
 import java.io.File;
@@ -16,9 +18,9 @@ public class ModEntry {
 	private final File modOriginalFile;
 	private final String mainClass;
 	private final String classpath;
-	private final String modID;
+	private final ModID modID;
 	
-	public ModEntry(File original, File converted, String classpath, String modID, String mainClass, List<String> modClasses) {
+	public ModEntry(File original, File converted, String classpath, ModID modID, String mainClass, List<String> modClasses) {
 		this.modClasses = Collections.unmodifiableList(modClasses);
 		this.modConvertedFile = converted;
 		this.modOriginalFile = original;
@@ -61,9 +63,9 @@ public class ModEntry {
 	
 	/**
 	 * Get mod string identifier (made from main class name).
-	 * @return {@link String} mod identifier.
+	 * @return {@link ModID} mod identifier.
 	 */
-	public String getModID() {
+	public ModID getModID() {
 		return modID;
 	}
 	
@@ -88,8 +90,9 @@ public class ModEntry {
 		int hash = modOriginalFile.hashCode();
 		long modified = modOriginalFile.lastModified();
 		
-		if (modsData.containsKey(modID)) {
-			CompoundTag root = modsData.getCompoundTag(modID);
+		String modIDName = this.modID.toString();
+		if (modsData.containsKey(modIDName)) {
+			CompoundTag root = modsData.getCompoundTag(modIDName);
 			if (root.getLong("modified") != modified || root.getInt("hash") != hash) {
 				root.put("modified", modified);
 				root.put("hash", hash);
@@ -98,7 +101,7 @@ public class ModEntry {
 		}
 		else {
 			CompoundTag root = new CompoundTag();
-			modsData.put(modID, root);
+			modsData.put(modIDName, root);
 			root.put("modified", modified);
 			root.put("hash", hash);
 			return true;
@@ -117,7 +120,8 @@ public class ModEntry {
 		String modName = modFile.getName();
 		File converted = new File(remappedDir, modName.substring(0, modName.length() - 4) + ".jar");
 		String classpath = FabricLoader.getInstance().isDevelopmentEnvironment() ? modID : "net.minecraft";
-		return new ModEntry(modFile, converted, classpath, modID, mainClass, modClasses);
+		FakeModManager.addModEntry(modID);
+		return new ModEntry(modFile, converted, classpath, ModID.of(modID), mainClass, modClasses);
 	}
 	
 	private static String classToID(String modClass) {
