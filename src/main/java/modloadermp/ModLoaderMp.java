@@ -19,8 +19,8 @@ public class ModLoaderMp {
 	public static final String VERSION = "Beta 1.7.3 unofficial";
 	private static boolean hasInit;
 	private static boolean packet230Received;
-	private static Map netClientHandlerEntityMap;
-	private static Map guiModMap;
+	private static Map<Integer, NetClientHandlerEntity> netClientHandlerEntityMap;
+	private static Map<Integer, BaseModMp> guiModMap;
 	
 	public static void Init() {
 		if (!ModLoaderMp.hasInit) {
@@ -49,19 +49,19 @@ public class ModLoaderMp {
 			final NetClientHandlerEntity netclienthandlerentity = HandleNetClientHandlerEntities(r.packetType);
 			if (netclienthandlerentity != null && ISpawnable.class.isAssignableFrom(netclienthandlerentity.entityClass)) {
 				try {
-					final EntityBase entity = (EntityBase) netclienthandlerentity.entityClass.getConstructor(new Class[] {Level.class}).newInstance(new Object[] {ModLoader.getMinecraftInstance().level});
+					final EntityBase entity = netclienthandlerentity.entityClass.getConstructor(Level.class).newInstance(ModLoader.getMinecraftInstance().level);
 					((ISpawnable) entity).spawn(r);
 					((ClientLevel) ModLoader.getMinecraftInstance().level).method_1495(entity.entityId, entity);
 				}
 				catch (Exception exception) {
 					ModLoader.getLogger().throwing("ModLoader", "handleCustomSpawn", exception);
-					ModLoader.ThrowException(String.format("Error initializing entity of type %s.", new Object[] {r.packetType}), exception);
+					ModLoader.ThrowException(String.format("Error initializing entity of type %s.", r.packetType), exception);
 				}
 			}
 		}
 		else {
 			for (int i = 0; i < ModLoader.getLoadedMods().size(); ++i) {
-				final BaseMod basemod = (BaseMod) ModLoader.getLoadedMods().get(i);
+				final BaseMod basemod = ModLoader.getLoadedMods().get(i);
 				if (basemod instanceof BaseModMp) {
 					final BaseModMp basemodmp = (BaseModMp) basemod;
 					if (basemodmp.getId() == r.modId) {
@@ -78,7 +78,7 @@ public class ModLoaderMp {
 			init();
 		}
 		if (ModLoaderMp.netClientHandlerEntityMap.containsKey(aInteger1)) {
-			return (NetClientHandlerEntity) ModLoaderMp.netClientHandlerEntityMap.get(aInteger1);
+			return ModLoaderMp.netClientHandlerEntityMap.get(aInteger1);
 		}
 		return null;
 	}
@@ -114,7 +114,7 @@ public class ModLoaderMp {
 		if (!ModLoaderMp.hasInit) {
 			init();
 		}
-		final BaseModMp basemodmp = (BaseModMp) ModLoaderMp.guiModMap.get(packet.inventoryType);
+		final BaseModMp basemodmp = ModLoaderMp.guiModMap.get(packet.inventoryType);
 		final ScreenBase guiscreen = basemodmp.HandleGUI(packet.inventoryType);
 		if (guiscreen != null) {
 			ModLoader.OpenGUI(ModLoader.getMinecraftInstance().player, guiscreen);
@@ -122,11 +122,11 @@ public class ModLoaderMp {
 		}
 	}
 	
-	public static void RegisterNetClientHandlerEntity(final Class aClass1, final int aInteger2) {
+	public static void RegisterNetClientHandlerEntity(final Class<? extends EntityBase> aClass1, final int aInteger2) {
 		RegisterNetClientHandlerEntity(aClass1, false, aInteger2);
 	}
 	
-	public static void RegisterNetClientHandlerEntity(final Class aClass1, final boolean aBoolean2, int aInteger3) {
+	public static void RegisterNetClientHandlerEntity(final Class<? extends EntityBase> aClass1, final boolean aBoolean2, int aInteger3) {
 		if (!ModLoaderMp.hasInit) {
 			init();
 		}
@@ -151,8 +151,8 @@ public class ModLoaderMp {
 		if (v1 == null) {
 			final IllegalArgumentException illegalargumentexception = new IllegalArgumentException(
 				"baseModMp cannot be null.");
-			ModLoader.getLogger().throwing("ModLoaderMp", "SendKey", (Throwable) illegalargumentexception);
-			ModLoader.ThrowException("baseModMp cannot be null.", (Throwable) illegalargumentexception);
+			ModLoader.getLogger().throwing("ModLoaderMp", "SendKey", illegalargumentexception);
+			ModLoader.ThrowException("baseModMp cannot be null.", illegalargumentexception);
 		}
 		else {
 			final Packet230ModLoader packet230modloader = new Packet230ModLoader();
@@ -190,25 +190,9 @@ public class ModLoaderMp {
 			method.setAccessible(true);
 			method.invoke(null, 230, true, true, Packet230ModLoader.class);
 		}
-		catch (IllegalAccessException illegalaccessexception) {
+		catch (IllegalAccessException | SecurityException | NoSuchMethodException | InvocationTargetException | IllegalArgumentException illegalaccessexception) {
 			ModLoader.getLogger().throwing("ModLoaderMp", "init", illegalaccessexception);
 			ModLoader.ThrowException("An impossible error has occurred!", illegalaccessexception);
-		}
-		catch (IllegalArgumentException illegalargumentexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", illegalargumentexception);
-			ModLoader.ThrowException("An impossible error has occurred!", illegalargumentexception);
-		}
-		catch (InvocationTargetException invocationtargetexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", invocationtargetexception);
-			ModLoader.ThrowException("An impossible error has occurred!", invocationtargetexception);
-		}
-		catch (NoSuchMethodException nosuchmethodexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", nosuchmethodexception);
-			ModLoader.ThrowException("An impossible error has occurred!", nosuchmethodexception);
-		}
-		catch (SecurityException securityexception) {
-			ModLoader.getLogger().throwing("ModLoaderMp", "init", securityexception);
-			ModLoader.ThrowException("An impossible error has occurred!", securityexception);
 		}
 		Log("ModLoaderMP Beta 1.7.3 unofficial Initialized");
 	}
@@ -219,7 +203,7 @@ public class ModLoaderMp {
 		packet230modloader2.packetType = 0;
 		packet230modloader2.dataString = new String[ModLoader.getLoadedMods().size()];
 		for (int i = 0; i < ModLoader.getLoadedMods().size(); ++i) {
-			packet230modloader2.dataString[i] = ((BaseMod) ModLoader.getLoadedMods().get(i)).toString();
+			packet230modloader2.dataString[i] = ModLoader.getLoadedMods().get(i).toString();
 		}
 		sendPacket(packet230modloader2);
 	}
@@ -239,7 +223,7 @@ public class ModLoaderMp {
 			final float[] af = v1.dataFloat;
 			final String[] as = v1.dataString;
 			for (int j2 = 0; j2 < ModLoader.getLoadedMods().size(); ++j2) {
-				final BaseMod basemod = (BaseMod) ModLoader.getLoadedMods().get(j2);
+				final BaseMod basemod = ModLoader.getLoadedMods().get(j2);
 				if (basemod instanceof BaseModMp) {
 					final BaseModMp basemodmp = (BaseModMp) basemod;
 					if (basemodmp.getId() == i) {
@@ -252,14 +236,14 @@ public class ModLoaderMp {
 	}
 	
 	private static void sendPacket(final Packet230ModLoader aPacket230ModLoader1) {
-		if (ModLoaderMp.packet230Received && ModLoader.getMinecraftInstance().level != null && ModLoader.getMinecraftInstance().level.isClient) {
+		if (packet230Received && ModLoader.getMinecraftInstance().level != null && ModLoader.getMinecraftInstance().level.isServerSide) {
 			ModLoader.getMinecraftInstance().getNetworkHandler().sendPacket(aPacket230ModLoader1);
 		}
 	}
 	
 	public static BaseModMp GetModInstance(final Class v1) {
 		for (int i = 0; i < ModLoader.getLoadedMods().size(); ++i) {
-			final BaseMod basemod = (BaseMod) ModLoader.getLoadedMods().get(i);
+			final BaseMod basemod = ModLoader.getLoadedMods().get(i);
 			if (basemod instanceof BaseModMp) {
 				final BaseModMp basemodmp = (BaseModMp) basemod;
 				if (v1.isInstance(basemodmp)) {
@@ -276,7 +260,7 @@ public class ModLoaderMp {
 	static {
 		ModLoaderMp.hasInit = false;
 		ModLoaderMp.packet230Received = false;
-		ModLoaderMp.netClientHandlerEntityMap = (Map) new HashMap();
-		ModLoaderMp.guiModMap = (Map) new HashMap();
+		ModLoaderMp.netClientHandlerEntityMap = new HashMap<>();
+		ModLoaderMp.guiModMap = new HashMap<>();
 	}
 }

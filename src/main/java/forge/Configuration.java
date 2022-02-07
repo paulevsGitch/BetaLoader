@@ -1,5 +1,6 @@
 package forge;
 
+import java.util.Arrays;
 import net.minecraft.block.BlockBase;
 
 import java.io.BufferedReader;
@@ -8,12 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -31,18 +28,16 @@ public class Configuration {
     
     public Configuration(final File file) {
         this.configBlocks = null;
-        this.blockProperties = new TreeMap();
-        this.itemProperties = new TreeMap();
-        this.generalProperties = new TreeMap();
+        this.blockProperties = new TreeMap<>();
+        this.itemProperties = new TreeMap<>();
+        this.generalProperties = new TreeMap<>();
         this.file = file;
     }
     
     public Property getOrCreateBlockIdProperty(final String key, final int defaultId) {
         if (this.configBlocks == null) {
             this.configBlocks = new boolean[BlockBase.BY_ID.length];
-            for (int i = 0; i < this.configBlocks.length; ++i) {
-                this.configBlocks[i] = false;
-            }
+            Arrays.fill(this.configBlocks, false);
         }
         if (this.blockProperties.containsKey(key)) {
             final Property property = this.getOrCreateIntProperty(key, 1, defaultId);
@@ -91,15 +86,15 @@ public class Configuration {
     public Property getOrCreateProperty(final String key, final int kind, final String defaultValue) {
         TreeMap<String, Property> source = null;
         switch (kind) {
-            case 0: {
+            case GENERAL_PROPERTY: {
                 source = this.generalProperties;
                 break;
             }
-            case 1: {
+            case BLOCK_PROPERTY: {
                 source = this.blockProperties;
                 break;
             }
-            case 2: {
+            case ITEM_PROPERTY: {
                 source = this.itemProperties;
                 break;
             }
@@ -127,7 +122,7 @@ public class Configuration {
             }
             if (this.file.canRead()) {
                 final FileInputStream fileinputstream = new FileInputStream(this.file);
-                final BufferedReader buffer = new BufferedReader((Reader)new InputStreamReader((InputStream)fileinputstream, "8859_1"));
+                final BufferedReader buffer = new BufferedReader(new InputStreamReader(fileinputstream, "8859_1"));
                 TreeMap<String, Property> currentMap = null;
                 while (true) {
                     final String line = buffer.readLine();
@@ -183,7 +178,7 @@ public class Configuration {
                                     break;
                                 }
                                 default: {
-                                    throw new RuntimeException(new StringBuilder().append("unknown character ").append(line.charAt(i)).toString());
+                                    throw new RuntimeException("unknown character " + line.charAt(i));
                                 }
                             }
                         }
@@ -206,7 +201,7 @@ public class Configuration {
             }
             if (this.file.canWrite()) {
                 final FileOutputStream fileoutputstream = new FileOutputStream(this.file);
-                final BufferedWriter buffer = new BufferedWriter((Writer)new OutputStreamWriter((OutputStream)fileoutputstream, "8859_1"));
+                final BufferedWriter buffer = new BufferedWriter(new OutputStreamWriter(fileoutputstream, "8859_1"));
                 buffer.write("# Configuration file\r\n");
                 buffer.write("# Generated on " + DateFormat.getInstance().format(new Date()) + "\r\n");
                 buffer.write("\r\n");

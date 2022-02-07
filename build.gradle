@@ -5,7 +5,6 @@ buildscript {
 			url = "https://maven.fabricmc.net/"
 		}
 		mavenCentral()
-		jcenter()
 		maven {
 			name = "Jitpack"
 			url 'https://jitpack.io/'
@@ -15,7 +14,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'com.github.Chocohead:Fabric-Loom:0d0261a'
+		classpath 'com.github.calmilamsy:Fabric-Loom:d4e2c31'
 	}
 }
 
@@ -27,7 +26,7 @@ plugins {
 compileJava {
     options.fork = true
     options.forkOptions.executable = 'javac'
-    options.compilerArgs << "-XDignore.symbol.file"
+    options.compilerArgs << "-XDignore.symbol.file" << "-Xlint:unchecked"
 }
 
 sourceCompatibility = 1.8
@@ -109,40 +108,36 @@ dependencies {
 
 	// convenience stuff
 	// adds some useful annotations for data classes. does not add any dependencies
-	compileOnly 'org.projectlombok:lombok:1.18.16'
-	annotationProcessor 'org.projectlombok:lombok:1.18.16'
-	testmodCompileOnly 'org.projectlombok:lombok:1.18.16'
-	testmodAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	testmodCompileOnly 'org.projectlombok:lombok:1.18.22'
+	testmodAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
 	// adds some useful annotations for miscellaneous uses. does not add any dependencies, though people without the lib will be missing some useful context hints.
-	compile 'org.jetbrains:annotations:16.0.2'
+	implementation 'org.jetbrains:annotations:20.1.0'
 
 	modImplementation "com.github.minecraft-cursed-legacy:cursed-fabric-loader:${project.loader_version}"
 
 	modImplementation "com.github.ModificationStation:StationAPI:${project.stapi_version}"
 
 	// For tests only
-	modImplementation('com.github.calmilamsy:HowManyItems-Fabric-Unofficial:6af40ed18d') {
-		exclude group: 'com.github.ModificationStation', module: 'StationAPI'
+	modImplementation('com.github.calmilamsy:HowManyItems-Fabric-Unofficial:1c6873a') {
+		exclude group: 'net.modificationstation', module: 'StationAPI'
+		exclude group: 'com.github.modificationstation'
 	}
-	modImplementation "com.github.calmilamsy:ModMenu:03023e1"
+	modImplementation "com.github.calmilamsy:ModMenu:dcef643"
 	
 	implementation group: 'org.javassist', name: 'javassist', version: '3.28.0-GA'
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-	testmodCompile sourceSets.main.output
+	testmodImplementation sourceSets.main.output
 }
 
 processResources {
 	inputs.property "version", project.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
+	filesMatching("fabric.mod.json") {
 		expand "version": project.version
-	}
-
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
 	}
 }
 
@@ -157,7 +152,7 @@ tasks.withType(JavaCompile) {
 // if it is present.
 // If you remove this task, sources will not be generated.
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
+	classifier = 'sources'
 	from sourceSets.main.allSource
 }
 

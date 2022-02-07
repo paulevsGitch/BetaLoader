@@ -31,8 +31,7 @@ public class Packet230ModLoader extends AbstractPacket {
 			final int i = datainputstream.readInt();
 			if (i > MAX_DATA_LENGTH) {
 				throw new IOException(String.format("Integer data size of %d is higher than the max (%d).",
-					new Object[] {i, MAX_DATA_LENGTH}
-				));
+						i, MAX_DATA_LENGTH));
 			}
 			this.dataInt = new int[i];
 			for (int j = 0; j < i; ++j) {
@@ -41,8 +40,7 @@ public class Packet230ModLoader extends AbstractPacket {
 			final int k = datainputstream.readInt();
 			if (k > MAX_DATA_LENGTH) {
 				throw new IOException(String.format("Float data size of %d is higher than the max (%d).",
-					new Object[] {k, MAX_DATA_LENGTH}
-				));
+						k, MAX_DATA_LENGTH));
 			}
 			this.dataFloat = new float[k];
 			for (int l = 0; l < k; ++l) {
@@ -51,16 +49,14 @@ public class Packet230ModLoader extends AbstractPacket {
 			final int i2 = datainputstream.readInt();
 			if (i2 > MAX_DATA_LENGTH) {
 				throw new IOException(String.format("String data size of %d is higher than the max (%d).",
-					new Object[] {i2, MAX_DATA_LENGTH}
-				));
+						i2, MAX_DATA_LENGTH));
 			}
 			this.dataString = new String[i2];
 			for (int j2 = 0; j2 < i2; ++j2) {
 				final int k2 = datainputstream.readInt();
 				if (k2 > MAX_DATA_LENGTH) {
 					throw new IOException(String.format("String length of %d is higher than the max (%d).",
-						new Object[] {k2, MAX_DATA_LENGTH}
-					));
+							k2, MAX_DATA_LENGTH));
 				}
 				final byte[] abyte0 = new byte[k2];
 				datainputstream.read(abyte0, 0, k2);
@@ -79,20 +75,17 @@ public class Packet230ModLoader extends AbstractPacket {
 			if (this.dataInt != null && this.dataInt.length > MAX_DATA_LENGTH) {
 				throw new IOException(String.format(
 					"Integer data size of %d is higher than the max (%d).",
-					new Object[] {this.dataInt.length, MAX_DATA_LENGTH}
-				));
+						this.dataInt.length, MAX_DATA_LENGTH));
 			}
 			if (this.dataFloat != null && this.dataFloat.length > MAX_DATA_LENGTH) {
 				throw new IOException(String.format(
 					"Float data size of %d is higher than the max (%d).",
-					new Object[] {this.dataFloat.length, MAX_DATA_LENGTH}
-				));
+						this.dataFloat.length, MAX_DATA_LENGTH));
 			}
 			if (this.dataString != null && this.dataString.length > MAX_DATA_LENGTH) {
 				throw new IOException(String.format(
 					"String data size of %d is higher than the max (%d).",
-					new Object[] {this.dataString.length, MAX_DATA_LENGTH}
-				));
+						this.dataString.length, MAX_DATA_LENGTH));
 			}
 			dataoutputstream.writeInt(this.modId);
 			dataoutputstream.writeInt(this.packetType);
@@ -101,8 +94,8 @@ public class Packet230ModLoader extends AbstractPacket {
 			}
 			else {
 				dataoutputstream.writeInt(this.dataInt.length);
-				for (int i = 0; i < this.dataInt.length; ++i) {
-					dataoutputstream.writeInt(this.dataInt[i]);
+				for (int j : this.dataInt) {
+					dataoutputstream.writeInt(j);
 				}
 			}
 			if (this.dataFloat == null) {
@@ -110,8 +103,8 @@ public class Packet230ModLoader extends AbstractPacket {
 			}
 			else {
 				dataoutputstream.writeInt(this.dataFloat.length);
-				for (int j = 0; j < this.dataFloat.length; ++j) {
-					dataoutputstream.writeFloat(this.dataFloat[j]);
+				for (float v : this.dataFloat) {
+					dataoutputstream.writeFloat(v);
 				}
 			}
 			if (this.dataString == null) {
@@ -119,15 +112,14 @@ public class Packet230ModLoader extends AbstractPacket {
 			}
 			else {
 				dataoutputstream.writeInt(this.dataString.length);
-				for (int k = 0; k < this.dataString.length; ++k) {
-					if (this.dataString[k].length() > MAX_DATA_LENGTH) {
+				for (String s : this.dataString) {
+					if (s.length() > MAX_DATA_LENGTH) {
 						throw new IOException(String.format(
-							"String length of %d is higher than the max (%d).",
-							new Object[] {this.dataString[k].length(), MAX_DATA_LENGTH}
-						));
+								"String length of %d is higher than the max (%d).",
+								s.length(), MAX_DATA_LENGTH));
 					}
-					dataoutputstream.writeInt(this.dataString[k].length());
-					dataoutputstream.writeBytes(this.dataString[k]);
+					dataoutputstream.writeInt(s.length());
+					dataoutputstream.writeBytes(s);
 				}
 			}
 		}
@@ -149,8 +141,8 @@ public class Packet230ModLoader extends AbstractPacket {
 		i = ++i + ((this.dataFloat != null) ? (this.dataFloat.length * 32) : 0);
 		++i;
 		if (this.dataString != null) {
-			for (int j = 0; j < this.dataString.length; ++j) {
-				i = ++i + this.dataString[j].length();
+			for (String s : this.dataString) {
+				i = ++i + s.length();
 			}
 		}
 		return i;

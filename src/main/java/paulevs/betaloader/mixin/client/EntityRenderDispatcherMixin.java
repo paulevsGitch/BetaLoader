@@ -16,7 +16,7 @@ import java.util.Map;
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin {
 	@Shadow
-	private Map renderers;
+	private Map<Class<? extends EntityBase>, EntityRenderer> renderers;
 	
 	@Inject(method = "<init>*", at = @At(value = "TAIL"))
 	private void betaloader_onEntityRenderInit(CallbackInfo info) {

@@ -11,12 +11,13 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public class GameStartupErrorPanelMixin {
 	@ModifyVariable(method = "<init>*", at = @At("STORE"), name = "var6")
 	private String betaloader_errorPanelText(String test) {
-		test += "Mods loaded: " + (ModLoader.getLoadedMods().size() + 1) + "\n";
-		test += "ModLoader Beta 1.7.3" + "\n";
+		StringBuilder testBuilder = new StringBuilder(test);
+		testBuilder.append("Mods loaded: ").append(ModLoader.getLoadedMods().size() + 1).append('\n')
+				.append(ModLoader.VERSION).append('\n');
 		for (BaseMod baseMod : ModLoader.getLoadedMods()) {
-			test += baseMod.getClass().getName() + " " + baseMod.Version() + "\n";
+			testBuilder.append(baseMod.getClass().getName()).append(' ').append(baseMod.Version()).append('\n');
 		}
-		test += "\n";
+		test = testBuilder.append('\n').toString();
 		return test;
 	}
 }

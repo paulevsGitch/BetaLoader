@@ -38,7 +38,7 @@ public class BLTexturesManager {
 	public static int pollBlockTextureID() {
 		Character c = VANILLA_BLOCKS.poll();
 		if (c != null) {
-			return c.charValue();
+			return c;
 		}
 		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
 	}
@@ -50,7 +50,7 @@ public class BLTexturesManager {
 	public static int pollItemTextureID() {
 		Character c = VANILLA_ITEMS.poll();
 		if (c != null) {
-			return c.charValue();
+			return c;
 		}
 		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
 	}
@@ -65,7 +65,7 @@ public class BLTexturesManager {
 		Character c = VANILLA_BLOCKS.poll();
 		if (c != null) {
 			REGISTERED_BLOCKS.put(c, name);
-			return c.charValue();
+			return c;
 		}
 		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
 	}
@@ -80,7 +80,7 @@ public class BLTexturesManager {
 		Character c = VANILLA_ITEMS.poll();
 		if (c != null) {
 			REGISTERED_ITEMS.put(c, name);
-			return c.charValue();
+			return c;
 		}
 		throw new RuntimeException("Impossible to register block texture, no more free space in vanilla atlas!");
 	}

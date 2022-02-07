@@ -26,7 +26,7 @@ public class PlayerBaseMixin extends Living implements BLPlayerBase {
 		float strength = 1.0f;
 		ItemInstance itemInstance5 = this.inventory.getHeldItem();
 		if (itemInstance5 != null) {
-			strength = BLItemBase.class.cast(itemInstance5.getType()).getStrVsBlock(itemInstance5, block, meta);
+			strength = ((BLItemBase) itemInstance5.getType()).getStrVsBlock(itemInstance5, block, meta);
 		}
 		if (this.isInFluid(Material.WATER)) {
 			strength /= 5.0f;

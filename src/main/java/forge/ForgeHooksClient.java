@@ -2,6 +2,7 @@ package forge;
 
 import modloader.ModLoader;
 import net.minecraft.block.BlockBase;
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.BlockRenderer;
 import net.minecraft.entity.player.PlayerBase;
@@ -18,11 +19,11 @@ import java.util.List;
 // TODO do something with this hooks
 public class ForgeHooksClient {
     static LinkedList<IHighlightHandler> highlightHandlers;
-    static HashMap tessellators;
-    static HashMap textures;
+    static HashMap<List<Object>, Tessellator> tessellators;
+    static HashMap<String, Integer> textures;
     static boolean inWorld;
-    static HashSet renderTextureTest;
-    static ArrayList<List> renderTextureList;
+    static HashSet<List<Object>> renderTextureTest;
+    static ArrayList<List<Object>> renderTextureList;
     static int renderPass;
     
     public static boolean onBlockHighlight(final WorldRenderer renderglobal, final PlayerBase player, final HitResult mop, final int i, final ItemInstance itemstack, final float f) {
@@ -132,12 +133,12 @@ public class ForgeHooksClient {
     }
     
     static {
-        ForgeHooksClient.highlightHandlers = (LinkedList<IHighlightHandler>)new LinkedList();
-        ForgeHooksClient.tessellators = new HashMap();
-        ForgeHooksClient.textures = new HashMap();
+        ForgeHooksClient.highlightHandlers = new LinkedList<>();
+        ForgeHooksClient.tessellators = new HashMap<>();
+        ForgeHooksClient.textures = new HashMap<>();
         ForgeHooksClient.inWorld = false;
-        ForgeHooksClient.renderTextureTest = new HashSet();
-        ForgeHooksClient.renderTextureList = (ArrayList<List>)new ArrayList();
+        ForgeHooksClient.renderTextureTest = new HashSet<>();
+        ForgeHooksClient.renderTextureList = new ArrayList<>();
         ForgeHooksClient.renderPass = -1;
     }
 }
