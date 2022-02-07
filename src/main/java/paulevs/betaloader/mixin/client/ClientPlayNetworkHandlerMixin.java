@@ -52,9 +52,9 @@ public class ClientPlayNetworkHandlerMixin {
 					}
 				}
 			}
-			catch (Exception exception) {
-				ModLoader.getLogger().throwing("NetClientHandler", "handleVehicleSpawn", exception);
-				ModLoader.ThrowException(String.format("Error initializing entity of type %s.", packet.type), exception);
+			catch (Exception e) {
+				ModLoader.getLogger().throwing("NetClientHandler", "handleVehicleSpawn", e);
+				ModLoader.ThrowException(String.format("Error initializing entity of type %s.", packet.type), e);
 				return;
 			}
 		}

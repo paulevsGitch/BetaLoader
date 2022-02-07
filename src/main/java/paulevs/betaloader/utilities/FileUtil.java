@@ -14,7 +14,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -40,8 +39,8 @@ public class FileUtil {
 			bufferedWriter.close();
 			fileWriter.close();
 		}
-		catch (IOException exception) {
-			exception.printStackTrace();
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -60,8 +59,8 @@ public class FileUtil {
 			streamReader.close();
 			stream.close();
 		}
-		catch (IOException exception) {
-			exception.printStackTrace();
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -119,8 +118,8 @@ public class FileUtil {
 			
 			zipFile.close();
 		}
-		catch (IOException exception) {
-			exception.printStackTrace();
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -167,15 +166,15 @@ public class FileUtil {
 					}
 					fileIn.close();
 				}
-				catch (IOException exception) {
-					exception.printStackTrace();
+				catch (IOException e) {
+					e.printStackTrace();
 				}
 			});
 			outputStream.close();
 			fileOut.close();
 		}
-		catch (IOException exception) {
-			exception.printStackTrace();
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

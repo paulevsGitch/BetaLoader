@@ -129,7 +129,7 @@ public class Packet230ModLoader extends AbstractPacket {
 	}
 	
 	@Override
-	public void apply(final PacketHandler nethandler) {
+	public void apply(final PacketHandler packetHandler) {
 		ModLoaderMp.HandleAllPackets(this);
 	}
 	

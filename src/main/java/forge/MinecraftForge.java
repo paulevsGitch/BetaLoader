@@ -5,7 +5,6 @@ import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.level.Level;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +14,7 @@ public class MinecraftForge {
     
     @Deprecated
     public static void registerCustomBucketHander(final IBucketHandler handler) {
-        MinecraftForge.bucketHandlers.add(handler);
+        registerCustomBucketHandler(handler);
     }
     
     public static void registerCustomBucketHandler(final IBucketHandler handler) {
@@ -44,37 +43,37 @@ public class MinecraftForge {
         return null;
     }
     
-    public static void setToolClass(final ItemBase tool, final String tclass, final int hlevel) {
+    public static void setToolClass(final ItemBase tool, final String tClass, final int hLevel) {
         ForgeHooks.initTools();
-        ForgeHooks.toolClasses.put(tool.id, Arrays.asList(tclass, hlevel));
+        ForgeHooks.toolClasses.put(tool.id, Arrays.asList(tClass, hLevel));
     }
     
-    public static void setBlockHarvestLevel(final BlockBase bl, final int md, final String tclass, final int hlevel) {
+    public static void setBlockHarvestLevel(final BlockBase bl, final int md, final String tClass, final int hLevel) {
         ForgeHooks.initTools();
-        final List<Object> key = Arrays.asList(bl.id, md, tclass);
-        ForgeHooks.toolHarvestLevels.put(key, hlevel);
+        final List<Object> key = Arrays.asList(bl.id, md, tClass);
+        ForgeHooks.toolHarvestLevels.put(key, hLevel);
         ForgeHooks.toolEffectiveness.add(key);
     }
     
-    public static void removeBlockEffectiveness(final BlockBase bl, final int md, final String tclass) {
+    public static void removeBlockEffectiveness(final BlockBase bl, final int md, final String tClass) {
         ForgeHooks.initTools();
-        final List<Object> key = Arrays.asList(bl.id, md, tclass);
+        final List<Object> key = Arrays.asList(bl.id, md, tClass);
         ForgeHooks.toolEffectiveness.remove(key);
     }
     
-    public static void setBlockHarvestLevel(final BlockBase bl, final String tclass, final int hlevel) {
+    public static void setBlockHarvestLevel(final BlockBase bl, final String tClass, final int hLevel) {
         ForgeHooks.initTools();
         for (int md = 0; md < 16; ++md) {
-            final List<Object> key = Arrays.asList(bl.id, md, tclass);
-            ForgeHooks.toolHarvestLevels.put(key, hlevel);
+            final List<Object> key = Arrays.asList(bl.id, md, tClass);
+            ForgeHooks.toolHarvestLevels.put(key, hLevel);
             ForgeHooks.toolEffectiveness.add(key);
         }
     }
     
-    public static void removeBlockEffectiveness(final BlockBase bl, final String tclass) {
+    public static void removeBlockEffectiveness(final BlockBase bl, final String tClass) {
         ForgeHooks.initTools();
         for (int md = 0; md < 16; ++md) {
-            final List<Object> key = Arrays.asList(bl.id, md, tclass);
+            final List<Object> key = Arrays.asList(bl.id, md, tClass);
             ForgeHooks.toolEffectiveness.remove(key);
         }
     }
@@ -83,41 +82,41 @@ public class MinecraftForge {
         setBlockHarvestLevel(block, "pickaxe", 0);
     }
     
-    public static void killMinecraft(final String modname, final String msg) {
-        throw new RuntimeException(modname + ": " + msg);
+    public static void killMinecraft(final String modName, final String msg) {
+        throw new RuntimeException(modName + ": " + msg);
     }
     
-    public static void versionDetect(final String modname, final int major, final int minor, final int revision) {
+    public static void versionDetect(final String modName, final int major, final int minor, final int revision) {
         if (major != 1) {
-            killMinecraft(modname, "MinecraftForge Major Version Mismatch, expecting " + major + ".x.x");
+            killMinecraft(modName, "MinecraftForge Major Version Mismatch, expecting " + major + ".x.x");
         }
         else if (minor != 0) {
             if (minor > 0) {
-                killMinecraft(modname, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
+                killMinecraft(modName, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
             }
             else {
-                System.out.println(modname + ": MinecraftForge minor version mismatch, expecting " + major + "." + minor + ".x, may lead to unexpected behavior");
+                System.out.println(modName + ": MinecraftForge minor version mismatch, expecting " + major + "." + minor + ".x, may lead to unexpected behavior");
             }
         }
         else if (revision > 6) {
-            killMinecraft(modname, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
+            killMinecraft(modName, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
         }
     }
     
-    public static void versionDetectStrict(final String modname, final int major, final int minor, final int revision) {
+    public static void versionDetectStrict(final String modName, final int major, final int minor, final int revision) {
         if (major != 1) {
-            killMinecraft(modname, "MinecraftForge Major Version Mismatch, expecting " + major + ".x.x");
+            killMinecraft(modName, "MinecraftForge Major Version Mismatch, expecting " + major + ".x.x");
         }
         else if (minor != 0) {
             if (minor > 0) {
-                killMinecraft(modname, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
+                killMinecraft(modName, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
             }
             else {
-                killMinecraft(modname, "MinecraftForge minor version mismatch, expecting " + major + "." + minor + ".x");
+                killMinecraft(modName, "MinecraftForge minor version mismatch, expecting " + major + "." + minor + ".x");
             }
         }
         else if (revision > 6) {
-            killMinecraft(modname, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
+            killMinecraft(modName, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
         }
     }
     

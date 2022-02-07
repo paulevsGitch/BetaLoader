@@ -20,17 +20,17 @@ public class ModTextureStatic extends TextureBinder {
 		this.textureSize = textureSize;
 		this.renderMode = renderMode;
 		this.bindTexture(ModLoader.getMinecraftInstance().textureManager);
-		final int v1 = GL11.glGetTexLevelParameteri(3553, 0, 4096) / 16;
-		final int v2 = GL11.glGetTexLevelParameteri(3553, 0, 4097) / 16;
+		final int targetWidth = GL11.glGetTexLevelParameteri(3553, 0, 4096) / 16;
+		final int targetHeight = GL11.glGetTexLevelParameteri(3553, 0, 4097) / 16;
 		final int width = image.getWidth();
 		final int height = image.getHeight();
-		this.pixels = new int[v1 * v2];
-		this.grid = new byte[v1 * v2 * 4];
-		if (width != height || width != v1) {
-			final BufferedImage bufferedImage = new BufferedImage(v1, v2, 6);
+		this.pixels = new int[targetWidth * targetHeight];
+		this.grid = new byte[targetWidth * targetHeight * 4];
+		if (width != height || width != targetWidth) {
+			final BufferedImage bufferedImage = new BufferedImage(targetWidth, targetHeight, 6);
 			final Graphics2D g = bufferedImage.createGraphics();
-			g.drawImage(image, 0, 0, v1, v2, 0, 0, width, height, null);
-			bufferedImage.getRGB(0, 0, v1, v2, this.pixels, 0, v1);
+			g.drawImage(image, 0, 0, targetWidth, targetHeight, 0, 0, width, height, null);
+			bufferedImage.getRGB(0, 0, targetWidth, targetHeight, this.pixels, 0, targetWidth);
 			g.dispose();
 		}
 		else {

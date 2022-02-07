@@ -105,7 +105,7 @@ public class ModsStorage {
 		
 		try {
 			urls.add(modFile.toURI().toURL());
-			for (Path path: paths) {
+			for (Path path : paths) {
 				urls.add(path.toUri().toURL());
 			}
 		}
@@ -125,8 +125,8 @@ public class ModsStorage {
 				tag = NBTIO.readGzipped(stream);
 				stream.close();
 			}
-			catch (IOException exception) {
-				exception.printStackTrace();
+			catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		return tag == null ? new CompoundTag() : tag;
@@ -139,8 +139,8 @@ public class ModsStorage {
 			NBTIO.writeGzipped(tag, stream);
 			stream.close();
 		}
-		catch (IOException exception) {
-			exception.printStackTrace();
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

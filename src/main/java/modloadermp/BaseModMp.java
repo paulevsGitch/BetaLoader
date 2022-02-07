@@ -12,11 +12,11 @@ public abstract class BaseModMp extends BaseMod {
 		ModLoaderMp.Init();
 	}
 	
-	public void HandlePacket(final Packet230ModLoader loader) {}
+	public void HandlePacket(final Packet230ModLoader packet) {}
 	
 	public void HandleTileEntityPacket(final int i, final int j, final int k, final int l, final int[] ai, final float[] af, final String[] as) {}
 	
-	public ScreenBase HandleGUI(final int i) {
+	public ScreenBase HandleGUI(final int invType) {
 		return null;
 	}
 }
