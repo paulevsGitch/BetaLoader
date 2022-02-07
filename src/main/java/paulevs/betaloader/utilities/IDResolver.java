@@ -76,6 +76,7 @@ public class IDResolver {
 			if (BlockBase.BY_ID[id] == null) {
 				return (char) id;
 			}
+			SAVE_CONFIG.set(true);
 			return getFreeBlockID();
 		});
 		
@@ -102,9 +103,13 @@ public class IDResolver {
 		}
 		
 		final int realID = id + 256; // This part resolves vanilla code part with adding 256 to any item ID
+		if (realID < 360) {
+			return id;
+		}
+		
 		boolean isVanillaItem = false;
 		if (VANILLA_ITEMS.contains(realID)) {
-			System.out.println("Mod " + mod + " overriding vanilla item: " + id + " (" + ItemBase.byId[realID] + ")");
+			System.out.println("Mod " + mod + " overriding vanilla item: " + realID + " (" + ItemBase.byId[realID] + ")");
 			isVanillaItem = true;
 		}
 		
@@ -117,6 +122,7 @@ public class IDResolver {
 			if (ItemBase.byId[realID] == null) {
 				return (char) realID;
 			}
+			SAVE_CONFIG.set(true);
 			return getFreeItemID();
 		});
 		
