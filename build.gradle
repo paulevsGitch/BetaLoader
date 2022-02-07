@@ -121,7 +121,7 @@ dependencies {
 	modImplementation "com.github.ModificationStation:StationAPI:${project.stapi_version}"
 
 	// For tests only
-	modImplementation('com.github.calmilamsy:HowManyItems-Fabric-Unofficial:1c6873a') {
+	modImplementation('com.github.calmilamsy:HowManyItems-Fabric-Unofficial:6af40ed') {
 		exclude group: 'net.modificationstation', module: 'StationAPI'
 		exclude group: 'com.github.modificationstation'
 	}
