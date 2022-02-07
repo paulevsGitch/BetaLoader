@@ -9,7 +9,6 @@ import net.minecraft.util.SleepStatus;
 import paulevs.betaloader.mixininterfaces.BLBlockBase;
 import paulevs.betaloader.mixininterfaces.BLPlayerBase;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;

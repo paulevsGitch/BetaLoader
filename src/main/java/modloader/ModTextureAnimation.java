@@ -11,19 +11,18 @@ public class ModTextureAnimation extends TextureBinder {
 	private final byte[][] images;
 	private int index;
 	private int ticks;
-	
-	public ModTextureAnimation(final int a1, final int a2, final BufferedImage a3, final int a4) {
-		this(a1, 1, a2, a3, a4);
+
+	public ModTextureAnimation(final int index, final int renderMode, final BufferedImage image, final int rate) {
+		this(index, 1, renderMode, image, rate);
 	}
 	
-	public ModTextureAnimation(final int index, final int textureSize, final int renderMode, BufferedImage image, final int a5) {
+	public ModTextureAnimation(final int index, final int textureSize, final int renderMode, BufferedImage image, final int rate) {
 		super(index);
 		this.index = 0;
-		this.ticks = 0;
 		this.textureSize = textureSize;
 		this.renderMode = renderMode;
-		this.tickRate = a5;
-		this.ticks = a5;
+		this.tickRate = rate;
+		this.ticks = rate;
 		this.bindTexture(ModLoader.getMinecraftInstance().textureManager);
 		final int v1 = GL11.glGetTexLevelParameteri(3553, 0, 4096) / 16;
 		final int v2 = GL11.glGetTexLevelParameteri(3553, 0, 4097) / 16;

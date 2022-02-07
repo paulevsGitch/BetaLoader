@@ -314,8 +314,8 @@ public class RemapUtil {
 			tree = TinyMappingFactory.loadWithDetection(bufferedReader);
 			tree = wrapTree(tree);
 		}
-		catch (IOException exception) {
-			exception.printStackTrace();
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 		return tree;
 	}
