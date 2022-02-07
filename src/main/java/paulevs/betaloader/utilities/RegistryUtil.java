@@ -2,6 +2,7 @@ package paulevs.betaloader.utilities;
 
 import com.google.common.collect.Maps;
 import net.minecraft.block.BlockBase;
+import net.minecraft.item.Block;
 import net.minecraft.item.ItemBase;
 import net.modificationstation.stationapi.api.registry.BlockRegistry;
 import net.modificationstation.stationapi.api.registry.Identifier;
@@ -33,6 +34,11 @@ public class RegistryUtil {
 				name = name.substring(name.indexOf('.') + 1).toLowerCase(Locale.ROOT).replace(' ', '_');
 				Identifier id = Identifier.of(mod, name);
 				BlockRegistry.INSTANCE.register(id, block);
+				ItemBase item = ItemBase.byId[blockID];
+				if (item == null) {
+					item = new Block(blockID - 256);
+				}
+				ItemRegistry.INSTANCE.register(Identifier.of(mod, name), item);
 				System.out.println("Registering block " + (int) blockID + " (" + block + ") as " + id);
 			});
 		});
