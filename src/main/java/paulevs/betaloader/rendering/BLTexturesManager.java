@@ -132,6 +132,8 @@ public class BLTexturesManager {
 	 */
 	// TODO use texture scale as is whe STAPI will update texture rendering
 	private static void addTexturesToAtlas(Atlas atlas, Map<Character, String> textures) {
+		BufferedImage atlasImage = atlas.getImage();
+		Graphics atlasGraphics = atlasImage.getGraphics();
 		atlas.bindAtlas();
 		int[] rgb = new int[256];
 		ByteBuffer buffer = ByteBuffer.allocateDirect(rgb.length << 2);
@@ -159,6 +161,7 @@ public class BLTexturesManager {
 			int px = (id & 15) << 4;
 			int py = id & 0xFFFFFFF0;
 			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, px, py, 16, 16, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buffer);
+			atlasGraphics.drawImage(texture, px, py, null);
 		});
 	}
 	
