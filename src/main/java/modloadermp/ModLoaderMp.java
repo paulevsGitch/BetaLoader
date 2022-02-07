@@ -252,7 +252,7 @@ public class ModLoaderMp {
 	}
 	
 	private static void sendPacket(final Packet230ModLoader aPacket230ModLoader1) {
-		if (ModLoaderMp.packet230Received && ModLoader.getMinecraftInstance().level != null && ModLoader.getMinecraftInstance().level.isClient) {
+		if (packet230Received && ModLoader.getMinecraftInstance().level != null && ModLoader.getMinecraftInstance().level.isServerSide) {
 			ModLoader.getMinecraftInstance().getNetworkHandler().sendPacket(aPacket230ModLoader1);
 		}
 	}
