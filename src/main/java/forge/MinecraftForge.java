@@ -46,26 +46,26 @@ public class MinecraftForge {
     
     public static void setToolClass(final ItemBase tool, final String tclass, final int hlevel) {
         ForgeHooks.initTools();
-        ForgeHooks.toolClasses.put(tool.id, Arrays.asList((Object[])new Serializable[] { (Serializable)tclass, (Serializable)hlevel }));
+        ForgeHooks.toolClasses.put(tool.id, Arrays.asList(tclass, hlevel));
     }
     
     public static void setBlockHarvestLevel(final BlockBase bl, final int md, final String tclass, final int hlevel) {
         ForgeHooks.initTools();
-        final List key = Arrays.asList((Object[])new Serializable[] { (Serializable)bl.id, (Serializable)md, (Serializable)tclass });
+        final List<Object> key = Arrays.asList(bl.id, md, tclass);
         ForgeHooks.toolHarvestLevels.put(key, hlevel);
         ForgeHooks.toolEffectiveness.add(key);
     }
     
     public static void removeBlockEffectiveness(final BlockBase bl, final int md, final String tclass) {
         ForgeHooks.initTools();
-        final List key = Arrays.asList((Object[])new Serializable[] { (Serializable)bl.id, (Serializable)md, (Serializable)tclass });
+        final List<Object> key = Arrays.asList(bl.id, md, tclass);
         ForgeHooks.toolEffectiveness.remove(key);
     }
     
     public static void setBlockHarvestLevel(final BlockBase bl, final String tclass, final int hlevel) {
         ForgeHooks.initTools();
         for (int md = 0; md < 16; ++md) {
-            final List key = Arrays.asList((Object[])new Serializable[] { (Serializable)bl.id, (Serializable)md, (Serializable)tclass });
+            final List<Object> key = Arrays.asList(bl.id, md, tclass);
             ForgeHooks.toolHarvestLevels.put(key, hlevel);
             ForgeHooks.toolEffectiveness.add(key);
         }
@@ -74,7 +74,7 @@ public class MinecraftForge {
     public static void removeBlockEffectiveness(final BlockBase bl, final String tclass) {
         ForgeHooks.initTools();
         for (int md = 0; md < 16; ++md) {
-            final List key = Arrays.asList((Object[])new Serializable[] { (Serializable)bl.id, (Serializable)md, (Serializable)tclass });
+            final List<Object> key = Arrays.asList(bl.id, md, tclass);
             ForgeHooks.toolEffectiveness.remove(key);
         }
     }
@@ -89,39 +89,39 @@ public class MinecraftForge {
     
     public static void versionDetect(final String modname, final int major, final int minor, final int revision) {
         if (major != 1) {
-            killMinecraft(modname, new StringBuilder().append("MinecraftForge Major Version Mismatch, expecting ").append(major).append(".x.x").toString());
+            killMinecraft(modname, "MinecraftForge Major Version Mismatch, expecting " + major + ".x.x");
         }
         else if (minor != 0) {
             if (minor > 0) {
-                killMinecraft(modname, new StringBuilder().append("MinecraftForge Too Old, need at least ").append(major).append(".").append(minor).append(".").append(revision).toString());
+                killMinecraft(modname, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
             }
             else {
                 System.out.println(modname + ": MinecraftForge minor version mismatch, expecting " + major + "." + minor + ".x, may lead to unexpected behavior");
             }
         }
         else if (revision > 6) {
-            killMinecraft(modname, new StringBuilder().append("MinecraftForge Too Old, need at least ").append(major).append(".").append(minor).append(".").append(revision).toString());
+            killMinecraft(modname, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
         }
     }
     
     public static void versionDetectStrict(final String modname, final int major, final int minor, final int revision) {
         if (major != 1) {
-            killMinecraft(modname, new StringBuilder().append("MinecraftForge Major Version Mismatch, expecting ").append(major).append(".x.x").toString());
+            killMinecraft(modname, "MinecraftForge Major Version Mismatch, expecting " + major + ".x.x");
         }
         else if (minor != 0) {
             if (minor > 0) {
-                killMinecraft(modname, new StringBuilder().append("MinecraftForge Too Old, need at least ").append(major).append(".").append(minor).append(".").append(revision).toString());
+                killMinecraft(modname, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
             }
             else {
-                killMinecraft(modname, new StringBuilder().append("MinecraftForge minor version mismatch, expecting ").append(major).append(".").append(minor).append(".x").toString());
+                killMinecraft(modname, "MinecraftForge minor version mismatch, expecting " + major + "." + minor + ".x");
             }
         }
         else if (revision > 6) {
-            killMinecraft(modname, new StringBuilder().append("MinecraftForge Too Old, need at least ").append(major).append(".").append(minor).append(".").append(revision).toString());
+            killMinecraft(modname, "MinecraftForge Too Old, need at least " + major + "." + minor + "." + revision);
         }
     }
     
     static {
-        MinecraftForge.bucketHandlers = (LinkedList<IBucketHandler>)new LinkedList();
+        MinecraftForge.bucketHandlers = new LinkedList<>();
     }
 }

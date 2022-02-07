@@ -375,11 +375,8 @@ public class RemapUtil {
 				
 				switch (type.getSort()) {
 					case Type.ARRAY: {
-						StringBuilder remappedDescriptor = new StringBuilder(desc.substring(0, type.getDimensions()));
-						
-						remappedDescriptor.append(remapDesc(type.getElementType().getDescriptor(), namespace));
-						
-						return remappedDescriptor.toString();
+
+						return desc.substring(0, type.getDimensions()) + remapDesc(type.getElementType().getDescriptor(), namespace);
 					}
 					
 					case Type.OBJECT:

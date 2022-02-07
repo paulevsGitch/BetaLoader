@@ -1,5 +1,6 @@
 package modloader;
 
+import java.util.Objects;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.achievement.Achievement;
 import net.minecraft.block.BlockBase;
@@ -80,8 +81,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class ModLoader {
-	private static final Map<Integer, BaseMod> blockModels = new HashMap();
-	private static final Map<Integer, Boolean> blockSpecialInv = new HashMap();
+	private static final Map<Integer, BaseMod> blockModels = new HashMap<>();
+	private static final Map<Integer, Boolean> blockSpecialInv = new HashMap<>();
 	private static final File cfgdir = new File(Minecraft.getGameDirectory(), "/config/");
 	private static final File cfgfile = new File(cfgdir, "ModLoader.cfg");
 	public static java.util.logging.Level cfgLoggingLevel = java.util.logging.Level.FINER;
@@ -94,18 +95,16 @@ public class ModLoader {
 	private static Field field_TileEntityRenderers = null;
 	private static boolean hasInit = false;
 	private static int highestEntityId = 3000;
-	private static final Map<BaseMod, Boolean> inGameHooks = new HashMap();
-	private static final Map<BaseMod, Boolean> inGUIHooks = new HashMap();
+	private static final Map<BaseMod, Boolean> inGameHooks = new HashMap<>();
+	private static final Map<BaseMod, Boolean> inGUIHooks = new HashMap<>();
 	private static Minecraft instance = null;
-	private static int itemSpriteIndex = 0;
-	private static int itemSpritesLeft = 0;
-	private static final Map<BaseMod, Map<KeyBinding, boolean[]>> keyList = new HashMap();
+	private static final Map<BaseMod, Map<KeyBinding, boolean[]>> keyList = new HashMap<>();
 	private static final File logfile = new File(Minecraft.getGameDirectory(), "ModLoader.txt");
 	private static final Logger logger = Logger.getLogger("ModLoader");
 	private static FileHandler logHandler = null;
-	private static final LinkedList<BaseMod> modList = new LinkedList();
+	private static final LinkedList<BaseMod> modList = new LinkedList<>();
 	private static int nextBlockModelID = 1000;
-	private static final Map<Integer, Map<String, Integer>> overrides = new HashMap();
+	private static final Map<Integer, Map<String, Integer>> overrides = new HashMap<>();
 	public static final Properties props = new Properties();
 	private static Biome[] standardBiomes;
 	private static String texPack = null;
@@ -138,15 +137,7 @@ public class ModLoader {
 				setPrivateValue(Achievement.class, achievement, 3, description);
 			}
 		}
-		catch (IllegalArgumentException v1) {
-			logger.throwing("ModLoader", "AddAchievementDesc", v1);
-			ThrowException(v1);
-		}
-		catch (SecurityException v1) {
-			logger.throwing("ModLoader", "AddAchievementDesc", v1);
-			ThrowException(v1);
-		}
-		catch (NoSuchFieldException v1) {
+		catch (IllegalArgumentException | NoSuchFieldException | SecurityException v1) {
 			logger.throwing("ModLoader", "AddAchievementDesc", v1);
 			ThrowException(v1);
 		}
@@ -197,8 +188,7 @@ public class ModLoader {
 		try {
 			String[] parts = (String[]) field_armorList.get(null);
 			List<String> stringList = Arrays.asList(parts);
-			List<String> resultList = new ArrayList();
-			resultList.addAll(stringList);
+			List<String> resultList = new ArrayList<>(stringList);
 			if (!resultList.contains(armor)) {
 				resultList.add(armor);
 			}
@@ -206,13 +196,9 @@ public class ModLoader {
 			field_armorList.set(null, resultList.toArray(new String[0]));
 			return armorIndex;
 		}
-		catch (IllegalArgumentException exception) {
+		catch (IllegalArgumentException | IllegalAccessException exception) {
 			logger.throwing("ModLoader", "AddArmor", exception);
-			ThrowException("An impossible error has occured!", exception);
-		}
-		catch (IllegalAccessException exception) {
-			logger.throwing("ModLoader", "AddArmor", exception);
-			ThrowException("An impossible error has occured!", exception);
+			ThrowException("An impossible error has occurred!", exception);
 		}
 		return -1;
 	}
@@ -227,11 +213,7 @@ public class ModLoader {
 		try {
 			properties = getPrivateValue(TranslationStorage.class, TranslationStorage.getInstance(), 1);
 		}
-		catch (SecurityException exception) {
-			logger.throwing("ModLoader", "AddLocalization", exception);
-			ThrowException(exception);
-		}
-		catch (NoSuchFieldException exception) {
+		catch (SecurityException | NoSuchFieldException exception) {
 			logger.throwing("ModLoader", "AddLocalization", exception);
 			ThrowException(exception);
 		}
@@ -350,9 +332,6 @@ public class ModLoader {
 		else if (path.equals("/gui/items.png")) {
 			BLTexturesManager.setItemTexture(index, overlayPath);
 		}
-		else {
-			return;
-		}
 	}
 	
 	/**
@@ -379,7 +358,7 @@ public class ModLoader {
 	 * @param ingredients
 	 */
 	public static void AddRecipe(ItemInstance output, Object... ingredients) {
-		RecipeRegistryAccessor accessor = RecipeRegistryAccessor.class.cast(RecipeRegistry.getInstance());
+		RecipeRegistryAccessor accessor = (RecipeRegistryAccessor) RecipeRegistry.getInstance();
 		accessor.invokeAddShapedRecipe(output, ingredients);
 	}
 	
@@ -389,7 +368,7 @@ public class ModLoader {
 	 * @param ingredients
 	 */
 	public static void AddShapelessRecipe(ItemInstance output, Object... ingredients) {
-		RecipeRegistryAccessor accessor = RecipeRegistryAccessor.class.cast(RecipeRegistry.getInstance());
+		RecipeRegistryAccessor accessor = (RecipeRegistryAccessor) RecipeRegistry.getInstance();
 		accessor.invokeAddShapelessRecipe(output, ingredients);
 	}
 	
@@ -409,7 +388,7 @@ public class ModLoader {
 	 * @param entityType
 	 */
 	public static void AddSpawn(Class<? extends Living> entityClass, int weightedProb, EntityType entityType) {
-		AddSpawn(entityClass, weightedProb, entityType, null);
+		AddSpawn(entityClass, weightedProb, entityType, (Biome[]) null);
 	}
 	
 	/**
@@ -429,8 +408,9 @@ public class ModLoader {
 		if (biomes == null) {
 			biomes = standardBiomes;
 		}
-		for (int i = 0; i < biomes.length; i++) {
-			List<EntityEntry> spawnList = biomes[i].getSpawnList(entityType);
+		for (Biome biome : biomes) {
+			@SuppressWarnings("unchecked")
+			List<EntityEntry> spawnList = biome.getSpawnList(entityType);
 			if (spawnList != null) {
 				boolean hasEntry = false;
 				for (EntityEntry entry : spawnList) {
@@ -454,7 +434,7 @@ public class ModLoader {
 	 * @param entityType
 	 */
 	public static void AddSpawn(String entityName, int weightedProb, EntityType entityType) {
-		AddSpawn(entityName, weightedProb, entityType, null);
+		AddSpawn(entityName, weightedProb, entityType, (Biome[]) null);
 	}
 	
 	/**
@@ -464,9 +444,10 @@ public class ModLoader {
 	 * @param entityType
 	 * @param biomes
 	 */
+	@SuppressWarnings("unchecked")
 	public static void AddSpawn(String entityName, int weightedProb, EntityType entityType, Biome... biomes) {
-		Class<? extends EntityBase> entityClass = (Class<? extends EntityBase>) EntityRegistryAccessor.getStringToClassMap().get(entityName);
-		if ((entityClass != null) && (Living.class.isAssignableFrom(entityClass))) {
+		Class<? extends EntityBase> entityClass = EntityRegistryAccessor.getStringToClassMap().get(entityName);
+		if (entityClass != null && Living.class.isAssignableFrom(entityClass)) {
 			AddSpawn((Class<? extends Living>) entityClass, weightedProb, entityType, biomes);
 		}
 	}
@@ -484,7 +465,7 @@ public class ModLoader {
 	 */
 	public static boolean DispenseEntity(Level level, double x, double y, double z, int xVel, int zVel, ItemInstance itemInstance) {
 		boolean dispensed = false;
-		for (Iterator<BaseMod> iterator = modList.iterator(); (iterator.hasNext()) && (!dispensed); ) {
+		for (Iterator<BaseMod> iterator = modList.iterator(); iterator.hasNext() && !dispensed; ) {
 			dispensed = iterator.next().DispenseEntity(level, x, y, z, xVel, zVel, itemInstance);
 		}
 		return dispensed;
@@ -514,7 +495,7 @@ public class ModLoader {
 	@SuppressWarnings("deprecation")
 	public static Minecraft getMinecraftInstance() {
 		if (instance == null) {
-			instance = Minecraft.class.cast(FabricLoader.getInstance().getGameInstance());
+			instance = (Minecraft) FabricLoader.getInstance().getGameInstance();
 		}
 		return instance;
 	}
@@ -531,6 +512,7 @@ public class ModLoader {
 	 * @throws SecurityException
 	 * @throws NoSuchFieldException
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T, E> T getPrivateValue(Class<? super E> instanceClass, E instance, int fieldindex) throws IllegalArgumentException, SecurityException, NoSuchFieldException {
 		try {
 			Field field = instanceClass.getDeclaredFields()[fieldindex];
@@ -539,7 +521,7 @@ public class ModLoader {
 		}
 		catch (IllegalAccessException exception) {
 			logger.throwing("ModLoader", "getPrivateValue", exception);
-			ThrowException("An impossible error has occured!", exception);
+			ThrowException("An impossible error has occurred!", exception);
 		}
 		return null;
 	}
@@ -556,6 +538,7 @@ public class ModLoader {
 	 * @throws SecurityException
 	 * @throws NoSuchFieldException
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T, E> T getPrivateValue(Class<? super E> instanceClass, E instance, String fieldName) throws IllegalArgumentException, SecurityException, NoSuchFieldException {
 		fieldName = RemapUtil.getFieldName(instanceClass, fieldName);
 		if (fieldName.isEmpty()) {
@@ -568,7 +551,7 @@ public class ModLoader {
 		}
 		catch (IllegalAccessException exception) {
 			logger.throwing("ModLoader", "getPrivateValue", exception);
-			ThrowException("An impossible error has occured!", exception);
+			ThrowException("An impossible error has occurred!", exception);
 		}
 		return null;
 	}
@@ -581,8 +564,8 @@ public class ModLoader {
 	 */
 	public static int getUniqueBlockModelID(BaseMod mod, boolean full3DItem) {
 		int index = nextBlockModelID++;
-		blockModels.put(Integer.valueOf(index), mod);
-		blockSpecialInv.put(Integer.valueOf(index), Boolean.valueOf(full3DItem));
+		blockModels.put(index, mod);
+		blockSpecialInv.put(index, full3DItem);
 		return index;
 	}
 	
@@ -617,11 +600,11 @@ public class ModLoader {
 			
 			Field[] biomeFields = Biome.class.getDeclaredFields();
 			
-			List<Biome> biomeList = new LinkedList();
-			for (int i = 0; i < biomeFields.length; i++) {
-				Class<?> type = biomeFields[i].getType();
-				if (((biomeFields[i].getModifiers() & 0x8) != 0) && (type.isAssignableFrom(Biome.class))) {
-					Biome biome = (Biome) biomeFields[i].get(null);
+			List<Biome> biomeList = new LinkedList<>();
+			for (Field biomeField : biomeFields) {
+				Class<?> type = biomeField.getType();
+				if (((biomeField.getModifiers() & 0x8) != 0) && (type.isAssignableFrom(Biome.class))) {
+					Biome biome = (Biome) biomeField.get(null);
 					if ((!(biome instanceof Hell)) && (!(biome instanceof Sky))) {
 						biomeList.add(biome);
 					}
@@ -630,22 +613,7 @@ public class ModLoader {
 			standardBiomes = biomeList.toArray(new Biome[0]);
 			ModsStorage.loadingMod = null;
 		}
-		catch (SecurityException exception) {
-			logger.throwing("ModLoader", "init", exception);
-			ThrowException(exception);
-			throw new RuntimeException(exception);
-		}
-		catch (NoSuchFieldException exception) {
-			logger.throwing("ModLoader", "init", exception);
-			ThrowException(exception);
-			throw new RuntimeException(exception);
-		}
-		catch (IllegalArgumentException exception) {
-			logger.throwing("ModLoader", "init", exception);
-			ThrowException(exception);
-			throw new RuntimeException(exception);
-		}
-		catch (IllegalAccessException exception) {
+		catch (SecurityException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException exception) {
 			logger.throwing("ModLoader", "init", exception);
 			ThrowException(exception);
 			throw new RuntimeException(exception);
@@ -664,9 +632,9 @@ public class ModLoader {
 				logHandler.setFormatter(new SimpleFormatter());
 				logger.addHandler(logHandler);
 			}
-			logger.fine("ModLoader Beta 1.7.3 Initializing...");
+			logger.fine(VERSION + " Initializing...");
 			
-			System.out.println("ModLoader Beta 1.7.3 Initializing...");
+			System.out.println(VERSION + " Initializing...");
 			readFromModFolder();
 			System.out.println("Done.");
 			
@@ -697,39 +665,40 @@ public class ModLoader {
 		
 		logger.fine("Initialized");
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	private static void initStats() {
 		Map<Integer, Stat> map = StatsAccessor.getIdMap();
 		for (int i = 0; i < BlockBase.BY_ID.length; i++) {
-			if ((!map.containsKey(Integer.valueOf(16777216 + i))) && (BlockBase.BY_ID[i] != null) && (BlockBase.BY_ID[i].isStatEnabled())) {
-				String v2 = TranslationStorage.getInstance().translate("stat.mineBlock", new Object[] { BlockBase.BY_ID[i].getTranslatedName() });
+			if ((!map.containsKey(16777216 + i)) && (BlockBase.BY_ID[i] != null) && (BlockBase.BY_ID[i].isStatEnabled())) {
+				String v2 = TranslationStorage.getInstance().translate("stat.mineBlock", BlockBase.BY_ID[i].getTranslatedName());
 				Stats.mineBlock[i] = new StatEntity(16777216 + i, v2, i).register();
 				Stats.blocksMinedList.add(Stats.mineBlock[i]);
 			}
 		}
 		for (int v1 = 0; v1 < ItemBase.byId.length; v1++) {
-			if ((!map.containsKey(Integer.valueOf(16908288 + v1))) && (ItemBase.byId[v1] != null)) {
-				String v2 = TranslationStorage.getInstance().translate("stat.useItem", new Object[] {ItemBase.byId[v1].getTranslatedName()});
+			if ((!map.containsKey(16908288 + v1)) && (ItemBase.byId[v1] != null)) {
+				String v2 = TranslationStorage.getInstance().translate("stat.useItem", ItemBase.byId[v1].getTranslatedName());
 				Stats.useItem[v1] = new StatEntity(16908288 + v1, v2, v1).register();
 				if (v1 >= BlockBase.BY_ID.length) {
 					Stats.useStatList.add(Stats.useItem[v1]);
 				}
 			}
-			if ((!map.containsKey(Integer.valueOf(16973824 + v1))) && (ItemBase.byId[v1] != null) && (ItemBase.byId[v1].hasDurability())) {
-				String v2 = TranslationStorage.getInstance().translate("stat.breakItem", new Object[] {ItemBase.byId[v1].getTranslatedName()});
+			if ((!map.containsKey(16973824 + v1)) && (ItemBase.byId[v1] != null) && (ItemBase.byId[v1].hasDurability())) {
+				String v2 = TranslationStorage.getInstance().translate("stat.breakItem", ItemBase.byId[v1].getTranslatedName());
 				Stats.breakItem[v1] = new StatEntity(16973824 + v1, v2, v1).register();
 			}
 		}
-		HashSet<Integer> idMap = new HashSet();
+		HashSet<Integer> idMap = new HashSet<>();
 		for (Object recipe : RecipeRegistry.getInstance().getRecipes()) {
-			idMap.add(Integer.valueOf(((Recipe) recipe).getOutput().itemId));
+			idMap.add(((Recipe) recipe).getOutput().itemId);
 		}
 		for (Object item : SmeltingRecipeRegistry.getInstance().getRecipes().values()) {
-			idMap.add(Integer.valueOf(((ItemInstance) item).itemId));
+			idMap.add(((ItemInstance) item).itemId);
 		}
 		for (int id : idMap) {
-			if ((!map.containsKey(Integer.valueOf(16842752 + id))) && (ItemBase.byId[id] != null)) {
-				String v4 = TranslationStorage.getInstance().translate("stat.craftItem", new Object[] { ItemBase.byId[id].getTranslatedName() });
+			if ((!map.containsKey(16842752 + id)) && (ItemBase.byId[id] != null)) {
+				String v4 = TranslationStorage.getInstance().translate("stat.craftItem", ItemBase.byId[id].getTranslatedName());
 				Stats.timesCrafted[id] = new StatEntity(16842752 + id, v4, id).register();
 			}
 		}
@@ -745,7 +714,7 @@ public class ModLoader {
 		if (gui == null) {
 			return minecraft.currentScreen == null;
 		}
-		if ((minecraft.currentScreen == null) && (gui != null)) {
+		if (minecraft.currentScreen == null) {
 			return false;
 		}
 		return gui.isInstance(minecraft.currentScreen);
@@ -757,18 +726,16 @@ public class ModLoader {
 	 * @return
 	 */
 	public static boolean isModLoaded(String modName) {
-		Class<?> modClass = null;
+		Class<?> modClass;
 		try {
 			modClass = Class.forName(modName);
 		}
 		catch (ClassNotFoundException v2) {
 			return false;
 		}
-		if (modClass != null) {
-			for (BaseMod mod : modList) {
-				if (modClass.isInstance(mod)) {
-					return true;
-				}
+		for (BaseMod mod : modList) {
+			if (modClass.isInstance(mod)) {
+				return true;
 			}
 		}
 		return false;
@@ -935,14 +902,11 @@ public class ModLoader {
 				e.printStackTrace();
 			}
 			return null;
-		}).filter(url -> url != null).forEach(url -> {
+		}).filter(Objects::nonNull).forEach(url -> {
 			try {
 				method.invoke(loader, url);
 			}
-			catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			catch (InvocationTargetException e) {
+			catch (IllegalAccessException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		});
@@ -961,8 +925,7 @@ public class ModLoader {
 	 * @return
 	 */
 	public static KeyBinding[] RegisterAllKeys(KeyBinding[] keyBindings) {
-		List<KeyBinding> v1 = new LinkedList();
-		v1.addAll(Arrays.asList(keyBindings));
+		List<KeyBinding> v1 = new LinkedList<>(Arrays.asList(keyBindings));
 		for (Map<KeyBinding, boolean[]> v2 : keyList.values()) {
 			v1.addAll(v2.keySet());
 		}
@@ -1019,7 +982,8 @@ public class ModLoader {
 			if (block == null) {
 				throw new IllegalArgumentException("block parameter cannot be null.");
 			}
-			List<BlockBase> v1 = (List) field_blockList.get(null);
+			@SuppressWarnings("unchecked")
+			List<BlockBase> v1 = (List<BlockBase>) field_blockList.get(null);
 			v1.add(block);
 			
 			Block item;
@@ -1037,27 +1001,7 @@ public class ModLoader {
 			//BlockRegistry.INSTANCE.register(id, block);
 			//ItemRegistry.INSTANCE.register(id, item);
 		}
-		catch (IllegalArgumentException exception) {
-			logger.throwing("ModLoader", "RegisterBlock", exception);
-			ThrowException(exception);
-		}
-		catch (IllegalAccessException exception) {
-			logger.throwing("ModLoader", "RegisterBlock", exception);
-			ThrowException(exception);
-		}
-		catch (SecurityException exception) {
-			logger.throwing("ModLoader", "RegisterBlock", exception);
-			ThrowException(exception);
-		}
-		catch (InstantiationException exception) {
-			logger.throwing("ModLoader", "RegisterBlock", exception);
-			ThrowException(exception);
-		}
-		catch (InvocationTargetException exception) {
-			logger.throwing("ModLoader", "RegisterBlock", exception);
-			ThrowException(exception);
-		}
-		catch (NoSuchMethodException exception) {
+		catch (IllegalArgumentException | NoSuchMethodException | InvocationTargetException | InstantiationException | SecurityException | IllegalAccessException exception) {
 			logger.throwing("ModLoader", "RegisterBlock", exception);
 			ThrowException(exception);
 		}
@@ -1088,7 +1032,7 @@ public class ModLoader {
 	public static void RegisterKey(BaseMod mod, KeyBinding keyBinding, boolean allowRepeat) {
 		Map<KeyBinding, boolean[]> vkeyBindingMap = keyList.get(mod);
 		if (vkeyBindingMap == null) {
-			vkeyBindingMap = new HashMap();
+			vkeyBindingMap = new HashMap<>();
 		}
 		vkeyBindingMap.put(keyBinding, new boolean[] {allowRepeat, false});
 		keyList.put(mod, vkeyBindingMap);
@@ -1114,16 +1058,13 @@ public class ModLoader {
 			TileEntityBaseAccessor.callRegister(tileEntityClass, id);
 			if (renderer != null) {
 				TileEntityRenderDispatcher dispatcher = TileEntityRenderDispatcher.INSTANCE;
-				Map<Class<? extends TileEntityBase>, TileEntityRenderer> v2 = (Map) field_TileEntityRenderers.get(dispatcher);
+				@SuppressWarnings("unchecked")
+				Map<Class<? extends TileEntityBase>, TileEntityRenderer> v2 = (Map<Class<? extends TileEntityBase>, TileEntityRenderer>) field_TileEntityRenderers.get(dispatcher);
 				v2.put(tileEntityClass, renderer);
 				renderer.setRenderDispatcher(dispatcher);
 			}
 		}
-		catch (IllegalArgumentException exception) {
-			logger.throwing("ModLoader", "RegisterTileEntity", exception);
-			ThrowException(exception);
-		}
-		catch (IllegalAccessException exception) {
+		catch (IllegalArgumentException | IllegalAccessException exception) {
 			logger.throwing("ModLoader", "RegisterTileEntity", exception);
 			ThrowException(exception);
 		}
@@ -1135,7 +1076,7 @@ public class ModLoader {
 	 * @param entityType
 	 */
 	public static void RemoveSpawn(Class<? extends Living> entityClass, EntityType entityType) {
-		RemoveSpawn(entityClass, entityType, null);
+		RemoveSpawn(entityClass, entityType, (Biome[]) null);
 	}
 	
 	/**
@@ -1154,15 +1095,11 @@ public class ModLoader {
 		if (biomes == null) {
 			biomes = standardBiomes;
 		}
-		for (int i = 0; i < biomes.length; i++) {
-			List<EntityEntry> spawnList = biomes[i].getSpawnList(entityType);
+		for (Biome biome : biomes) {
+			@SuppressWarnings("unchecked")
+			List<EntityEntry> spawnList = biome.getSpawnList(entityType);
 			if (spawnList != null) {
-				for (Iterator<EntityEntry> iterator = spawnList.iterator(); iterator.hasNext(); ) {
-					EntityEntry entry = iterator.next();
-					if (entry.entryClass == entityClass) {
-						iterator.remove();
-					}
-				}
+				spawnList.removeIf(entry -> entry.entryClass == entityClass);
 			}
 		}
 	}
@@ -1173,7 +1110,7 @@ public class ModLoader {
 	 * @param entityType
 	 */
 	public static void RemoveSpawn(String entityName, EntityType entityType) {
-		RemoveSpawn(entityName, entityType, null);
+		RemoveSpawn(entityName, entityType, (Biome[]) null);
 	}
 	
 	/**
@@ -1182,8 +1119,9 @@ public class ModLoader {
 	 * @param entityType
 	 * @param biomes
 	 */
+	@SuppressWarnings("unchecked")
 	public static void RemoveSpawn(String entityName, EntityType entityType, Biome... biomes) {
-		Class<? extends EntityBase> entityClass = (Class<? extends EntityBase>) EntityRegistryAccessor.getStringToClassMap().get(entityName);
+		Class<? extends EntityBase> entityClass = EntityRegistryAccessor.getStringToClassMap().get(entityName);
 		if ((entityClass != null) && (Living.class.isAssignableFrom(entityClass))) {
 			RemoveSpawn((Class<? extends Living>) entityClass, entityType, biomes);
 		}
@@ -1195,10 +1133,10 @@ public class ModLoader {
 	 * @return
 	 */
 	public static boolean RenderBlockIsItemFull3D(int modelID) {
-		if (!blockSpecialInv.containsKey(Integer.valueOf(modelID))) {
+		if (!blockSpecialInv.containsKey(modelID)) {
 			return modelID == 16;
 		}
-		return (blockSpecialInv.get(Integer.valueOf(modelID))).booleanValue();
+		return blockSpecialInv.get(modelID);
 	}
 	
 	/**
@@ -1209,7 +1147,7 @@ public class ModLoader {
 	 * @param modelID
 	 */
 	public static void RenderInvBlock(BlockRenderer blockRenderer, BlockBase block, int meta, int modelID) {
-		BaseMod mod = blockModels.get(Integer.valueOf(modelID));
+		BaseMod mod = blockModels.get(modelID);
 		if (mod == null) {
 			return;
 		}
@@ -1228,7 +1166,7 @@ public class ModLoader {
 	 * @return
 	 */
 	public static boolean RenderWorldBlock(BlockRenderer blockRenderer, BlockView view, int x, int y, int z, BlockBase block, int modelID) {
-		BaseMod mod = blockModels.get(Integer.valueOf(modelID));
+		BaseMod mod = blockModels.get(modelID);
 		if (mod == null) {
 			return false;
 		}
@@ -1259,7 +1197,7 @@ public class ModLoader {
 	 */
 	public static void SetInGameHook(BaseMod mod, boolean enable, boolean useClock) {
 		if (enable) {
-			inGameHooks.put(mod, Boolean.valueOf(useClock));
+			inGameHooks.put(mod, useClock);
 		}
 		else {
 			inGameHooks.remove(mod);
@@ -1274,7 +1212,7 @@ public class ModLoader {
 	 */
 	public static void SetInGUIHook(BaseMod mod, boolean enable, boolean useClock) {
 		if (enable) {
-			inGUIHooks.put(mod, Boolean.valueOf(useClock));
+			inGUIHooks.put(mod, useClock);
 		}
 		else {
 			inGUIHooks.remove(mod);
@@ -1305,7 +1243,7 @@ public class ModLoader {
 		}
 		catch (IllegalAccessException exception) {
 			logger.throwing("ModLoader", "setPrivateValue", exception);
-			ThrowException("An impossible error has occured!", exception);
+			ThrowException("An impossible error has occurred!", exception);
 		}
 	}
 	
@@ -1333,7 +1271,7 @@ public class ModLoader {
 		}
 		catch (IllegalAccessException exception) {
 			logger.throwing("ModLoader", "setPrivateValue", exception);
-			ThrowException("An impossible error has occured!", exception);
+			ThrowException("An impossible error has occurred!", exception);
 		}
 	}
 	
@@ -1357,17 +1295,17 @@ public class ModLoader {
 				
 				StringBuilder builder1 = new StringBuilder();
 				if (annotation.min() != Double.NEGATIVE_INFINITY) {
-					builder1.append(String.format(",>=%.1f", new Object[] {Double.valueOf(annotation.min())}));
+					builder1.append(String.format(",>=%.1f", annotation.min()));
 				}
 				if (annotation.max() != Double.POSITIVE_INFINITY) {
-					builder1.append(String.format(",<=%.1f", new Object[] {Double.valueOf(annotation.max())}));
+					builder1.append(String.format(",<=%.1f", annotation.max()));
 				}
 				StringBuilder builder2 = new StringBuilder();
 				if (annotation.info().length() > 0) {
 					builder2.append(" -- ");
 					builder2.append(annotation.info());
 				}
-				builder.append(String.format("%s (%s:%s%s)%s\n", new Object[] {name, type.getName(), obj, builder1, builder2}));
+				builder.append(String.format("%s (%s:%s%s)%s\n", name, type.getName(), obj, builder1, builder2));
 				if (properties.containsKey(name)) {
 					String property = properties.getProperty(name);
 					
@@ -1376,22 +1314,22 @@ public class ModLoader {
 						propertyValue = property;
 					}
 					else if (type.isAssignableFrom(Integer.TYPE)) {
-						propertyValue = Integer.valueOf(Integer.parseInt(property));
+						propertyValue = Integer.parseInt(property);
 					}
 					else if (type.isAssignableFrom(Short.TYPE)) {
-						propertyValue = Short.valueOf(Short.parseShort(property));
+						propertyValue = Short.parseShort(property);
 					}
 					else if (type.isAssignableFrom(Byte.TYPE)) {
-						propertyValue = Byte.valueOf(Byte.parseByte(property));
+						propertyValue = Byte.parseByte(property);
 					}
 					else if (type.isAssignableFrom(Boolean.TYPE)) {
-						propertyValue = Boolean.valueOf(Boolean.parseBoolean(property));
+						propertyValue = Boolean.parseBoolean(property);
 					}
 					else if (type.isAssignableFrom(Float.TYPE)) {
-						propertyValue = Float.valueOf(Float.parseFloat(property));
+						propertyValue = Float.parseFloat(property);
 					}
 					else if (type.isAssignableFrom(Double.TYPE)) {
-						propertyValue = Double.valueOf(Double.parseDouble(property));
+						propertyValue = Double.parseDouble(property);
 					}
 					if (propertyValue != null) {
 						if ((propertyValue instanceof Number)) {
@@ -1457,6 +1395,6 @@ public class ModLoader {
 	}
 	
 	private static void ThrowException(Throwable a1) {
-		ThrowException("Exception occured in ModLoader", a1);
+		ThrowException("Exception occurred in ModLoader", a1);
 	}
 }

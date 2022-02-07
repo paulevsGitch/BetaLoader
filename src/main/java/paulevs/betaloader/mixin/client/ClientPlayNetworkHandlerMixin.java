@@ -34,11 +34,11 @@ public class ClientPlayNetworkHandlerMixin {
 		final NetClientHandlerEntity handlerEntity = ModLoaderMp.HandleNetClientHandlerEntities(packet.type);
 		if (handlerEntity != null) {
 			try {
-				entity = (EntityBase) handlerEntity.entityClass.getConstructor(new Class[] { Level.class, Double.TYPE, Double.TYPE, Double.TYPE }).newInstance(new Object[] { this.level, x, y, z });
+				entity = handlerEntity.entityClass.getConstructor(Level.class, Double.TYPE, Double.TYPE, Double.TYPE).newInstance(this.level, x, y, z);
 				if (handlerEntity.entityHasOwner) {
 					final Field field = handlerEntity.entityClass.getField("owner");
 					if (!EntityBase.class.isAssignableFrom(field.getType())) {
-						throw new Exception(String.format("Entity's owner field must be of type Entity, but it is of type %s.", new Object[] { field.getType() }));
+						throw new Exception(String.format("Entity's owner field must be of type Entity, but it is of type %s.", field.getType()));
 					}
 					final EntityBase entity1 = this.method_1645(packet.flag);
 					if (entity1 == null) {
@@ -46,7 +46,7 @@ public class ClientPlayNetworkHandlerMixin {
 					}
 					else {
 						if (!field.getType().isAssignableFrom(entity1.getClass())) {
-							throw new Exception(String.format("Tried to assign an entity of type %s to entity owner, which is of type %s.", new Object[] { entity1.getClass(), field.getType() }));
+							throw new Exception(String.format("Tried to assign an entity of type %s to entity owner, which is of type %s.", entity1.getClass(), field.getType()));
 						}
 						field.set(entity, entity1);
 					}
@@ -54,7 +54,7 @@ public class ClientPlayNetworkHandlerMixin {
 			}
 			catch (Exception exception) {
 				ModLoader.getLogger().throwing("NetClientHandler", "handleVehicleSpawn", exception);
-				ModLoader.ThrowException(String.format("Error initializing entity of type %s.", new Object[] { packet.type }), exception);
+				ModLoader.ThrowException(String.format("Error initializing entity of type %s.", packet.type), exception);
 				return;
 			}
 		}
@@ -71,7 +71,7 @@ public class ClientPlayNetworkHandlerMixin {
 				if (packet.type == 60) {
 					final EntityBase entity2 = this.method_1645(packet.flag);
 					if (entity2 instanceof Living) {
-						Arrow.class.cast(entity).owner = Living.class.cast(entity2);
+						((Arrow) entity).owner = (Living) entity2;
 					}
 				}
 				entity.setVelocity(packet.field_1667 / 8000.0, packet.field_1668 / 8000.0, packet.field_1669 / 8000.0);

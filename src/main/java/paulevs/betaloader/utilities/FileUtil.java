@@ -92,12 +92,8 @@ public class FileUtil {
 			Files.copy(stream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			stream.close();
 			return true;
-		}
-		catch (MalformedURLException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		catch (IOException exception) {
-			exception.printStackTrace();
 		}
 		return false;
 	}

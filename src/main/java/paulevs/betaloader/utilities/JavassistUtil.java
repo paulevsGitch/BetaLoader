@@ -12,6 +12,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
 public class JavassistUtil {
+	@SuppressWarnings("unchecked")
 	public static Class<? extends BaseMod> getModClass(ClassLoader loader, File modFile, String modClassName) {
 		Class<? extends BaseMod> modClass = null;
 		try {

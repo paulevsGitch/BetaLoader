@@ -43,11 +43,13 @@ public class BLModMetadata implements LoaderModMetadata {
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public Collection<NestedJarEntry> getJars() {
 		return Collections.EMPTY_LIST;
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public Collection<String> getMixinConfigs(EnvType type) {
 		return Collections.EMPTY_LIST;
 	}
@@ -63,11 +65,13 @@ public class BLModMetadata implements LoaderModMetadata {
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<EntrypointMetadata> getEntrypoints(String type) {
 		return Collections.EMPTY_LIST;
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public Collection<String> getEntrypointKeys() {
 		return Collections.EMPTY_LIST;
 	}

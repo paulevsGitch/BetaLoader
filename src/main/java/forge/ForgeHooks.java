@@ -24,9 +24,9 @@ public class ForgeHooks {
     public static final int minorVersion = 0;
     public static final int revisionVersion = 6;
     static boolean toolInit;
-    static HashMap toolClasses;
-    static HashMap toolHarvestLevels;
-    static HashSet toolEffectiveness;
+    static HashMap<Integer, List<Object>> toolClasses;
+    static HashMap<List<Object>, Integer> toolHarvestLevels;
+    static HashSet<List<Object>> toolEffectiveness;
     
     public static void onTakenFromCrafting(final PlayerBase player, final ItemInstance ist, final InventoryBase craftMatrix) {
         for (final ICraftingHandler handler : ForgeHooks.craftingHandlers) {
@@ -58,14 +58,14 @@ public class ForgeHooks {
         if (itemstack == null) {
             return false;
         }
-        final List tc = (List)ForgeHooks.toolClasses.get(itemstack.itemId);
+        final List<Object> tc = ForgeHooks.toolClasses.get(itemstack.itemId);
         if (tc == null) {
             return itemstack.isEffectiveOn(block);
         }
         final Object[] ta = tc.toArray();
         final String cls = (String)ta[0];
         final int hvl = (int)ta[1];
-        final Integer bhl = (Integer)ForgeHooks.toolHarvestLevels.get(Arrays.asList((Object[])new Serializable[] { (Serializable)block.id, (Serializable)meta, (Serializable)cls }));
+        final Integer bhl = ForgeHooks.toolHarvestLevels.get(Arrays.asList(block.id, meta, cls));
         if (bhl == null) {
             return itemstack.isEffectiveOn(block);
         }
@@ -73,24 +73,24 @@ public class ForgeHooks {
     }
     
     public static float blockStrength(final BlockBase block, final PlayerBase player, final int meta) {
-        final float bh = BLBlockBase.class.cast(block).getHardness(meta);
+        final float bh = ((BLBlockBase) block).getHardness(meta);
         if (bh < 0.0f) {
             return 0.0f;
         }
         if (!canHarvestBlock(block, player, meta)) {
             return 1.0f / bh / 100.0f;
         }
-        return BLPlayerBase.class.cast(player).getCurrentPlayerStrVsBlock(block, meta) / bh / 30.0f;
+        return ((BLPlayerBase) player).getCurrentPlayerStrVsBlock(block, meta) / bh / 30.0f;
     }
     
     public static boolean isToolEffective(final ItemInstance item, final BlockBase block, final int meta) {
-        final List tc = (List) ForgeHooks.toolClasses.get(item.itemId);
+        final List<Object> tc = ForgeHooks.toolClasses.get(item.itemId);
         if (tc == null) {
             return false;
         }
         final Object[] ta = tc.toArray();
         final String cls = (String) ta[0];
-        return ForgeHooks.toolEffectiveness.contains(Arrays.asList((Object[])new Serializable[] {block.id, meta, cls}));
+        return ForgeHooks.toolEffectiveness.contains(Arrays.asList(block.id, meta, cls));
     }
     
     static void initTools() {
@@ -126,21 +126,20 @@ public class ForgeHooks {
         MinecraftForge.setBlockHarvestLevel(BlockBase.REDSTONE_ORE_LIT, "pickaxe", 2);
         MinecraftForge.removeBlockEffectiveness(BlockBase.REDSTONE_ORE, "pickaxe");
         MinecraftForge.removeBlockEffectiveness(BlockBase.REDSTONE_ORE_LIT, "pickaxe");
-        final BlockBase[] arr$;
-        final BlockBase[] pickeff = arr$ = new BlockBase[] { BlockBase.COBBLESTONE, BlockBase.DOUBLE_STONE_SLAB, BlockBase.STONE_SLAB, BlockBase.STONE, BlockBase.SANDSTONE, BlockBase.MOSSY_COBBLESTONE, BlockBase.IRON_ORE, BlockBase.IRON_BLOCK, BlockBase.COAL_ORE, BlockBase.GOLD_BLOCK, BlockBase.GOLD_ORE, BlockBase.DIAMOND_ORE, BlockBase.DIAMOND_BLOCK, BlockBase.ICE, BlockBase.NETHERRACK, BlockBase.LAPIS_LAZULI_ORE, BlockBase.LAPIS_LAZULI_BLOCK };
-        for (final BlockBase bl : arr$) {
+        final BlockBase[] pickeff = new BlockBase[] { BlockBase.COBBLESTONE, BlockBase.DOUBLE_STONE_SLAB, BlockBase.STONE_SLAB, BlockBase.STONE, BlockBase.SANDSTONE, BlockBase.MOSSY_COBBLESTONE, BlockBase.IRON_ORE, BlockBase.IRON_BLOCK, BlockBase.COAL_ORE, BlockBase.GOLD_BLOCK, BlockBase.GOLD_ORE, BlockBase.DIAMOND_ORE, BlockBase.DIAMOND_BLOCK, BlockBase.ICE, BlockBase.NETHERRACK, BlockBase.LAPIS_LAZULI_ORE, BlockBase.LAPIS_LAZULI_BLOCK };
+        for (final BlockBase bl : pickeff) {
             MinecraftForge.setBlockHarvestLevel(bl, "pickaxe", 0);
         }
     }
     
     static {
-        ForgeHooks.craftingHandlers = (LinkedList<ICraftingHandler>)new LinkedList();
-        ForgeHooks.destroyToolHandlers = (LinkedList<IDestroyToolHandler>)new LinkedList();
-        ForgeHooks.sleepHandlers = (LinkedList<ISleepHandler>)new LinkedList();
-        System.out.printf("MinecraftForge V%d.%d.%d Initialized\n", new Object[] { 1, 0, 6 });
+        ForgeHooks.craftingHandlers = new LinkedList<>();
+        ForgeHooks.destroyToolHandlers = new LinkedList<>();
+        ForgeHooks.sleepHandlers = new LinkedList<>();
+        System.out.printf("MinecraftForge V%d.%d.%d Initialized\n",majorVersion,minorVersion,revisionVersion);
         ForgeHooks.toolInit = false;
-        ForgeHooks.toolClasses = new HashMap();
-        ForgeHooks.toolHarvestLevels = new HashMap();
-        ForgeHooks.toolEffectiveness = new HashSet();
+        ForgeHooks.toolClasses = new HashMap<>();
+        ForgeHooks.toolHarvestLevels = new HashMap<>();
+        ForgeHooks.toolEffectiveness = new HashSet<>();
     }
 }

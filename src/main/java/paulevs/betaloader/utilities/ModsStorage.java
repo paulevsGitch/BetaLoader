@@ -78,18 +78,10 @@ public class ModsStorage {
 				method.setAccessible(true);
 				method.invoke(sideLoader, modFile.toURI().toURL());
 			}
-			catch (MalformedURLException e) {
+			catch (MalformedURLException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
-			catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-			catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			}
-			catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} return sideLoader;
+			return sideLoader;
 		}
 		
 		List<Path> paths = new ArrayList<>();

@@ -50,6 +50,7 @@ public class FakeModManager {
 	 * @param loader {@link FabricLoader} loader instance.
 	 * @return {@link Map} of {@link String} key and {@link ModContainer} value.
 	 */
+	@SuppressWarnings("unchecked")
 	private static Map<String, ModContainer> getModMap(FabricLoader loader) {
 		try {
 			Field field = loader.getClass().getDeclaredField("modMap");
@@ -68,6 +69,7 @@ public class FakeModManager {
 	 * @param loader {@link FabricLoader} loader instance.
 	 * @return {@link List} of {@link ModContainer}
 	 */
+	@SuppressWarnings("unchecked")
 	private static List<ModContainer> getModList(FabricLoader loader) {
 		try {
 			Field field = loader.getClass().getDeclaredField("mods");
