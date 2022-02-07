@@ -2,6 +2,7 @@ package paulevs.betaloader.listeners;
 
 import modloader.ModLoader;
 import net.mine_diver.unsafeevents.listener.EventListener;
+import net.mine_diver.unsafeevents.listener.ListenerPriority;
 import net.minecraft.block.BlockBase;
 import net.minecraft.item.ItemBase;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
@@ -37,7 +38,7 @@ public class StartupListener {
 	 * Will init modloader, load classes and make textures.
 	 * @param event
 	 */
-	@EventListener
+	@EventListener(priority = ListenerPriority.HIGHEST)
 	public void registerTextures(TextureRegisterEvent event) {
 		if (skipInit) {
 			return;
