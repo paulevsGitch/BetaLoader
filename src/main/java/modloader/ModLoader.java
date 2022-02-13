@@ -1,5 +1,6 @@
 package modloader;
 
+import java.lang.reflect.Modifier;
 import java.util.Objects;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.achievement.Achievement;
@@ -235,6 +236,7 @@ public class ModLoader {
 		String modClassName = modEntry.getClasspath() + "." + modEntry.getMainClass();
 		Class<? extends BaseMod> modClass = JavassistUtil.getModClass(loader, modFile, modClassName);
 		try {
+			setupProperties(modClass);
 			BaseMod mod = modClass.newInstance();
 			modList.add(mod);
 			String message = "Mod Loaded: \"" + mod + "\" from " + modID;
@@ -602,7 +604,7 @@ public class ModLoader {
 			List<Biome> biomeList = new LinkedList<>();
 			for (Field biomeField : biomeFields) {
 				Class<?> type = biomeField.getType();
-				if ((biomeField.getModifiers() & 0x8) != 0 && type.isAssignableFrom(Biome.class)) {
+				if (Modifier.isStatic(biomeField.getModifiers()) && type.isAssignableFrom(Biome.class)) {
 					Biome biome = (Biome) biomeField.get(null);
 					if (!(biome instanceof Hell) && !(biome instanceof Sky)) {
 						biomeList.add(biome);
@@ -696,7 +698,7 @@ public class ModLoader {
 			idMap.add(((ItemInstance) item).itemId);
 		}
 		for (int id : idMap) {
-			if ((!map.containsKey(16842752 + id)) && (ItemBase.byId[id] != null)) {
+			if (!map.containsKey(16842752 + id) && ItemBase.byId[id] != null) {
 				String v4 = TranslationStorage.getInstance().translate("stat.craftItem", ItemBase.byId[id].getTranslatedName());
 				Stats.timesCrafted[id] = new StatEntity(16842752 + id, v4, id).register();
 			}
@@ -746,7 +748,7 @@ public class ModLoader {
 	 */
 	public static void loadConfig() throws IOException {
 		cfgdir.mkdir();
-		if ((!cfgfile.exists()) && (!cfgfile.createNewFile())) {
+		if (!cfgfile.exists() && !cfgfile.createNewFile()) {
 			return;
 		}
 		if (cfgfile.canRead()) {
@@ -1121,7 +1123,7 @@ public class ModLoader {
 	@SuppressWarnings("unchecked")
 	public static void RemoveSpawn(String entityName, EntityType entityType, Biome... biomes) {
 		Class<? extends EntityBase> entityClass = EntityRegistryAccessor.getStringToClassMap().get(entityName);
-		if ((entityClass != null) && (Living.class.isAssignableFrom(entityClass))) {
+		if (entityClass != null && Living.class.isAssignableFrom(entityClass)) {
 			RemoveSpawn((Class<? extends Living>) entityClass, entityType, biomes);
 		}
 	}
@@ -1235,7 +1237,7 @@ public class ModLoader {
 			Field field = instanceClass.getDeclaredFields()[fieldIndex];
 			field.setAccessible(true);
 			int modifier = field_modifiers.getInt(field);
-			if ((modifier & 0x10) != 0) {
+			if (Modifier.isFinal(modifier)) {
 				field_modifiers.setInt(field, modifier & 0xFFFFFFEF);
 			}
 			field.set(instance, value);
@@ -1262,7 +1264,7 @@ public class ModLoader {
 		try {
 			Field field = instanceClass.getDeclaredField(fieldName);
 			int modifier = field_modifiers.getInt(field);
-			if ((modifier & 0x10) != 0) {
+			if (Modifier.isFinal(modifier)) {
 				field_modifiers.setInt(field, modifier & 0xFFFFFFEF);
 			}
 			field.setAccessible(true);
@@ -1274,24 +1276,22 @@ public class ModLoader {
 		}
 	}
 	
-	private static void setupProperties(Class<? extends BaseMod> modClass) throws IllegalArgumentException, IllegalAccessException, IOException, SecurityException, NoSuchFieldException {
+	private static void setupProperties(Class<? extends BaseMod> modClass) throws IllegalArgumentException, IllegalAccessException, IOException, SecurityException {
 		Properties properties = new Properties();
 		
-		File configFile = new File(cfgdir, modClass.getName() + ".cfg");
-		if ((configFile.exists()) && (configFile.canRead())) {
+		File configFile = new File(cfgdir, modClass.getSimpleName() + ".cfg");
+		if (configFile.exists() && configFile.canRead()) {
 			properties.load(new FileInputStream(configFile));
 		}
 		StringBuilder builder = new StringBuilder();
-		Field[] arrayOfField;
-		int j = (arrayOfField = modClass.getFields()).length;
-		for (int i = 0; i < j; i++) {
-			Field field = arrayOfField[i];
-			if (((field.getModifiers() & 0x8) != 0) && (field.isAnnotationPresent(MLProp.class))) {
+		Field[] arrayOfField = modClass.getFields();
+		for (Field field : arrayOfField) {
+			if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(MLProp.class)) {
 				Class<?> type = field.getType();
 				MLProp annotation = field.getAnnotation(MLProp.class);
-				String name = annotation.name().length() == 0 ? field.getName() : annotation.name();
+				String name = annotation.name().isEmpty() ? field.getName() : annotation.name();
 				Object obj = field.get(null);
-				
+
 				StringBuilder builder1 = new StringBuilder();
 				if (annotation.min() != Double.NEGATIVE_INFINITY) {
 					builder1.append(String.format(",>=%.1f", annotation.min()));
@@ -1300,38 +1300,32 @@ public class ModLoader {
 					builder1.append(String.format(",<=%.1f", annotation.max()));
 				}
 				StringBuilder builder2 = new StringBuilder();
-				if (annotation.info().length() > 0) {
+				if (!annotation.info().isEmpty()) {
 					builder2.append(" -- ");
 					builder2.append(annotation.info());
 				}
 				builder.append(String.format("%s (%s:%s%s)%s\n", name, type.getName(), obj, builder1, builder2));
 				if (properties.containsKey(name)) {
 					String property = properties.getProperty(name);
-					
+
 					Object propertyValue = null;
 					if (type.isAssignableFrom(String.class)) {
 						propertyValue = property;
-					}
-					else if (type.isAssignableFrom(Integer.TYPE)) {
+					} else if (type.isAssignableFrom(Integer.TYPE)) {
 						propertyValue = Integer.parseInt(property);
-					}
-					else if (type.isAssignableFrom(Short.TYPE)) {
+					} else if (type.isAssignableFrom(Short.TYPE)) {
 						propertyValue = Short.parseShort(property);
-					}
-					else if (type.isAssignableFrom(Byte.TYPE)) {
+					} else if (type.isAssignableFrom(Byte.TYPE)) {
 						propertyValue = Byte.parseByte(property);
-					}
-					else if (type.isAssignableFrom(Boolean.TYPE)) {
+					} else if (type.isAssignableFrom(Boolean.TYPE)) {
 						propertyValue = Boolean.parseBoolean(property);
-					}
-					else if (type.isAssignableFrom(Float.TYPE)) {
+					} else if (type.isAssignableFrom(Float.TYPE)) {
 						propertyValue = Float.parseFloat(property);
-					}
-					else if (type.isAssignableFrom(Double.TYPE)) {
+					} else if (type.isAssignableFrom(Double.TYPE)) {
 						propertyValue = Double.parseDouble(property);
 					}
 					if (propertyValue != null) {
-						if ((propertyValue instanceof Number)) {
+						if (propertyValue instanceof Number) {
 							double doubleValue = ((Number) propertyValue).doubleValue();
 							if (annotation.min() != Double.NEGATIVE_INFINITY && doubleValue < annotation.min()) {
 								continue;
@@ -1339,22 +1333,20 @@ public class ModLoader {
 							if (annotation.max() != Double.POSITIVE_INFINITY && doubleValue > annotation.max()) {
 								continue;
 							}
-						}
-						else {
+						} else {
 							logger.finer(name + " set to " + propertyValue);
 							if (!propertyValue.equals(obj)) {
 								field.set(null, propertyValue);
 							}
 						}
 					}
-				}
-				else {
+				} else {
 					logger.finer(name + " not in config, using default: " + obj);
 					properties.setProperty(name, obj.toString());
 				}
 			}
 		}
-		if ((!properties.isEmpty()) && ((configFile.exists()) || (configFile.createNewFile())) && (configFile.canWrite())) {
+		if (!properties.isEmpty() && (configFile.exists() || configFile.createNewFile()) && configFile.canWrite()) {
 			properties.store(new FileOutputStream(configFile), builder.toString());
 		}
 	}
